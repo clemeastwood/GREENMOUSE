@@ -1602,10 +1602,18 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-radius:5px;
 <section id="view-journal" class="view" hidden>
   <div class="panel">
     <div class="journal-header">
-      <button class="btn green" onclick="openSaveConcert()" style="flex:1">💾 Sauvegarder ce concert</button>
-      <button class="btn ghost" onclick="showJournalSection('concerts')" id="jbtn-c" style="flex:0 0 auto">🎸 Concerts</button>
-      <button class="btn ghost" onclick="showJournalSection('rehear')" id="jbtn-r" style="flex:0 0 auto">🥁 Répètes</button>
-      <button class="btn ghost" onclick="showJournalSection('stats')" id="jbtn-s" style="flex:0 0 auto">📊 Stats</button>
+      <button class="btn green" onclick="openSaveConcert()" style="flex:1;min-width:0">💾 Sauvegarder</button>
+    </div>
+    <div class="journal-nav" style="display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:0 0 8px;scrollbar-width:none;flex-wrap:nowrap">
+      <button class="btn ghost" onclick="showJournalSection('concerts')" id="jbtn-c" style="white-space:nowrap;flex:0 0 auto;padding:8px 12px;font-size:12px">🎸 Concerts</button>
+      <button class="btn ghost" onclick="showJournalSection('rehear')" id="jbtn-r" style="white-space:nowrap;flex:0 0 auto;padding:8px 12px;font-size:12px">🥁 Répètes</button>
+      <button class="btn ghost" onclick="showJournalSection('stats')" id="jbtn-s" style="white-space:nowrap;flex:0 0 auto;padding:8px 12px;font-size:12px">📊 Stats</button>
+      <button class="btn ghost" onclick="showJournalSection('check')" id="jbtn-ch" style="white-space:nowrap;flex:0 0 auto;padding:8px 12px;font-size:12px">📋 Checklist</button>
+      <button class="btn ghost" onclick="showJournalSection('carnet')" id="jbtn-ca" style="white-space:nowrap;flex:0 0 auto;padding:8px 12px;font-size:12px">📝 Carnet</button>
+      <button class="btn ghost" onclick="showJournalSection('signature')" id="jbtn-sig" style="white-space:nowrap;flex:0 0 auto;padding:8px 12px;font-size:12px">🎭 Signature</button>
+      <button class="btn ghost" onclick="showJournalSection('analyseplus')" id="jbtn-ap" style="white-space:nowrap;flex:0 0 auto;padding:8px 12px;font-size:12px">🔬 Analyse+</button>
+      <button class="btn ghost" onclick="showJournalSection('planning')" id="jbtn-pl" style="white-space:nowrap;flex:0 0 auto;padding:8px 12px;font-size:12px">📅 Planning</button>
+      <button class="btn ghost" onclick="showJournalSection('venues')" id="jbtn-v" style="white-space:nowrap;flex:0 0 auto;padding:8px 12px;font-size:12px">🏟️ Salles</button>
     </div>
     <div id="journal-stats" class="journal-stats"></div>
   </div>
@@ -2764,7 +2772,31 @@ function renderSheets(){
         <div class="sh4-rows">${rows}</div>
         <div class="leg"><span>🎸 Accord.</span><span>🔊 Son</span><span>🎛️ Samples</span><span>🎹 Instruments</span><span>💡 Lumière</span></div>
         <div class="by">Conçu par Clément Laboret · @ByGinette</div>
-      </section>`;
+      
+  <!-- ── Check, Carnet, Signature, Analyse+, Planning, Venues ── -->
+  <div id="journal-check" style="display:none"><div class="panel"><div id="checklist-content"></div></div></div>
+  <div id="journal-carnet" style="display:none"><div class="panel"><div style="font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin-bottom:12px">Idées &amp; notes</div><div id="carnet-content"></div></div></div>
+  <div id="journal-signature" style="display:none"><div id="signature-content"></div></div>
+  <div id="journal-analyseplus" style="display:none"><div id="analyseplus-content"></div></div>
+  <div id="journal-planning" style="display:none">
+    <div class="panel">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <span style="font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)">Concerts à venir</span>
+        <button class="btn green" style="padding:8px 14px;font-size:12px" onclick="openPlanModal(null)">＋ Planifier</button>
+      </div>
+      <div id="plan-list" class="plan-list"></div>
+    </div>
+  </div>
+  <div id="journal-venues" style="display:none">
+    <div class="panel">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <span style="font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)">Carnet de salles</span>
+        <button class="btn green" style="padding:8px 14px;font-size:12px" onclick="openVenueModal(null)">＋ Ajouter</button>
+      </div>
+      <div id="venue-list" class="venue-list"></div>
+    </div>
+  </div>
+</section>`;
     }
   }
 
@@ -3816,9 +3848,11 @@ function renderRehearsals(){
       <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">
         <button class="rh-btn" onclick="markRehearsed('${key}')">✓ Répété</button>
         <div class="conf-star-row">
-          ${[1,2,3].map(n=>{const avg=_avgConfidence('${key}');const isSel=avg&&Math.round(avg)===n;return`<button class="conf-star-btn ${isSel?'sel':''}" onclick="saveConfidence('${key}',${n})" title="Confiance ${n}/3">${'⭐'.repeat(n)}</button>`;}).join('')}
+          <button class="conf-star-btn ${_avgConfidence('${key}')&&Math.round(_avgConfidence('${key}'))===1?'sel':''}" onclick="saveConfidence('${key}',1)">⭐</button>
+          <button class="conf-star-btn ${_avgConfidence('${key}')&&Math.round(_avgConfidence('${key}'))===2?'sel':''}" onclick="saveConfidence('${key}',2)">⭐⭐</button>
+          <button class="conf-star-btn ${_avgConfidence('${key}')&&Math.round(_avgConfidence('${key}'))===3?'sel':''}" onclick="saveConfidence('${key}',3)">⭐⭐⭐</button>
         </div>
-        ${_avgConfidence('${key}')?`<span class="conf-avg">${_avgConfidence('${key}').toFixed(1)} ⭐ confiance</span>`:''}
+        ${_avgConfidence('${key}')?'<span class="conf-avg">'+_avgConfidence('${key}').toFixed(1)+' ⭐</span>':''}
       </div>
     </div>`;
   }).join('');
@@ -6167,13 +6201,16 @@ function stopRhChrono(save){
 ══════════════════════════════════════════════════ */
 
 // Patch showJournalSection for new tabs
-const _origShowJournalSection=showJournalSection;
 function showJournalSection(s){
-  const secs=['concerts','rehear','stats-section','check','carnet','signature','analyseplus','planning','venues'];
-  secs.forEach(id=>{const el=document.getElementById('journal-'+id);if(el)el.style.display='none';});
-  const el=document.getElementById('journal-'+(s==='stats'?'stats-section':s));if(el)el.style.display='block';
-  const btns={concerts:'jbtn-c',rehear:'jbtn-r',stats:'jbtn-s',check:'jbtn-ch',carnet:'jbtn-ca',signature:'jbtn-sig',analyseplus:'jbtn-ap',planning:'jbtn-pl',venues:'jbtn-v'};
-  Object.values(btns).forEach(id=>{const b=document.getElementById(id);if(b)b.className='btn ghost';});
+  const allSecs=['concerts','rehear','stats-view','check','carnet','signature','analyseplus','planning','venues'];
+  allSecs.forEach(id=>{const el=document.getElementById('journal-'+id);if(el)el.style.display='none';});
+  // stats special case
+  const statsView=document.getElementById('journal-stats-view');
+  if(s==='stats'&&statsView)statsView.style.display='block';
+  else{const el=document.getElementById('journal-'+s);if(el)el.style.display='block';}
+  const btns={concerts:'jbtn-c',rehear:'jbtn-r',stats:'jbtn-s',check:'jbtn-ch',
+    carnet:'jbtn-ca',signature:'jbtn-sig',analyseplus:'jbtn-ap',planning:'jbtn-pl',venues:'jbtn-v'};
+  Object.values(btns).forEach(id=>{const b=document.getElementById(id);if(b)b.className='btn ghost';b&&(b.style.whiteSpace='nowrap');});
   const active=document.getElementById(btns[s]);if(active)active.className='btn green';
   const fab=document.getElementById('fab-note');if(fab)fab.hidden=s!=='carnet';
   _jSection=s;
@@ -6892,5 +6929,4 @@ function boot(){
 boot();
 </script>
 </body>
-</html>id="journal-signature" style="display:none"><div id="signature-content"></div></div>
-  <div 
+</html>
