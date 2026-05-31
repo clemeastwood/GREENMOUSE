@@ -837,6 +837,108 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-radius:5px;
 .lib-mood-badge{font-size:10px;font-weight:900;padding:1px 7px;border-radius:999px;
   display:inline-flex;align-items:center;gap:3px;border:1px solid;white-space:nowrap}
 
+
+/* ═══════════════ TIROIR D'ÉDITION UNIVERSEL ═══════════════ */
+.edit-backdrop{position:fixed;inset:0;z-index:299;background:rgba(6,11,15,.55);-webkit-tap-highlight-color:transparent}
+.edit-backdrop[hidden]{display:none}
+.edit-drawer{
+  position:fixed;bottom:0;left:0;right:0;z-index:300;
+  background:var(--panel);
+  border-top-left-radius:24px;border-top-right-radius:24px;
+  max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:0 0 calc(20px + env(safe-area-inset-bottom));
+  box-shadow:0 -12px 48px rgba(0,0,0,.6);
+  transform:translateY(0);transition:transform .3s cubic-bezier(.4,0,.2,1);
+  max-width:680px;margin:0 auto;
+}
+.edit-drawer[hidden]{display:none}
+.drawer-sticky{
+  position:sticky;top:0;z-index:2;background:var(--panel);
+  padding:10px 16px 8px;border-bottom:1px solid var(--line);
+}
+.drawer-handle{width:40px;height:4px;background:var(--line2);border-radius:2px;margin:0 auto 10px}
+.drawer-title-row{display:flex;align-items:center;gap:10px}
+.drawer-pos{font-size:12px;font-weight:900;color:var(--green);background:var(--gsof);border:1px solid var(--green-d);border-radius:999px;padding:2px 9px;white-space:nowrap;flex:0 0 auto}
+.drawer-song-title{font-size:15px;font-weight:900;text-transform:uppercase;letter-spacing:.03em;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.drawer-close{border:1px solid var(--line2);background:var(--panel);color:var(--mut);border-radius:999px;width:36px;height:36px;font-size:18px;font-weight:900;display:grid;place-items:center;flex:0 0 auto}
+.drawer-sub-nav{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:8px 0 0}
+.drawer-sub-nav::-webkit-scrollbar{display:none}
+.dsn-btn{flex:0 0 auto;border:1px solid var(--line2);background:var(--panel);color:var(--mut);border-radius:999px;padding:6px 14px;font-size:12px;font-weight:800;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.dsn-btn.active{background:var(--gsof);color:var(--green);border-color:var(--green-d)}
+.drawer-body{padding:14px 16px}
+.drawer-section{display:none}.drawer-section.active{display:block}
+.dsec-title{font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--mut2);margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+
+/* ═══════════════ CARTE DE TRANSITION (SCÈNE) ═══════════════ */
+.transition-overlay{position:fixed;inset:60px 0 0;z-index:250;
+  position:absolute;inset:0;border-radius:inherit;z-index:20;
+  background:var(--panel);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:20px;text-align:center;
+  animation:tco-in .25s ease;
+}
+@keyframes tco-in{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
+.transition-overlay[hidden]{display:none}
+.tc-label{font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin-bottom:10px}
+.tc-next-title{font-size:clamp(22px,7vw,36px);font-weight:900;text-transform:uppercase;color:#fff;margin-bottom:14px;line-height:1;letter-spacing:-.01em}
+.tc-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:14px}
+.tc-chip{font-size:12px;font-weight:800;padding:4px 10px;border-radius:999px;border:1px solid var(--line2);background:var(--bg2);color:var(--ink)}
+.tc-enc{font-size:13px;font-weight:800;color:var(--amber);line-height:1.4;margin-bottom:20px;max-width:280px}
+.tc-tap-hint{font-size:11px;color:var(--mut2);margin-top:auto}
+.tc-bar{position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--green);transform-origin:left;animation:tc-shrink 4s linear forwards}
+@keyframes tc-shrink{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+.tc-skip-btn{border:1px solid var(--line2);background:var(--panel);color:var(--mut);border-radius:999px;padding:8px 18px;font-size:13px;font-weight:800;margin-top:12px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+
+/* ═══════════════ SET VIEW — Timeline + Sub-nav ═══════════════ */
+.set-subnav{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:0 0 10px;margin-bottom:8px}
+.set-subnav::-webkit-scrollbar{display:none}
+.ssn-btn{flex:0 0 auto;border:1px solid var(--line2);background:var(--panel);color:var(--mut);border-radius:999px;padding:8px 16px;font-size:12px;font-weight:800;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ssn-btn.active{background:var(--gsof);color:var(--green);border-color:var(--green-d)}
+.set-section{display:none}.set-section.active{display:block}
+
+/* Timeline */
+.timeline-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:6px 2px 8px;margin-bottom:12px;scrollbar-width:thin}
+.timeline-inner{display:flex;gap:3px;min-height:58px;align-items:stretch}
+.tl-seg{
+  flex:0 0 auto;min-width:32px;max-width:120px;
+  border-radius:10px;padding:6px 5px 5px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  cursor:pointer;transition:.15s;position:relative;overflow:hidden;
+  -webkit-tap-highlight-color:transparent;border:2px solid transparent;
+}
+.tl-seg.tl-active{border-color:rgba(255,255,255,.5);box-shadow:0 0 0 2px rgba(255,255,255,.15)}
+.tl-seg:active{transform:scale(.96)}
+.tl-num{font-size:8px;font-weight:900;color:rgba(255,255,255,.6);line-height:1}
+.tl-title{font-size:8.5px;font-weight:900;text-transform:uppercase;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px;line-height:1.2}
+.tl-dur{font-size:7.5px;font-weight:700;color:rgba(255,255,255,.55);line-height:1;margin-top:auto}
+.tl-cursor{position:absolute;top:0;left:0;width:100%;height:3px;background:rgba(255,255,255,.6);animation:tl-pulse 2s infinite}
+@keyframes tl-pulse{0%,100%{opacity:.8}50%{opacity:.2}}
+.tl-cumul{font-size:10px;font-weight:800;color:var(--mut2);text-align:center;margin-top:4px;letter-spacing:.03em}
+
+/* Set songlist (Ordre sub-section) */
+.set-songlist{display:flex;flex-direction:column;gap:6px}
+.ssl-row{
+  display:flex;align-items:center;gap:10px;padding:10px 14px;
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
+  transition:.1s;border-left:4px solid var(--lc,var(--line));
+}
+.ssl-row:active{transform:scale(.99);opacity:.85}
+.ssl-num{font-size:15px;font-weight:900;color:var(--green);min-width:26px}
+.ssl-title{flex:1;font-size:13.5px;font-weight:800;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ssl-mood{font-size:13px}
+.ssl-meta{font-size:11px;font-weight:700;color:var(--mut2);white-space:nowrap}
+.ssl-edit-btn{border:1px solid var(--line2);background:var(--panel2);color:var(--mut);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;flex:0 0 auto}
+
+/* ═══════════════ VERSIONS ═══════════════ */
+.versions-list{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+.ver-item{display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--bg2);border:1px solid var(--line2);border-radius:11px}
+.ver-active-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex:0 0 auto}
+.ver-name{flex:1;font-size:13px;font-weight:800;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ver-dur{font-size:12px;font-weight:700;color:var(--mut2);white-space:nowrap}
+.ver-use-btn{border:1px solid var(--green-d);background:var(--gsof);color:var(--green);border-radius:7px;padding:4px 10px;font-size:11px;font-weight:900;cursor:pointer;white-space:nowrap}
+.ver-del-btn{border:1px solid var(--line2);background:var(--panel);color:var(--mut2);border-radius:7px;padding:4px 8px;font-size:11px;cursor:pointer}
+
 </style>
 </head>
 <body>
@@ -867,14 +969,16 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-radius:5px;
   <div class="setbar" id="setbar"></div>
   <nav class="tabs">
     <button id="tab-live" class="active" onclick="showTab('live')"><span class="ic">🎚️</span>Scène</button>
-    <button id="tab-edit" onclick="showTab('edit')"><span class="ic">✏️</span>Éditer</button>
-    <button id="tab-sheets" onclick="showTab('sheets')"><span class="ic">🖨️</span>Feuilles<span class="dot" id="backup-dot"></span></button>
-    <button id="tab-analyse" onclick="showTab('analyse')"><span class="ic">📊</span>Analyse</button>
-    <button id="tab-arc" onclick="showTab('arc')"><span class="ic">🎯</span>Arc</button>
+    <button id="tab-set" onclick="showTab('set')"><span class="ic">🎯</span>Set</button>
     <button id="tab-biblio" onclick="showTab('biblio')"><span class="ic">📚</span>Biblio</button>
+    <button id="tab-sheets" onclick="showTab('sheets')"><span class="ic">🖨️</span>Feuilles<span class="dot" id="backup-dot"></span></button>
     <button id="tab-journal" onclick="showTab('journal')"><span class="ic">📅</span>Journal</button>
-    <button id="tab-generator" onclick="showTab('generator')"><span class="ic">🎲</span>Générer</button>
-    <button id="tab-tools" onclick="showTab('tools')"><span class="ic">🛠</span>Outils</button>
+    <!-- hidden compat tabs -->
+    <button id="tab-edit" hidden onclick="showTab('set')"></button>
+    <button id="tab-arc" hidden onclick="showTab('set')"></button>
+    <button id="tab-analyse" hidden onclick="showTab('set')"></button>
+    <button id="tab-generator" hidden onclick="showTab('set')"></button>
+    <button id="tab-tools" hidden onclick="showTab('set')"></button>
   </nav>
 </header>
 
@@ -1005,11 +1109,21 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-radius:5px;
           <div class="mood-opt" data-mood="ouverture" onclick="setMood('ouverture')" style="--mc:#ffb347"><div class="mico">🚀</div><div class="mlb">Ouverture</div><div class="mdc">Lance le set</div></div>
         </div>
         <div class="energie-row">
-          <span class="energie-lbl">⚡ Énergie</span>
+          <span class="energie-lbl">⚡ Général</span>
           <input class="energie-slider" type="range" id="energie-slider" min="0" max="10" value="0" oninput="updateEnergieSlider(this.value)">
           <span class="energie-val" id="energie-val">Auto ✨</span>
         </div>
-        <p style="font-size:10px;color:var(--mut2);margin:8px 0 0;line-height:1.4">Tap pour sélectionner · Tap à nouveau pour désélectionner · Énergie 0 = calculée automatiquement</p>
+        <div class="energie-row" style="margin-top:6px">
+          <span class="energie-lbl" style="color:var(--blue)">🟦 Intro</span>
+          <input class="energie-slider" type="range" id="energie-intro-slider" min="0" max="10" value="0" oninput="updateEI(this.value,'intro')" style="accent-color:#5aa7ff">
+          <span class="energie-val" id="energie-intro-val" style="color:#5aa7ff">Auto</span>
+        </div>
+        <div class="energie-row" style="margin-top:6px">
+          <span class="energie-lbl" style="color:#ff8c00">🟧 Fin</span>
+          <input class="energie-slider" type="range" id="energie-fin-slider" min="0" max="10" value="0" oninput="updateEI(this.value,'fin')" style="accent-color:#ff8c00">
+          <span class="energie-val" id="energie-fin-val" style="color:#ff8c00">Auto</span>
+        </div>
+        <p style="font-size:10px;color:var(--mut2);margin:8px 0 0;line-height:1.4">Intro/Fin = comment le morceau <b>démarre et se termine</b> réellement · 0 = déduit du caractère</p>
       </div>
       <div class="ed-two-col">
         <div>
@@ -1412,6 +1526,209 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-radius:5px;
   </div>
 </div>
 
+<!-- ══════════ TIROIR D'ÉDITION UNIVERSEL ══════════ -->
+<div class="edit-backdrop" id="edit-backdrop" hidden onclick="closeDrawer()"></div>
+<div class="edit-drawer" id="edit-drawer" hidden>
+  <div class="drawer-sticky">
+    <div class="drawer-handle"></div>
+    <div class="drawer-title-row">
+      <span class="drawer-pos" id="drawer-pos">01/17</span>
+      <span class="drawer-song-title" id="drawer-song-title">Titre</span>
+      <button class="drawer-close" onclick="closeDrawer()">×</button>
+    </div>
+    <div id="drawer-lib-badge" style="display:none;align-items:center;padding:6px 0 0;font-size:11px;font-weight:800;gap:6px;flex-wrap:wrap"></div>
+    <div class="drawer-sub-nav">
+      <button class="dsn-btn active" onclick="switchDrawerSection('essentiel',this)">⭐ Essentiel</button>
+      <button class="dsn-btn" onclick="switchDrawerSection('live',this)">🎸 Live</button>
+      <button class="dsn-btn" onclick="switchDrawerSection('paroles',this)">🎤 Paroles</button>
+      <button class="dsn-btn" onclick="switchDrawerSection('tech',this)">🔧 Tech</button>
+      <button class="dsn-btn" onclick="switchDrawerSection('versions',this)">📋 Versions</button>
+    </div>
+  </div>
+  <div class="drawer-body">
+    <!-- Section Essentiel -->
+    <div class="drawer-section active" id="dsec-essentiel">
+      <div class="dsec-title">Infos essentielles</div>
+      <label class="fl">Titre</label><input id="d-title" type="text" oninput="saveDrawer()">
+      <div class="row2">
+        <div><label class="fl">⏱ Durée</label><input id="d-duree" type="text" oninput="saveDrawer()" placeholder="3:30"></div>
+        <div><label class="fl">♩ BPM</label><input id="d-bpm" type="number" oninput="saveDrawer()" placeholder="120" min="40" max="300"></div>
+        <div><label class="fl">🎸 Accordage</label><input id="d-accordage" type="text" oninput="saveDrawer()" placeholder="D#, Standard…" autocomplete="off"></div>
+      </div>
+      <!-- Caractère & Énergie inline -->
+      <div class="caractere-section" style="margin:10px 0">
+        <div class="caractere-title">🎭 Caractère</div>
+        <input type="hidden" id="d-caractere">
+        <input type="hidden" id="d-energie">
+        <input type="hidden" id="d-energie_intro">
+        <input type="hidden" id="d-energie_fin">
+        <div class="mood-grid" id="drawer-mood-grid">
+          <div class="mood-opt" data-dmood="baffe" onclick="setDrawerMood('baffe')" style="--mc:#ff5b5b"><div class="mico">💥</div><div class="mlb">Baffe</div></div>
+          <div class="mood-opt" data-dmood="groovy" onclick="setDrawerMood('groovy')" style="--mc:#34b531"><div class="mico">⚡</div><div class="mlb">Groovy</div></div>
+          <div class="mood-opt" data-dmood="progressif" onclick="setDrawerMood('progressif')" style="--mc:#5aa7ff"><div class="mico">📈</div><div class="mlb">Progressif</div></div>
+          <div class="mood-opt" data-dmood="explosif" onclick="setDrawerMood('explosif')" style="--mc:#ff8c00"><div class="mico">🔥</div><div class="mlb">Explosif</div></div>
+          <div class="mood-opt" data-dmood="tension" onclick="setDrawerMood('tension')" style="--mc:#c42020"><div class="mico">🎯</div><div class="mlb">Tension</div></div>
+          <div class="mood-opt" data-dmood="hymne" onclick="setDrawerMood('hymne')" style="--mc:#b888ec"><div class="mico">💫</div><div class="mlb">Hymne</div></div>
+          <div class="mood-opt" data-dmood="respiration" onclick="setDrawerMood('respiration')" style="--mc:#93a3ad"><div class="mico">🌊</div><div class="mlb">Respiration</div></div>
+          <div class="mood-opt" data-dmood="intime" onclick="setDrawerMood('intime')" style="--mc:#7ec8ff"><div class="mico">🌙</div><div class="mlb">Intime</div></div>
+          <div class="mood-opt" data-dmood="ouverture" onclick="setDrawerMood('ouverture')" style="--mc:#ffb347"><div class="mico">🚀</div><div class="mlb">Ouverture</div></div>
+        </div>
+        <div class="energie-row">
+          <span class="energie-lbl">⚡ Global</span>
+          <input class="energie-slider" type="range" id="d-energie-sl" min="0" max="10" value="0" oninput="saveDrawerEnergie('energie',this.value)">
+          <span class="energie-val" id="d-energie-val">Auto</span>
+        </div>
+        <div class="energie-row" style="margin-top:5px">
+          <span class="energie-lbl" style="color:#5aa7ff">🟦 Intro</span>
+          <input class="energie-slider" type="range" id="d-ei-sl" min="0" max="10" value="0" oninput="saveDrawerEnergie('energie_intro',this.value)" style="accent-color:#5aa7ff">
+          <span class="energie-val" id="d-ei-val" style="color:#5aa7ff">Auto</span>
+        </div>
+        <div class="energie-row" style="margin-top:5px">
+          <span class="energie-lbl" style="color:#ff8c00">🟧 Fin</span>
+          <input class="energie-slider" type="range" id="d-ef-sl" min="0" max="10" value="0" oninput="saveDrawerEnergie('energie_fin',this.value)" style="accent-color:#ff8c00">
+          <span class="energie-val" id="d-ef-val" style="color:#ff8c00">Auto</span>
+        </div>
+      </div>
+      <label class="chk-row" for="d-rappel"><input type="checkbox" id="d-rappel" onchange="saveDrawer()"><div class="cl"><b>🌟 Rappel</b><span>Ce morceau fait partie du rappel</span></div></label>
+      <div class="tools" style="margin-top:12px">
+        <button class="btn ghost" onclick="drawerMoveSong(-1)">↑ Monter</button>
+        <button class="btn ghost" onclick="drawerMoveSong(1)">↓ Descendre</button>
+        <button class="btn danger" onclick="drawerDeleteSong()">🗑 Supprimer</button>
+      </div>
+    </div>
+    <!-- Section Live -->
+    <div class="drawer-section" id="dsec-live">
+      <div class="dsec-title">Notes pour le live</div>
+      <label class="fl">🥁 Batterie / Départ</label>
+      <textarea id="d-depart" oninput="saveDrawer()" placeholder="Signal de départ, break, relance…"></textarea>
+      <label class="fl">🎸 Basse</label>
+      <textarea id="d-public" oninput="saveDrawer()" placeholder="Entrée, son, effet, repère…"></textarea>
+      <label class="fl">🎸 Notes guitare live</label>
+      <textarea id="d-technique" oninput="saveDrawer()" placeholder="Ampli, pédales, effets…"></textarea>
+      <label class="fl">🎤 Chant</label>
+      <textarea id="d-chant" oninput="saveDrawer()" placeholder="Entrée chant, harmonies…"></textarea>
+      <label class="fl">⚠️ Vigilance</label>
+      <textarea id="d-vigilance" oninput="saveDrawer()" placeholder="Pièges, structure, tempo…"></textarea>
+      <label class="fl">➡️ Enchaînement</label>
+      <textarea id="d-enchainement" oninput="saveDrawer()" placeholder="Enchaîner direct / pause…"></textarea>
+    </div>
+    <!-- Section Paroles -->
+    <div class="drawer-section" id="dsec-paroles">
+      <div class="dsec-title">Intentions &amp; paroles</div>
+      <label class="fl">🎭 Intention artistique</label>
+      <textarea id="d-intention" oninput="saveDrawer()" placeholder="Ce que tu veux transmettre…"></textarea>
+      <label class="fl">💬 Phrase d'intro au public</label>
+      <input id="d-introphrase" type="text" oninput="saveDrawer()" placeholder="Ce que tu vas dire…">
+      <label class="fl">💚 Émotion à tenir</label>
+      <input id="d-emotion" type="text" oninput="saveDrawer()" placeholder="Colère, joie, urgence…">
+      <label class="fl">📝 Paroles complètes</label>
+      <textarea id="d-lyrics" oninput="saveDrawer()" style="min-height:160px" placeholder="[Couplet 1]
+…
+[Refrain]
+…"></textarea>
+    </div>
+    <!-- Section Tech -->
+    <div class="drawer-section" id="dsec-tech">
+      <div class="dsec-title">Infos techniques</div>
+      <div class="row2">
+        <div><label class="fl">🎸 Capo</label><input id="d-capo" type="text" oninput="saveDrawer()" placeholder="Capo 2, aucun…"></div>
+        <div><label class="fl">🔊 Son guitare</label><input id="d-guitarsound" type="text" oninput="saveDrawer()" placeholder="Clean, crunch…"></div>
+      </div>
+      <label class="fl">🎛️ Samples / Backing</label>
+      <input id="d-samples" type="text" oninput="saveDrawer()" placeholder="Loop intro, pad ambiance…">
+      <label class="fl">🎹 Changements instruments</label>
+      <textarea id="d-instrumentchanges" oninput="saveDrawer()" placeholder="Changement de guitare, pédale…"></textarea>
+      <label class="fl">💡 Lumière / Ambiance</label>
+      <textarea id="d-lightambiance" oninput="saveDrawer()" placeholder="Rouge, spot blanc, strobe…"></textarea>
+    </div>
+    <!-- Section Versions -->
+    <div class="drawer-section" id="dsec-versions">
+      <div class="dsec-title">Versions du morceau</div>
+      <div id="drawer-versions-list" class="versions-list"></div>
+      <div class="row2" style="margin-top:6px">
+        <input id="d-ver-name" type="text" placeholder="Nom (ex: Version courte)" style="background:var(--bg2);border:1px solid var(--line2);border-radius:10px;padding:9px">
+        <input id="d-ver-dur" type="text" placeholder="Durée (2:45)" style="background:var(--bg2);border:1px solid var(--line2);border-radius:10px;padding:9px">
+      </div>
+      <button class="btn ghost" onclick="addDrawerVersion()" style="margin-top:8px;width:100%">＋ Ajouter une version</button>
+      <p class="fhint">Une version = durée et notes alternatives. Utile pour "version courte festival" ou "version acoustique".</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ CARTE DE TRANSITION (overlay dans .card-wrap) ══════════ -->
+<div class="transition-overlay" id="transition-overlay" hidden>
+  <div class="tc-label">Morceau suivant</div>
+  <div class="tc-next-title" id="tc-next-title">TITRE</div>
+  <div class="tc-chips" id="tc-chips"></div>
+  <div class="tc-enc" id="tc-enc"></div>
+  <button class="tc-skip-btn" onclick="dismissTransition()">C'est parti ▶</button>
+  <div class="tc-tap-hint">Ou tap n'importe où · disparaît en 4s</div>
+  <div class="tc-bar"></div>
+</div>
+
+<!-- ═══════════════ SET ═══════════════ -->
+<section id="view-set" class="view" hidden>
+  <div class="set-subnav">
+    <button class="ssn-btn active" id="ssn-arc" onclick="switchSetSection('arc',this)">🎯 Arc</button>
+    <button class="ssn-btn" id="ssn-ordre" onclick="switchSetSection('ordre',this)">≡ Ordre</button>
+    <button class="ssn-btn" id="ssn-analyse" onclick="switchSetSection('analyse',this)">📊 Analyse</button>
+    <button class="ssn-btn" id="ssn-generate" onclick="switchSetSection('generate',this)">🎲 Générer</button>
+  </div>
+  <!-- Arc -->
+  <div class="set-section active" id="sset-arc">
+    <div id="set-timeline-wrap">
+      <div class="timeline-wrap"><div class="timeline-inner" id="timeline-inner"></div></div>
+      <div class="tl-cumul" id="tl-cumul"></div>
+    </div>
+    <div id="set-arc-cards" class="arc-cards"></div>
+  </div>
+  <!-- Ordre -->
+  <div class="set-section" id="sset-ordre">
+    <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+      <button class="btn green" onclick="addSong()">＋ Ajouter</button>
+      <button class="btn ghost" onclick="importSetToLib()">📥 Importer biblio</button>
+    </div>
+    <div id="set-sortable" class="sortable-list"></div>
+  </div>
+  <!-- Analyse -->
+  <div class="set-section" id="sset-analyse">
+    <div class="panel">
+      <div class="row2">
+        <div><label class="fl">⏱ Créneau (min)</label>
+          <input id="set-ana-slot" type="number" placeholder="45" min="1" max="300" oninput="runAnalysisInline(this.value)"></div>
+        <div style="display:flex;align-items:flex-end">
+          <button class="btn green" onclick="runAnalysisInline(document.getElementById('set-ana-slot').value)" style="width:100%">🔬 Analyser</button>
+        </div>
+      </div>
+    </div>
+    <div id="set-ana-stats" class="ana-stats-bar"></div>
+    <div id="set-ana-curve-wrap" class="ana-curve-wrap" style="display:none"></div>
+    <div id="set-ana-alerts"></div>
+  </div>
+  <!-- Générer -->
+  <div class="set-section" id="sset-generate">
+    <div class="panel">
+      <div class="row2" style="margin-bottom:12px">
+        <div><label class="fl">⏱ Durée cible (min)</label><input id="set-gen-dur" type="number" value="45" min="5" max="180" oninput="_runGeneratorInline()"></div>
+        <div style="display:flex;align-items:flex-end"><label class="chk-row" style="margin:0"><input type="checkbox" id="set-gen-rappel" onchange="_runGeneratorInline()"><div class="cl"><b>🔁 Rappel</b></div></label></div>
+      </div>
+      <label class="fl" style="margin-bottom:8px">Arc</label>
+      <div class="arc-grid">
+        <div class="arc-opt sel" onclick="_selArcInline(this,'forte')" style="--mc:var(--green)"><div class="arc-ic">🏋️</div><div class="arc-lb">Fort au départ</div></div>
+        <div class="arc-opt" onclick="_selArcInline(this,'crescendo')"><div class="arc-ic">📈</div><div class="arc-lb">Crescendo</div></div>
+        <div class="arc-opt" onclick="_selArcInline(this,'plateau')"><div class="arc-ic">📊</div><div class="arc-lb">Plateau</div></div>
+        <div class="arc-opt" onclick="_selArcInline(this,'vague')"><div class="arc-ic">〰️</div><div class="arc-lb">Vague</div></div>
+      </div>
+      <input type="hidden" id="set-gen-arc" value="forte">
+      <div id="set-gen-result" style="margin-top:12px"></div>
+      <div class="tools" style="margin-top:12px">
+        <button class="btn green" onclick="applyGeneratedSet()">✅ Appliquer</button>
+        <button class="btn ghost" onclick="_runGeneratorInline()">🔄 Regénérer</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div class="app-credit">Conçu par Clément Laboret · @ByGinette</div>
 </main>
 <div class="kbd-hint" id="kbd-hint">
@@ -1432,7 +1749,7 @@ const LOGO='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAA
 const DEMO=[{"title":"COME ON","depart":"INTRO BASS + BATTERIE","public":"APPROCHEZ, ON A QUELQUE CHOSE À VIVRE ENSEMBLE !","technique":"ACCORDAGE D#","vigilance":"","enchainement":"ENCHAÎNER DIRECT / AUCUNE PAUSE","parole":"","duree":"3:30","bpm":"","rappel":false},{"title":"I DON'T KNOW","depart":"","public":"","technique":"ACCORDAGE D#","vigilance":"","enchainement":"","parole":"","duree":"4:00","bpm":"","rappel":false},{"title":"CEUX QUI PENSENT","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"3:45","bpm":"","rappel":false},{"title":"WAIT (YOUR TURN)","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"4:20","bpm":"","rappel":false},{"title":"XL GLORIA","depart":"","public":"","technique":"DROP D","vigilance":"","enchainement":"","parole":"","duree":"5:00","bpm":"","rappel":false},{"title":"VALIUM","depart":"","public":"","technique":"DROP D","vigilance":"","enchainement":"","parole":"","duree":"3:55","bpm":"","rappel":false},{"title":"À NOS ANGES DÉCHUS","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"4:10","bpm":"","rappel":false},{"title":"STAND ALONE","depart":"","public":"","technique":"ACCORDAGE D#","vigilance":"","enchainement":"","parole":"","duree":"3:40","bpm":"","rappel":false},{"title":"NOBODY","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"3:50","bpm":"","rappel":false},{"title":"REBOOT","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"4:05","bpm":"","rappel":false},{"title":"BLACK OUT","depart":"","public":"","technique":"ACCORDAGE D#","vigilance":"","enchainement":"","parole":"","duree":"3:30","bpm":"","rappel":false},{"title":"BURN IT DOWN","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"3:15","bpm":"","rappel":false},{"title":"NO WAY OUT","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"4:30","bpm":"","rappel":false},{"title":"GOODBYE YESTERDAY","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"4:00","bpm":"","rappel":false},{"title":"RISE AGAIN","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"3:45","bpm":"","rappel":false},{"title":"ALL FOR ONE","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"0:00","bpm":"","rappel":true},{"title":"THE END","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"0:00","bpm":"","rappel":true}];
 
 const DEFAULT_MOTTO="REGARDEZ DEVANT, JOUEZ FORT, PRENEZ DU PLAISIR !";
-const TXT_FIELDS=['title','depart','public','technique','chant','vigilance','enchainement','lyrics','duree','bpm','intention','introphrase','emotion','capo','guitarsound','samples','instrumentchanges','lightambiance','caractere','energie','accordage'];
+const TXT_FIELDS=['title','depart','public','technique','chant','vigilance','enchainement','lyrics','duree','bpm','intention','introphrase','emotion','capo','guitarsound','samples','instrumentchanges','lightambiance','caractere','energie','accordage','energie_intro','energie_fin'];
 const CUES=[
   {k:'depart',icon:'🥁',lbl:'Batterie',cls:'c-dep'},
   {k:'public',icon:'🎸',lbl:'Basse',cls:'c-pub'},
@@ -1513,7 +1830,7 @@ function ensurePrefs(){
     if(sg.parole){sg.enchainement=(sg.enchainement?sg.enchainement+'\n':'')+sg.parole;sg.parole='';}
     if(sg.duree===undefined)sg.duree='';if(sg.bpm===undefined)sg.bpm='';if(sg.rappel===undefined)sg.rappel=false;
     // New fields
-    ['intention','introphrase','emotion','capo','guitarsound','samples','instrumentchanges','lightambiance','caractere','energie','accordage'].forEach(k=>{if(sg[k]===undefined)sg[k]='';});
+    ['intention','introphrase','emotion','capo','guitarsound','samples','instrumentchanges','lightambiance','caractere','energie','accordage','energie_intro','energie_fin'].forEach(k=>{if(sg[k]===undefined)sg[k]='';});
     // Migration: extrait l'accordage de la 1ère ligne de technique
     if(!sg.accordage&&sg.technique){
       const lines=sg.technique.split('\n');
@@ -1529,7 +1846,7 @@ function ensurePrefs(){
   if(!state.notepad)state.notepad=[];
   if(!state.rehearsals)state.rehearsals={};
   state.library.forEach(s=>{
-    ['intention','introphrase','emotion','capo','guitarsound','samples','instrumentchanges','lightambiance','status','notes','caractere','energie','accordage'].forEach(k=>{if(s[k]===undefined)s[k]=k==='status'?'ready':'';});
+    ['intention','introphrase','emotion','capo','guitarsound','samples','instrumentchanges','lightambiance','status','notes','caractere','energie','accordage','energie_intro','energie_fin'].forEach(k=>{if(s[k]===undefined)s[k]=k==='status'?'ready':'';});
     if(!s.accordage&&s.technique){const ls=s.technique.split('\n');s.accordage=ls[0].trim();s.technique=ls.slice(1).join('\n').trim();}
   });
 }
@@ -1537,24 +1854,26 @@ function persist(){try{if(typeof localStorage!=='undefined')localStorage.setItem
 
 /* ── tabs ── */
 function showTab(t){
-  ['live','edit','sheets','analyse','arc','biblio','journal','generator','tools'].forEach(v=>{
-    document.getElementById('view-'+v).hidden=v!==t;
-    document.getElementById('tab-'+v).classList.toggle('active',v===t);
+  // Redirections: ancien edit/arc/analyse/generator/tools → 'set'
+  const redir={'edit':'set','arc':'set','analyse':'set','generator':'set','tools':'set'};
+  if(redir[t])t=redir[t];
+  const views=['live','set','sheets','biblio','journal'];
+  views.forEach(v=>{
+    const el=document.getElementById('view-'+v);if(el)el.hidden=v!==t;
+    const bt=document.getElementById('tab-'+v);if(bt)bt.classList.toggle('active',v===t);
   });
   window.scrollTo(0,0);
   if(t==='live'){
     if('wakeLock'in navigator&&!wakeLock){wakeWanted=true;acquireWake();
       document.getElementById('wakeBtn').classList.add('on');}
+    renderLive();
   } else {
     if(wakeLock&&!wakeWanted){wakeLock.release().catch(()=>{});wakeLock=null;}
+    document.getElementById('wakeBtn')?.classList.remove('on');
   }
-  if(t==='analyse')runAnalysis();
-  if(t==='arc')renderArc();
+  if(t==='set'){renderSetView();}
   if(t==='biblio')renderBiblio();
   if(t==='journal')renderJournal();
-  if(t==='edit'){renderSortable();}
-  if(t==='generator')renderGeneratorRequiredList();
-  if(t==='tools'){renderChecklist();renderNotepad();syncMetroBPM();}
 }
 
 /* ── SETS management ── */
@@ -1671,6 +1990,7 @@ function renderLive(){
 
   document.getElementById('prevBtn').disabled=current<=0;
   setTimeout(_patchTuneTagClick,0);
+  renderTimeline();
   document.getElementById('nextBtn').disabled=current>=songs.length-1;
 
   // jump strip with tune dots
@@ -1799,8 +2119,17 @@ function _syncMoodUI(car,en){
   });
   const sl=document.getElementById('energie-slider');
   const vl=document.getElementById('energie-val');
-  if(sl){sl.value=en||0;}
-  if(vl){vl.textContent=en>0?en+'/10':'Auto ✨';}
+  if(sl)sl.value=en||0;
+  if(vl)vl.textContent=en>0?en+'/10':'Auto ✨';
+  const s=aSongs()[ei()]||{};
+  const ei_v=parseInt(s.energie_intro)||0;
+  const ef_v=parseInt(s.energie_fin)||0;
+  const eis=document.getElementById('energie-intro-slider');
+  const eiv=document.getElementById('energie-intro-val');
+  const efs=document.getElementById('energie-fin-slider');
+  const efv=document.getElementById('energie-fin-val');
+  if(eis)eis.value=ei_v;if(eiv)eiv.textContent=ei_v>0?ei_v+'/10':'Auto';
+  if(efs)efs.value=ef_v;if(efv)efv.textContent=ef_v>0?ef_v+'/10':'Auto';
 }
 function setMood(mood){
   const cur=document.getElementById('f-caractere').value;
@@ -1808,6 +2137,14 @@ function setMood(mood){
   document.getElementById('f-caractere').value=newVal;
   saveEditor();
   _syncMoodUI(newVal,parseInt(document.getElementById('energie-slider')?.value)||0);
+}
+function updateEI(v,which){
+  const val=parseInt(v)||0;
+  const field=which==='intro'?'f-energie_intro':'f-energie_fin';
+  const dispId=which==='intro'?'energie-intro-val':'energie-fin-val';
+  const el=document.getElementById(field);if(el)el.value=val>0?String(val):'';
+  const vl=document.getElementById(dispId);if(vl)vl.textContent=val>0?val+'/10':'Auto';
+  saveEditor();
 }
 function updateEnergieSlider(v){
   const val=parseInt(v)||0;
@@ -2120,6 +2457,53 @@ function _getMoodData(song,idx,totalMain,energy){
   return{emoji:'🌊',label:'Respiration',color:'#93a3ad'};
 }
 
+
+/* ══════════════════════════════════════════════════
+   HELPERS INTRO/FIN — cœur de l'analyse structurelle
+══════════════════════════════════════════════════ */
+const _SHAPE = {
+  // [intro_offset, fin_offset] par rapport à l'énergie globale
+  baffe:       [ 0,    0],   // frappe dès le départ, tient jusqu'au bout
+  explosif:    [ 0,    0],   // idem, instantané
+  groovy:      [-1,    0],   // démarre légèrement en retrait, monte vite
+  progressif:  [-4,   +2],   // commence calme, finit au-dessus
+  tension:     [-2,   +3],   // monte tout au long, pic à la fin
+  hymne:       [-1,   +1],   // crescendo public, fin plus haute
+  respiration: [ 0,    0],   // stable, calme du début à la fin
+  intime:      [+1,   -1],   // plus fort au départ (surprise), finit doux
+  ouverture:   [-2,   +1],   // intro hésitante, prend vie
+  final:       [-1,   +2],   // monte vers la fin
+};
+
+function _getIntroE(song){
+  if(song.energie_intro&&parseInt(song.energie_intro)>0)return parseInt(song.energie_intro);
+  const e=_inferEnergy(song);
+  const shape=_SHAPE[song.caractere]||[0,0];
+  return Math.max(1,Math.min(10,e+shape[0]));
+}
+
+function _getFinE(song){
+  if(song.energie_fin&&parseInt(song.energie_fin)>0)return parseInt(song.energie_fin);
+  const e=_inferEnergy(song);
+  const shape=_SHAPE[song.caractere]||[0,0];
+  return Math.max(1,Math.min(10,e+shape[1]));
+}
+
+// "Énergie perçue" = moyenne pondérée intro+milieu+fin (le corps de la chanson)
+function _getPerceivedE(song){
+  const intro=_getIntroE(song);
+  const fin=_getFinE(song);
+  const mid=_inferEnergy(song);
+  return Math.round((intro+mid*2+fin)/4*10)/10;
+}
+
+// "Impact de transition" entre fin de song[i] et intro de song[i+1]
+function _transitionImpact(a,b){
+  const fin=_getFinE(a);
+  const intro=_getIntroE(b);
+  return intro-fin; // >0 = montée, <0 = descente, 0 = plat
+}
+
 function _inferEnergy(song){
   // Énergie manuelle = priorité absolue
   if(song.energie&&parseInt(song.energie)>0)return parseInt(song.energie);
@@ -2143,12 +2527,16 @@ function _avg(arr){return arr.length?arr.reduce((a,b)=>a+b,0)/arr.length:0;}
 
 function _analyzeSet(songs, targetMin){
   const alerts=[];
-  const energies=songs.map(_inferEnergy);
-  const tunings=songs.map(s=>(_tuning(s))||'—');
   const n=songs.length;
-  if(n===0)return{alerts:[{type:'info',emoji:'ℹ️',badge:'Info',msg:'Aucun morceau dans le set.'}],energies:[]};
+  if(n===0)return{alerts:[{type:'info',emoji:'ℹ️',badge:'Info',msg:'Aucun morceau dans le set.'}],energies:[],introE:[],finE:[]};
 
-  // ─ 1. Accordages groupés consécutifs
+  const energies=songs.map(_inferEnergy);
+  const introE=songs.map(_getIntroE);
+  const finE=songs.map(_getFinE);
+  const percE=songs.map(_getPerceivedE);
+  const tunings=songs.map(s=>_tuning(s)||'—');
+
+  // ─ 1. Accordages groupés
   let maxStreak=1,curStreak=1,streakTune=tunings[0];
   for(let i=1;i<n;i++){
     if(tunings[i]===tunings[i-1]&&tunings[i]!=='—'){curStreak++;}
@@ -2157,223 +2545,244 @@ function _analyzeSet(songs, targetMin){
   if(curStreak>maxStreak){maxStreak=curStreak;streakTune=tunings[n-1];}
   if(maxStreak>=3&&streakTune!=='—'){
     alerts.push({type:'good',emoji:'🎸',badge:'Accordage',
-      msg:`${maxStreak} morceaux consécutifs en ${streakTune} — bon bloc guitare, zéro interruption pour changer.`});
+      msg:`${maxStreak} morceaux consécutifs en ${streakTune} — bon bloc guitare, zéro interruption.`});
   }
 
-  // ─ 2. Changements d'accordage rapprochés (2 changements en 3 morceaux)
+  // ─ 2. Changements d'accordage rapprochés
   let rapidChanges=0;
   for(let i=2;i<n;i++){if(tunings[i]!==tunings[i-1]&&tunings[i-1]!==tunings[i-2])rapidChanges++;}
   if(rapidChanges>=2){
     alerts.push({type:'warn',emoji:'🔄',badge:'Accordage',
-      msg:`Attention : ${rapidChanges} changements d'accordage rapprochés détectés. Pense aux transitions scène ou à réorganiser.`});
+      msg:`${rapidChanges} changements d'accordage rapprochés — pense aux transitions ou à réorganiser.`});
   }
 
-  // ─ 3. Total des changements d'accordage
-  let totalTuneChanges=0;
-  for(let i=1;i<n;i++){if(tunings[i]!==tunings[i-1])totalTuneChanges++;}
-  if(totalTuneChanges>=4){
-    alerts.push({type:'warn',emoji:'⚙️',badge:'Accordage',
-      msg:`${totalTuneChanges} changements d'accordage au total — assure-toi d'avoir des guitares de backup ou des temps de transition.`});
+  // ─ 3. ANALYSE DES TRANSITIONS (FIN→INTRO)
+  const badDrops=[],goodJumps=[],awkward=[];
+  for(let i=0;i<n-1;i++){
+    const impact=_transitionImpact(songs[i],songs[i+1]);
+    const f=finE[i],intro=introE[i+1];
+    // Chute brutale non intentionnelle : fin haute + intro très basse sans respiration marquée
+    if(f>=7&&intro<=3&&songs[i+1].caractere!=='respiration'&&songs[i+1].caractere!=='intime'){
+      badDrops.push({i,f,intro,title:songs[i+1].title});
+    }
+    // Bon contraste intentionnel : fin haute → respiration → repart
+    if(f>=6&&(songs[i+1].caractere==='respiration'||songs[i+1].caractere==='intime')){
+      goodJumps.push({i,title:songs[i+1].title});
+    }
+    // Deux progressifs consécutifs → double build-up, peut épuiser le public
+    if(songs[i].caractere==='progressif'&&songs[i+1].caractere==='progressif'){
+      awkward.push({i,msg:`"${songs[i].title}" et "${songs[i+1].title}" sont deux progressifs consécutifs — le public risque de s'essouffler avant le pic du second.`});
+    }
   }
+  if(badDrops.length){
+    badDrops.forEach(d=>{
+      alerts.push({type:'warn',emoji:'📉',badge:'Transition',
+        msg:`Après "${songs[d.i].title}" (finit à ${d.f}/10), "${d.title}" démarre à ${d.intro}/10 — chute brutale non intentionnelle. Ajoute une respiration entre les deux ou change l'ordre.`});
+    });
+  }
+  if(goodJumps.length){
+    alerts.push({type:'good',emoji:'💨',badge:'Transitions',
+      msg:`${goodJumps.length} moment(s) de respiration bien placé(s) après des morceaux intenses — architecture narrative solide.`});
+  }
+  awkward.forEach(a=>{
+    alerts.push({type:'warn',emoji:'⚠️',badge:'Structure',msg:a.msg});
+  });
 
-  // ─ 4. Arc énergétique (courbe dramatique)
-  if(n>=4){
-    const rappelIdx=songs.findIndex(s=>s.rappel);
-    const mainE=rappelIdx>0?energies.slice(0,rappelIdx):energies;
-    const mn=mainE.length;
-    if(mn>=4){
-      const t1=Math.floor(mn/3),t2=Math.floor(2*mn/3);
-      const e1=_avg(mainE.slice(0,t1)),e2=_avg(mainE.slice(t1,t2)),e3=_avg(mainE.slice(t2));
-      if(e1>6.5&&e2<e1-2){
-        alerts.push({type:'warn',emoji:'📉',badge:'Énergie',
-          msg:`Le set commence fort (${e1.toFixed(1)}/10) puis retombe au milieu (${e2.toFixed(1)}/10). Pense à glisser un morceau punch pour relancer le public.`});
-      } else if(Math.abs(e1-e2)<1.2&&Math.abs(e2-e3)<1.2){
-        alerts.push({type:'info',emoji:'〰️',badge:'Énergie',
-          msg:`L'énergie est très uniforme tout au long du set. C'est sécurisé mais ça peut manquer de relief dramatique.`});
-      }
-      if(e3>e1+1.5){
-        alerts.push({type:'good',emoji:'🚀',badge:'Énergie',
-          msg:`Le set monte en puissance vers la fin — excellent build-up ! Le public va être dans le creux de ta main.`});
-      }
-      if(e1>7&&e2>6.5&&e3>7.5){
-        alerts.push({type:'good',emoji:'🔥',badge:'Énergie',
-          msg:`Arc énergétique solide : ouverture forte, maintien au milieu, final puissant. Set pro.`});
-      }
+  // ─ 4. ARC GLOBAL — basé sur l'énergie perçue (intro+milieu+fin)
+  const rappelIdx=songs.findIndex(s=>s.rappel);
+  const mainE=rappelIdx>0?percE.slice(0,rappelIdx):percE;
+  const mn=mainE.length;
+  if(mn>=4){
+    const t1=Math.floor(mn/3),t2=Math.floor(2*mn/3);
+    const e1=_avg(mainE.slice(0,t1)),e2=_avg(mainE.slice(t1,t2)),e3=_avg(mainE.slice(t2));
+    // Faux plateau : énergie générale stable mais pic/creux internes
+    const rawAvg1=_avg(energies.slice(0,t1)),rawAvg2=_avg(energies.slice(t1,t2));
+    const percDiff=Math.abs(rawAvg1-e1)+Math.abs(rawAvg2-e2);
+    if(percDiff>3){
+      alerts.push({type:'info',emoji:'🎭',badge:'Arc réel',
+        msg:`L'énergie apparente est stable mais l'arc perçu est très différent grâce aux morceaux progressifs et à leur dynamique interne — c'est exactement ce qui crée du relief dramatique. 👏`});
+    } else if(Math.abs(e1-e2)<1&&Math.abs(e2-e3)<1){
+      alerts.push({type:'warn',emoji:'〰️',badge:'Arc plat',
+        msg:`Le set manque de relief dramatique — même niveau perçu du début à la fin. Pense à varier davantage les structures internes (progressifs, tensions).`});
+    }
+    if(e1>6.5&&e2<e1-2){
+      alerts.push({type:'warn',emoji:'📉',badge:'Énergie',
+        msg:`Forte ouverture (${e1.toFixed(1)}/10 perçu) mais creux au milieu (${e2.toFixed(1)}/10). Remonte un morceau punch ou un progressif dans le tiers central.`});
+    }
+    if(e3>e1+1){
+      alerts.push({type:'good',emoji:'🚀',badge:'Build-up',
+        msg:`Le set monte en puissance vers la fin — excellent arc dramatique. Le public sera à son pic au moment du final.`});
+    }
+    if(e1>7&&e2>6.5&&e3>7.5){
+      alerts.push({type:'good',emoji:'🔥',badge:'Énergie',
+        msg:`Arc énergétique solide : ouverture forte, tiers central tenu, final puissant. Set pro.`});
     }
   }
 
-  // ─ 5. Prises de parole public
+  // ─ 5. Ouverture : est-ce que ça démarre fort ?
+  if(n>0){
+    const firstIntro=introE[0];
+    if(firstIntro<5&&songs[0].caractere!=='progressif'&&songs[0].caractere!=='tension'){
+      alerts.push({type:'warn',emoji:'🚀',badge:'Ouverture',
+        msg:`Le premier morceau démarre doucement (intro ${firstIntro}/10). Le public a besoin d'être accroché dès les premières secondes — pense à un morceau qui part fort en intro, ou étiquette-le "Progressif".`});
+    } else if(firstIntro>=7){
+      alerts.push({type:'good',emoji:'🚀',badge:'Ouverture',
+        msg:`Ouverture efficace — le premier morceau démarre à ${firstIntro}/10. Le public est pris immédiatement.`});
+    }
+  }
+
+  // ─ 6. Final : est-ce que ça finit fort ?
+  const lastMain=rappelIdx>0?songs[rappelIdx-1]:songs[n-1];
+  if(lastMain){
+    const lastFin=_getFinE(lastMain);
+    if(lastFin<6){
+      alerts.push({type:'warn',emoji:'🏁',badge:'Final',
+        msg:`Le dernier morceau du set principal finit à ${lastFin}/10 — c'est mou pour un final. Le public doit sortir sur une montée, pas une descente.`});
+    } else if(lastFin>=8){
+      alerts.push({type:'good',emoji:'🏁',badge:'Final',
+        msg:`Final à ${lastFin}/10 — ça finit haut. Le public va partir dans un pic d'adrénaline.`});
+    }
+  }
+
+  // ─ 7. Prises de parole
   const speechSongs=songs.filter(s=>s.public&&s.public.trim());
   if(speechSongs.length===0){
-    alerts.push({type:'warn',emoji:'🎤',badge:'Interaction',
-      msg:`Aucune prise de parole au public renseignée. Même courtes, les interactions créent un lien fort — note-les !`});
-  } else if(speechSongs.length<=2){
-    alerts.push({type:'info',emoji:'🎤',badge:'Interaction',
-      msg:`${speechSongs.length} prise(s) de parole au public. C'est peu — envisage quelques interactions supplémentaires.`});
+    alerts.push({type:'warn',emoji:'🎤',badge:'Interaction',msg:`Aucune prise de parole renseignée — les interactions créent un lien fort, même courtes.`});
   } else if(speechSongs.length>=3&&speechSongs.length<=6){
-    alerts.push({type:'good',emoji:'🎤',badge:'Interaction',
-      msg:`${speechSongs.length} prises de parole au public : équilibré. Bonne connexion avec la salle sans couper le flow.`});
-  } else {
-    alerts.push({type:'info',emoji:'🎤',badge:'Interaction',
-      msg:`${speechSongs.length} prises de parole — beaucoup d'interaction. Attention à ne pas trop casser le rythme musical.`});
+    alerts.push({type:'good',emoji:'🎤',badge:'Interaction',msg:`${speechSongs.length} prises de parole au public : équilibré.`});
+  } else if(speechSongs.length>6){
+    alerts.push({type:'info',emoji:'🎤',badge:'Interaction',msg:`${speechSongs.length} prises de parole — beaucoup. Attention à ne pas trop casser le rythme.`});
   }
 
-  // ─ 6. Durée totale vs créneau
+  // ─ 8. Durée
   const totalSec=songs.reduce((a,s)=>a+parseSec(s.duree),0);
-  if(totalSec>0){
-    if(targetMin&&targetMin>0){
-      const targetSec=targetMin*60;
-      const diff=totalSec-targetSec;
-      const diffM=Math.floor(Math.abs(diff)/60),diffS=Math.abs(diff)%60;
-      const diffStr=diffM>0?`${diffM}min${diffS>0?' '+diffS+'s':''}`:diffS+'s';
-      if(diff>180){
-        alerts.push({type:'danger',emoji:'⏱',badge:'Durée',
-          msg:`Tu dépasses le créneau de ${diffStr} ! Retire ${Math.ceil(diff/180)} morceau(x) ou raccourcis les intros/transitions.`});
-      } else if(diff<-300){
-        alerts.push({type:'info',emoji:'⏱',badge:'Durée',
-          msg:`Il te reste ${diffStr} de créneau — tu peux allonger les morceaux ou ajouter des impros/intros.`});
-      } else {
-        alerts.push({type:'good',emoji:'⏱',badge:'Durée',
-          msg:`Set parfaitement dans le créneau (${fmtDur(totalSec)} pour ${targetMin}min). Nickel !`});
-      }
+  if(totalSec>0&&targetMin>0){
+    const diff=totalSec-targetMin*60;
+    const diffM=Math.floor(Math.abs(diff)/60),diffS=Math.abs(diff)%60;
+    const ds=diffM>0?`${diffM}min${diffS>0?' '+diffS+'s':''}`:diffS+'s';
+    if(diff>180)alerts.push({type:'danger',emoji:'⏱',badge:'Durée',msg:`Tu dépasses le créneau de ${ds} ! Retire ou raccourcis.`});
+    else if(diff<-300)alerts.push({type:'info',emoji:'⏱',badge:'Durée',msg:`Il reste ${ds} — tu peux rallonger.`});
+    else alerts.push({type:'good',emoji:'⏱',badge:'Durée',msg:`Durée parfaite (${fmtDur(totalSec)} / ${targetMin}min). ✓`});
+  } else if(totalSec>0){
+    alerts.push({type:'info',emoji:'⏱',badge:'Durée',msg:`Durée totale : ${fmtDur(totalSec)}. Entre ton créneau pour vérifier.`});
+  }
+
+  // ─ 9. Respiration avant le final
+  if(mainE.length>=3){
+    const last3=songs.slice(rappelIdx>0?rappelIdx-3:n-3,rappelIdx>0?rappelIdx:n);
+    const avgLast3Perc=_avg(last3.map(_getPerceivedE));
+    if(avgLast3Perc>8){
+      alerts.push({type:'warn',emoji:'😤',badge:'Respiration',msg:`Les 3 derniers morceaux sont tous très intenses (${avgLast3Perc.toFixed(1)}/10 perçu). Les musiciens vont tout donner en même temps — prévois une respiration avant le final.`});
+    }
+  }
+
+  // ─ 10. Rappel
+  if(rappelIdx>0){
+    const rappelFin=_avg(finE.slice(rappelIdx));
+    const prevFin=_avg(finE.slice(Math.max(0,rappelIdx-2),rappelIdx));
+    if(rappelFin<prevFin-1){
+      alerts.push({type:'warn',emoji:'🔁',badge:'Rappel',msg:`Le rappel finit moins fort que le set principal (${rappelFin.toFixed(1)} vs ${prevFin.toFixed(1)}/10). Le public pourrait être déçu.`});
     } else {
-      alerts.push({type:'info',emoji:'⏱',badge:'Durée',
-        msg:`Durée totale calculée : ${fmtDur(totalSec)}. Entre ton créneau en minutes pour voir si tu tiens dans le temps imparti.`});
-    }
-  } else {
-    alerts.push({type:'info',emoji:'⏱',badge:'Durée',
-      msg:`Durées non renseignées — sans elles, impossible d'estimer le créneau. Note-les dans l'éditeur !`});
-  }
-
-  // ─ 7. Respiration avant le final / rappel
-  const rappelI=songs.findIndex(s=>s.rappel);
-  const mainSongs=rappelI>0?songs.slice(0,rappelI):songs;
-  if(mainSongs.length>=3){
-    const last3E=mainSongs.slice(-3).map(_inferEnergy);
-    const avgLast3=_avg(last3E);
-    if(avgLast3>7.5){
-      alerts.push({type:'warn',emoji:'😤',badge:'Respiration',
-        msg:`Aucun moment de respiration avant le final — les 3 derniers morceaux sont tous intenses. Les musiciens vont tout donner d'un coup.`});
-    } else if(avgLast3<4&&mainSongs.length>5){
-      alerts.push({type:'warn',emoji:'😴',badge:'Respiration',
-        msg:`La fin du set principal semble trop calme (énergie ${avgLast3.toFixed(1)}/10). Le public pourrait décrocher avant le rappel.`});
+      alerts.push({type:'good',emoji:'🔁',badge:'Rappel',msg:`Rappel bien calibré énergétiquement.`});
     }
   }
 
-  // ─ 8. Énergie du rappel vs morceaux précédents
-  if(rappelI>0){
-    const rappelE=_avg(energies.slice(rappelI));
-    const prevE=_avg(energies.slice(Math.max(0,rappelI-3),rappelI));
-    if(rappelE<prevE-1.5){
-      alerts.push({type:'warn',emoji:'🔁',badge:'Rappel',
-        msg:`Le rappel semble moins énergique que les morceaux précédents (${rappelE.toFixed(1)} vs ${prevE.toFixed(1)}/10). Le public pourrait trouver ça décevant.`});
-    } else if(rappelE>=prevE+0.5){
-      alerts.push({type:'good',emoji:'🔁',badge:'Rappel',
-        msg:`Le rappel est plus puissant que le set principal — le public va exploser ! Parfait pour finir sur un pic.`});
-    } else {
-      alerts.push({type:'good',emoji:'🔁',badge:'Rappel',
-        msg:`Énergie du rappel cohérente avec le set — solide et attendu.`});
-    }
-  }
-
-  // ─ 9. Points de vigilance critiques
-  const vigSongs=songs.filter(s=>s.vigilance&&s.vigilance.trim());
-  if(vigSongs.length===0){
-    alerts.push({type:'info',emoji:'⚠️',badge:'Vigilance',
-      msg:`Aucun point de vigilance noté. C'est peut-être un peu optimiste… ou ton set est vraiment très rodé !`});
-  } else if(vigSongs.length>n*0.6){
-    alerts.push({type:'warn',emoji:'⚠️',badge:'Vigilance',
-      msg:`${vigSongs.length}/${n} morceaux ont des points de vigilance — beaucoup ! Priorise les plus critiques pour ne pas te surcharger.`});
-  } else {
-    alerts.push({type:'good',emoji:'⚠️',badge:'Vigilance',
-      msg:`${vigSongs.length} point(s) de vigilance renseignés — tu as anticipé les pièges. Bien joué.`});
-  }
-
-  // ─ 10. Morceau de départ
-  const firstSong=songs[0];
-  if(firstSong&&(!firstSong.depart||!firstSong.depart.trim())){
-    alerts.push({type:'warn',emoji:'🥁',badge:'Départ',
-      msg:`Le premier morceau "${firstSong.title}" n'a pas de note de départ. Notez le signal de départ pour partir groupé !`});
-  }
-
-  // ─ 11. BPM manquants
+  // ─ 11. Vigilance + BPM + Départ
+  const vigN=songs.filter(s=>s.vigilance&&s.vigilance.trim()).length;
+  if(vigN>n*0.6)alerts.push({type:'warn',emoji:'⚠️',badge:'Vigilance',msg:`${vigN}/${n} morceaux avec vigilance — beaucoup. Priorise les plus critiques.`});
+  else if(vigN>0)alerts.push({type:'good',emoji:'⚠️',badge:'Vigilance',msg:`${vigN} point(s) de vigilance anticipés. Bien joué.`});
   const noBpm=songs.filter(s=>!s.bpm||!String(s.bpm).trim()).length;
-  if(noBpm>n*0.7){
-    alerts.push({type:'info',emoji:'♩',badge:'BPM',
-      msg:`${noBpm}/${n} morceaux sans BPM. Renseigne-les pour une analyse d'énergie plus précise et pour le click.`});
-  }
-
-  // ─ 12. Trop de rappels
+  if(noBpm>n*0.7)alerts.push({type:'info',emoji:'♩',badge:'BPM',msg:`${noBpm}/${n} morceaux sans BPM — utile pour l'analyse et le métronome.`});
+  const firstSong=songs[0];
+  if(firstSong&&(!firstSong.depart||!firstSong.depart.trim()))
+    alerts.push({type:'warn',emoji:'🥁',badge:'Départ',msg:`"${firstSong.title}" n'a pas de signal de départ. Note-le pour partir groupé !`});
   const rappelCount=songs.filter(s=>s.rappel).length;
-  if(rappelCount>3){
-    alerts.push({type:'info',emoji:'🌟',badge:'Rappel',
-      msg:`${rappelCount} morceaux en rappel — c'est généreux ! Garde les meilleurs en réserve.`});
-  } else if(rappelCount===0){
-    alerts.push({type:'info',emoji:'🌟',badge:'Rappel',
-      msg:`Aucun rappel prévu. Même si tu ne sais pas si tu en joueras un, prépares-en un — c'est toujours mieux d'en avoir un sous le coude.`});
-  }
+  if(rappelCount===0)alerts.push({type:'info',emoji:'🌟',badge:'Rappel',msg:`Aucun rappel prévu — prépares-en un au cas où.`});
 
-  return {alerts, energies};
+  return {alerts, energies, introE, finE};
 }
 
-function _buildCurve(energies, songs){
+
+function _buildCurve(energies, songs, introE, finE){
   const n=energies.length;
   if(n<2)return'';
-  const W=440,H=90,PX=18,PY=12;
-  const pts=energies.map((e,i)=>({
-    x:PX+(i/(n-1))*(W-2*PX),
-    y:PY+((10-e)/9)*(H-2*PY)
-  }));
-  // Smooth bezier path
-  let path=`M ${pts[0].x.toFixed(1)} ${pts[0].y.toFixed(1)}`;
+  const W=440,H=110,PX=22,PY=14;
+  const xPos=i=>PX+(i/(n-1))*(W-2*PX);
+  const yPos=e=>PY+((10-Math.max(0,Math.min(10,e)))/10)*(H-2*PY);
+
+  // Lignes de niveau
+  const levels=[3,5,7].map(lv=>{
+    const y=yPos(lv).toFixed(1);
+    const label=lv===3?'Calme':lv===5?'Moyen':'Fort';
+    return `<line x1="${PX}" y1="${y}" x2="${W-PX}" y2="${y}" stroke="#1e2d38" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="${W-PX+4}" y="${parseFloat(y)+3}" font-size="7" fill="#2a3a45" font-weight="700">${label}</text>`;
+  }).join('');
+
+  // Courbe principale (énergie globale) — grisée
+  const pts=energies.map((e,i)=>({x:xPos(i),y:yPos(e)}));
+  let mainPath=`M ${pts[0].x.toFixed(1)} ${pts[0].y.toFixed(1)}`;
   for(let i=1;i<n;i++){
     const cpx=((pts[i-1].x+pts[i].x)/2).toFixed(1);
-    path+=` C ${cpx} ${pts[i-1].y.toFixed(1)} ${cpx} ${pts[i].y.toFixed(1)} ${pts[i].x.toFixed(1)} ${pts[i].y.toFixed(1)}`;
+    mainPath+=` C ${cpx} ${pts[i-1].y.toFixed(1)} ${cpx} ${pts[i].y.toFixed(1)} ${pts[i].x.toFixed(1)} ${pts[i].y.toFixed(1)}`;
   }
-  const area=path+` L ${pts[n-1].x.toFixed(1)} ${(H+2)} L ${pts[0].x.toFixed(1)} ${(H+2)} Z`;
-  // Level lines
-  const levels=[3,5,7].map(lv=>{
-    const y=(PY+((10-lv)/9)*(H-2*PY)).toFixed(1);
-    const label=lv===3?'Calme':lv===5?'Moyen':'Fort';
-    return `<line x1="${PX}" y1="${y}" x2="${W-PX}" y2="${y}" stroke="#2a3a45" stroke-width="1" stroke-dasharray="4,3"/>
-      <text x="${(W-PX+4)}" y="${parseFloat(y)+3}" font-size="8" fill="#37505e" font-weight="700">${label}</text>`;
+  const mainArea=mainPath+` L ${pts[n-1].x.toFixed(1)} ${H+2} L ${pts[0].x.toFixed(1)} ${H+2} Z`;
+
+  // Mini courbes intro→fin par morceau (la vraie dynamique)
+  const songCurves=songs.map((s,i)=>{
+    const x=xPos(i);
+    const halfW=(i<n-1?(xPos(i+1)-x):( i>0?(x-xPos(i-1)):40))*0.4;
+    const yi=yPos(introE[i]);
+    const ym=yPos(energies[i]);
+    const yf=yPos(finE[i]);
+    const col=energies[i]>=7?'#34b531':energies[i]>=5?'#ffb347':'#ff5b5b';
+    // Bezier intro→global→fin
+    const path=`M ${(x-halfW).toFixed(1)} ${yi.toFixed(1)} C ${(x-halfW/2).toFixed(1)} ${ym.toFixed(1)} ${(x+halfW/2).toFixed(1)} ${ym.toFixed(1)} ${(x+halfW).toFixed(1)} ${yf.toFixed(1)}`;
+    const hasShape=(Math.abs(introE[i]-energies[i])>1||Math.abs(finE[i]-energies[i])>1);
+    return `<path d="${path}" fill="none" stroke="${col}" stroke-width="${hasShape?2.5:1}" stroke-linecap="round" opacity="${hasShape?1:0.5}"/>
+    ${hasShape?`<circle cx="${(x-halfW).toFixed(1)}" cy="${yi.toFixed(1)}" r="3" fill="#5aa7ff" stroke="#0e1418" stroke-width="1.5"/>
+    <circle cx="${(x+halfW).toFixed(1)}" cy="${yf.toFixed(1)}" r="3" fill="#ff8c00" stroke="#0e1418" stroke-width="1.5"/>`:''}`;
   }).join('');
-  // Dots
+
+  // Dots centraux + labels
   const dots=pts.map((pt,i)=>{
-    const e=energies[i];
-    const col=e>=7?'#34b531':e>=5?'#ffb347':'#ff5b5b';
+    const e=energies[i];const col=e>=7?'#34b531':e>=5?'#ffb347':'#ff5b5b';
     const rappel=songs[i]&&songs[i].rappel;
-    return `<circle cx="${pt.x.toFixed(1)}" cy="${pt.y.toFixed(1)}" r="${rappel?6:5}" fill="${col}" stroke="#0e1418" stroke-width="2"/>
-      ${rappel?`<text x="${pt.x.toFixed(1)}" y="${(pt.y-9).toFixed(1)}" text-anchor="middle" font-size="9" fill="${col}">🔁</text>`:``}`;
+    return `<circle cx="${pt.x.toFixed(1)}" cy="${pt.y.toFixed(1)}" r="${rappel?6:4}" fill="${col}" stroke="#0e1418" stroke-width="2"/>
+    ${rappel?`<text x="${pt.x.toFixed(1)}" y="${(pt.y-9).toFixed(1)}" text-anchor="middle" font-size="9" fill="${col}">🔁</text>`:''}`;
   }).join('');
-  // Song labels
-  const labelStep=n>12?2:1;
+
+  const step=n>12?2:1;
   const labels=pts.map((pt,i)=>{
-    if(i%labelStep!==0&&i!==n-1)return'';
-    const s=songs[i];const t=(s.title||'').toUpperCase();
-    const short=t.length>9?t.slice(0,8)+'…':t;
-    return `<text x="${pt.x.toFixed(1)}" y="${(H+20)}" text-anchor="middle" font-size="8" fill="#6e818c" font-weight="700">${esc(short)}</text>`;
+    if(i%step!==0&&i!==n-1)return'';
+    const t=(songs[i].title||'').toUpperCase().slice(0,8)+(songs[i].title?.length>8?'…':'');
+    return `<text x="${pt.x.toFixed(1)}" y="${(H+20)}" text-anchor="middle" font-size="7.5" fill="#6e818c" font-weight="700">${esc(t)}</text>`;
   }).join('');
-  const totalH=H+28;
-  return`<svg viewBox="-8 -4 ${W+28} ${totalH}" xmlns="http://www.w3.org/2000/svg">
+
+  return`<svg viewBox="-8 -4 ${W+38} ${H+28}" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="eg2" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#34b531" stop-opacity="0.35"/>
+        <stop offset="0%" stop-color="#34b531" stop-opacity="0.2"/>
         <stop offset="100%" stop-color="#34b531" stop-opacity="0.02"/>
       </linearGradient>
     </defs>
     ${levels}
-    <path d="${area}" fill="url(#eg2)"/>
-    <path d="${path}" fill="none" stroke="#34b531" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="${mainArea}" fill="url(#eg2)"/>
+    <path d="${mainPath}" fill="none" stroke="#2a3a45" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="5,3"/>
+    ${songCurves}
     ${dots}
     ${labels}
+    <circle cx="10" cy="${H+38}" r="3" fill="#5aa7ff"/>
+    <text x="17" y="${H+42}" font-size="7.5" fill="#5aa7ff" font-weight="700">Intro</text>
+    <circle cx="50" cy="${H+38}" r="3" fill="#ff8c00"/>
+    <text x="57" y="${H+42}" font-size="7.5" fill="#ff8c00" font-weight="700">Fin</text>
   </svg>`;
 }
+
 
 function runAnalysis(){
   const songs=aSongs();
   const targetMin=parseInt(document.getElementById('ana-slot').value)||0;
-  const {alerts,energies}=_analyzeSet(songs,targetMin);
+  const {alerts,energies,introE,finE}=_analyzeSet(songs,targetMin);
 
   // Stats bar
   const totalSec=songs.reduce((a,s)=>a+parseSec(s.duree),0);
@@ -2392,7 +2801,7 @@ function runAnalysis(){
   const curveEl=document.getElementById('ana-curve-wrap');
   if(energies.length>=2){
     curveEl.style.display='';
-    curveEl.innerHTML=`<div class="ana-curve-title">⚡ Courbe d'énergie du set</div>`+_buildCurve(energies,songs);
+    curveEl.innerHTML=`<div class="ana-curve-title">⚡ Dynamique réelle du set <span style="font-size:10px;font-weight:700;color:var(--mut);margin-left:6px">— courbe grisée = énergie globale · traits colorés = dynamique interne</span></div>`+_buildCurve(energies,songs,introE||[],finE||[]);
   } else {curveEl.style.display='none';}
 
   // Alerts
@@ -2411,7 +2820,8 @@ const _MOOD_HI=['FORT','HEAVY','FAST','RAPIDE','PUISSANT','ROCK','METAL','PUNK',
 
 /* _inferMood → remplacé par _getMoodData */
 
-function renderArc(){
+function renderArc(){_renderSetArc();return;}
+function _renderArcOriginal(){
   const songs=aSongs();
   if(!songs.length){document.getElementById('arc-cards').innerHTML='<div class="arc-empty">Aucun morceau dans ce set.</div>';return;}
   const mainCount=songs.filter(s=>!s.rappel).length;
@@ -3234,6 +3644,108 @@ body{margin:0;padding:0;background:#0e1418;color:#eef4f0;font-family:ui-sans-ser
 .lib-mood-badge{font-size:10px;font-weight:900;padding:1px 7px;border-radius:999px;
   display:inline-flex;align-items:center;gap:3px;border:1px solid;white-space:nowrap}
 
+
+/* ═══════════════ TIROIR D'ÉDITION UNIVERSEL ═══════════════ */
+.edit-backdrop{position:fixed;inset:0;z-index:299;background:rgba(6,11,15,.55);-webkit-tap-highlight-color:transparent}
+.edit-backdrop[hidden]{display:none}
+.edit-drawer{
+  position:fixed;bottom:0;left:0;right:0;z-index:300;
+  background:var(--panel);
+  border-top-left-radius:24px;border-top-right-radius:24px;
+  max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:0 0 calc(20px + env(safe-area-inset-bottom));
+  box-shadow:0 -12px 48px rgba(0,0,0,.6);
+  transform:translateY(0);transition:transform .3s cubic-bezier(.4,0,.2,1);
+  max-width:680px;margin:0 auto;
+}
+.edit-drawer[hidden]{display:none}
+.drawer-sticky{
+  position:sticky;top:0;z-index:2;background:var(--panel);
+  padding:10px 16px 8px;border-bottom:1px solid var(--line);
+}
+.drawer-handle{width:40px;height:4px;background:var(--line2);border-radius:2px;margin:0 auto 10px}
+.drawer-title-row{display:flex;align-items:center;gap:10px}
+.drawer-pos{font-size:12px;font-weight:900;color:var(--green);background:var(--gsof);border:1px solid var(--green-d);border-radius:999px;padding:2px 9px;white-space:nowrap;flex:0 0 auto}
+.drawer-song-title{font-size:15px;font-weight:900;text-transform:uppercase;letter-spacing:.03em;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.drawer-close{border:1px solid var(--line2);background:var(--panel);color:var(--mut);border-radius:999px;width:36px;height:36px;font-size:18px;font-weight:900;display:grid;place-items:center;flex:0 0 auto}
+.drawer-sub-nav{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:8px 0 0}
+.drawer-sub-nav::-webkit-scrollbar{display:none}
+.dsn-btn{flex:0 0 auto;border:1px solid var(--line2);background:var(--panel);color:var(--mut);border-radius:999px;padding:6px 14px;font-size:12px;font-weight:800;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.dsn-btn.active{background:var(--gsof);color:var(--green);border-color:var(--green-d)}
+.drawer-body{padding:14px 16px}
+.drawer-section{display:none}.drawer-section.active{display:block}
+.dsec-title{font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--mut2);margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+
+/* ═══════════════ CARTE DE TRANSITION (SCÈNE) ═══════════════ */
+.transition-overlay{position:fixed;inset:60px 0 0;z-index:250;
+  position:absolute;inset:0;border-radius:inherit;z-index:20;
+  background:var(--panel);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:20px;text-align:center;
+  animation:tco-in .25s ease;
+}
+@keyframes tco-in{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
+.transition-overlay[hidden]{display:none}
+.tc-label{font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin-bottom:10px}
+.tc-next-title{font-size:clamp(22px,7vw,36px);font-weight:900;text-transform:uppercase;color:#fff;margin-bottom:14px;line-height:1;letter-spacing:-.01em}
+.tc-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:14px}
+.tc-chip{font-size:12px;font-weight:800;padding:4px 10px;border-radius:999px;border:1px solid var(--line2);background:var(--bg2);color:var(--ink)}
+.tc-enc{font-size:13px;font-weight:800;color:var(--amber);line-height:1.4;margin-bottom:20px;max-width:280px}
+.tc-tap-hint{font-size:11px;color:var(--mut2);margin-top:auto}
+.tc-bar{position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--green);transform-origin:left;animation:tc-shrink 4s linear forwards}
+@keyframes tc-shrink{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+.tc-skip-btn{border:1px solid var(--line2);background:var(--panel);color:var(--mut);border-radius:999px;padding:8px 18px;font-size:13px;font-weight:800;margin-top:12px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+
+/* ═══════════════ SET VIEW — Timeline + Sub-nav ═══════════════ */
+.set-subnav{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:0 0 10px;margin-bottom:8px}
+.set-subnav::-webkit-scrollbar{display:none}
+.ssn-btn{flex:0 0 auto;border:1px solid var(--line2);background:var(--panel);color:var(--mut);border-radius:999px;padding:8px 16px;font-size:12px;font-weight:800;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ssn-btn.active{background:var(--gsof);color:var(--green);border-color:var(--green-d)}
+.set-section{display:none}.set-section.active{display:block}
+
+/* Timeline */
+.timeline-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:6px 2px 8px;margin-bottom:12px;scrollbar-width:thin}
+.timeline-inner{display:flex;gap:3px;min-height:58px;align-items:stretch}
+.tl-seg{
+  flex:0 0 auto;min-width:32px;max-width:120px;
+  border-radius:10px;padding:6px 5px 5px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  cursor:pointer;transition:.15s;position:relative;overflow:hidden;
+  -webkit-tap-highlight-color:transparent;border:2px solid transparent;
+}
+.tl-seg.tl-active{border-color:rgba(255,255,255,.5);box-shadow:0 0 0 2px rgba(255,255,255,.15)}
+.tl-seg:active{transform:scale(.96)}
+.tl-num{font-size:8px;font-weight:900;color:rgba(255,255,255,.6);line-height:1}
+.tl-title{font-size:8.5px;font-weight:900;text-transform:uppercase;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px;line-height:1.2}
+.tl-dur{font-size:7.5px;font-weight:700;color:rgba(255,255,255,.55);line-height:1;margin-top:auto}
+.tl-cursor{position:absolute;top:0;left:0;width:100%;height:3px;background:rgba(255,255,255,.6);animation:tl-pulse 2s infinite}
+@keyframes tl-pulse{0%,100%{opacity:.8}50%{opacity:.2}}
+.tl-cumul{font-size:10px;font-weight:800;color:var(--mut2);text-align:center;margin-top:4px;letter-spacing:.03em}
+
+/* Set songlist (Ordre sub-section) */
+.set-songlist{display:flex;flex-direction:column;gap:6px}
+.ssl-row{
+  display:flex;align-items:center;gap:10px;padding:10px 14px;
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
+  transition:.1s;border-left:4px solid var(--lc,var(--line));
+}
+.ssl-row:active{transform:scale(.99);opacity:.85}
+.ssl-num{font-size:15px;font-weight:900;color:var(--green);min-width:26px}
+.ssl-title{flex:1;font-size:13.5px;font-weight:800;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ssl-mood{font-size:13px}
+.ssl-meta{font-size:11px;font-weight:700;color:var(--mut2);white-space:nowrap}
+.ssl-edit-btn{border:1px solid var(--line2);background:var(--panel2);color:var(--mut);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;flex:0 0 auto}
+
+/* ═══════════════ VERSIONS ═══════════════ */
+.versions-list{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+.ver-item{display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--bg2);border:1px solid var(--line2);border-radius:11px}
+.ver-active-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex:0 0 auto}
+.ver-name{flex:1;font-size:13px;font-weight:800;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ver-dur{font-size:12px;font-weight:700;color:var(--mut2);white-space:nowrap}
+.ver-use-btn{border:1px solid var(--green-d);background:var(--gsof);color:var(--green);border-radius:7px;padding:4px 10px;font-size:11px;font-weight:900;cursor:pointer;white-space:nowrap}
+.ver-del-btn{border:1px solid var(--line2);background:var(--panel);color:var(--mut2);border-radius:7px;padding:4px 8px;font-size:11px;cursor:pointer}
+
 </style></head><body>
 <div class="header"><img class="logo" src="${LOGO}" alt="Green Mouse"><div><div class="hname">GREEN MOUSE</div><div class="hset">${name} · ${new Date().toLocaleDateString('fr-FR')}</div></div></div>
 <div class="ro-badge">👁 Lecture seule · Partagé depuis l'app Green Mouse</div>
@@ -3894,6 +4406,10 @@ document.addEventListener('keydown', e => {
     case 'B':
       if(liveActive)openBigScreen();
       break;
+    case 'e':
+    case 'E':
+      if(liveActive)openDrawer(current);
+      break;
     case 'm':
     case 'M':
       if(liveActive){
@@ -3912,14 +4428,454 @@ document.addEventListener('keydown', e => {
       if(typeof closeBigScreen==='function'&&!document.getElementById('big-screen-overlay')?.hidden)closeBigScreen();
       break;
     case '1': showTab('live'); break;
-    case '2': showTab('edit'); break;
+    case '2': showTab('set'); break;
     case '3': showTab('sheets'); break;
     case '4': showTab('analyse'); break;
-    case '5': showTab('arc'); break;
+    case '5': showTab('set'); break;
     case '6': showTab('biblio'); break;
     case '7': showTab('journal'); break;
   }
 });
+
+
+/* ══════════════════════════════════════════════════
+   SET VIEW — Arc + Ordre + Analyse + Générer
+══════════════════════════════════════════════════ */
+let _setSection='arc';
+
+function switchSetSection(s,btn){
+  _setSection=s;
+  document.querySelectorAll('.ssn-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  document.querySelectorAll('.set-section').forEach(el=>el.classList.remove('active'));
+  const sec=document.getElementById('sset-'+s);if(sec)sec.classList.add('active');
+  if(s==='arc'){_renderSetArc();renderTimeline();}
+  if(s==='ordre'){_renderSetOrdre();}
+  if(s==='analyse'){runAnalysisInline(document.getElementById('set-ana-slot')?.value||0);}
+  if(s==='generate'){_runGeneratorInline();}
+}
+
+function renderSetView(){
+  if(_setSection==='arc'||!_setSection){
+    _renderSetArc();renderTimeline();
+  } else if(_setSection==='ordre'){
+    _renderSetOrdre();
+  } else if(_setSection==='analyse'){
+    runAnalysisInline(document.getElementById('set-ana-slot')?.value||0);
+  } else if(_setSection==='generate'){
+    _runGeneratorInline();
+  }
+}
+
+function _renderSetArc(){
+  const songs=aSongs();
+  renderTimeline();
+  if(!songs.length){
+    document.getElementById('set-arc-cards').innerHTML='<div class="arc-empty">Set vide — ajoute des morceaux depuis la <b>Biblio</b>.</div>';
+    return;
+  }
+  const mainCount=songs.filter(s=>!s.rappel).length;
+  document.getElementById('set-arc-cards').innerHTML=songs.map((s,i)=>{
+    const e=_inferEnergy(s);
+    const mood=_getMoodData(s,i,mainCount,e);
+    const ecColor=mood.color||(e>=7?'#34b531':e>=5?'#ffb347':'#ff5b5b');
+    const tuning=_tuning(s);
+    const barW=Math.round(e/10*100);
+    const speechPrev=s.public?split(s.public)[0]:'';
+    const encPrev=s.enchainement?split(s.enchainement)[0]:'';
+    return`<div class="arc-card" style="--ec:${ecColor}" onclick="openDrawer(${i})">
+      <div class="arc-numcol">
+        <span class="arc-num" style="color:${ecColor}">${pad(i+1)}</span>
+        ${s.rappel?'<span class="arc-rappel-icon">🔁</span>':''}
+      </div>
+      <div class="arc-body">
+        <div class="arc-titlerow">
+          <span class="arc-title">${esc(s.title||'Sans titre')}</span>
+          <span class="arc-mood" style="--ec:${ecColor}">${mood.emoji} ${mood.label}</span>
+        </div>
+        <div class="arc-ebar-wrap">
+          <div class="arc-ebar"><i class="${s.energie?'manual':''}" style="width:${barW}%;background:${ecColor}"></i></div>
+          <span class="arc-escore" style="color:${ecColor}">⚡${e}/10</span>
+        </div>
+        <div class="arc-meta">
+          <span>🎸 <b>${esc(tuning||'—')}</b></span>
+          ${s.duree?`<span>⏱ <b>${esc(s.duree)}</b></span>`:''}
+          ${s.bpm?`<span>♩ <b>${esc(s.bpm)}</b></span>`:''}
+        </div>
+        ${speechPrev?`<div class="arc-speech">💬 "${esc(speechPrev.slice(0,55))}"</div>`:''}
+        ${encPrev?`<div class="arc-enc">➡ ${esc(encPrev.slice(0,60))}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function _renderSetOrdre(){
+  const songs=aSongs();
+  const cont=document.getElementById('set-sortable');if(!cont)return;
+  cont.innerHTML=songs.map((s,i)=>{
+    const e=_inferEnergy(s);
+    const mood=_getMoodData(s,i,songs.filter(x=>!x.rappel).length,e);
+    const lc=mood.color||'var(--line2)';
+    return`<div class="ssl-row" style="--lc:${lc}" draggable="true"
+      data-idx="${i}"
+      ondragstart="_onDragStart(event,${i})"
+      ondragover="_onDragOver(event,${i})"
+      ondragleave="_onDragLeave(event)"
+      ondrop="_onDrop(event,${i})"
+      ondragend="_onDragEnd()">
+      <span class="drag-hdl">≡</span>
+      <span class="ssl-num">${pad(i+1)}</span>
+      <span class="ssl-title">${esc(s.title||'Sans titre')}${s.rappel?' 🔁':''}</span>
+      <span class="ssl-mood">${mood.emoji}</span>
+      <span class="ssl-meta">${s.duree||''}</span>
+      <button class="ssl-edit-btn" onclick="event.stopPropagation();openDrawer(${i})">✏️</button>
+    </div>`;
+  }).join('')||'<div class="arc-empty">Aucun morceau dans le set.</div>';
+  cont.querySelectorAll('.ssl-row').forEach(el=>_addTouchDrag(el));
+}
+
+// Analyse inline
+function runAnalysisInline(slotMin){
+  const songs=aSongs();
+  const targetMin=parseInt(slotMin)||0;
+  const {alerts,energies,introE,finE}=_analyzeSet(songs,targetMin);
+  const totalSec=songs.reduce((a,s)=>a+parseSec(s.duree),0);
+  const bpmSongs=songs.filter(s=>s.bpm&&String(s.bpm).trim());
+  const avgBpm=bpmSongs.length?Math.round(bpmSongs.reduce((a,s)=>a+parseInt(s.bpm),0)/bpmSongs.length):null;
+  const avgE=energies.length?(_avg(energies)).toFixed(1):'—';
+  const statsEl=document.getElementById('set-ana-stats');
+  if(statsEl)statsEl.innerHTML=`
+    <div class="ana-stat"><div class="sv">${songs.length}</div><div class="sl">Morceaux</div></div>
+    <div class="ana-stat"><div class="sv">${totalSec?fmtDur(totalSec):'—'}</div><div class="sl">Durée</div></div>
+    <div class="ana-stat"><div class="sv">${avgBpm||'—'}</div><div class="sl">BPM moy.</div></div>
+    <div class="ana-stat"><div class="sv">${avgE}</div><div class="sl">Énergie</div></div>`;
+  const curveEl=document.getElementById('set-ana-curve-wrap');
+  if(curveEl&&energies.length>=2){
+    curveEl.style.display='';
+    curveEl.innerHTML=`<div class="ana-curve-title">⚡ Dynamique du set</div>`+_buildCurve(energies,songs,introE||[],finE||[]);
+  } else if(curveEl){curveEl.style.display='none';}
+  const alertsEl=document.getElementById('set-ana-alerts');
+  if(alertsEl)alertsEl.innerHTML=alerts.length?alerts.map(a=>`<div class="ana-alert ${a.type}"><span class="aico">${a.emoji}</span><div class="atxt"><span class="abadge">${a.badge||''}</span>${a.msg}</div></div>`).join(''):'<div class="ana-empty">✅ Tout semble OK !</div>';
+}
+
+// Générer inline
+function _selArcInline(el,val){
+  document.querySelectorAll('#sset-generate .arc-opt').forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('set-gen-arc').value=val;
+  _runGeneratorInline();
+}
+
+function _runGeneratorInline(){
+  const targetMin=parseInt(document.getElementById('set-gen-dur')?.value)||45;
+  const arc=document.getElementById('set-gen-arc')?.value||'forte';
+  const addRappel=document.getElementById('set-gen-rappel')?.checked;
+  const lib=state.library||[];
+  const eligible=lib.filter(s=>['ready','rehearsing'].includes(s.status||'ready'));
+  if(!eligible.length){document.getElementById('set-gen-result').innerHTML='<div class="ana-empty">Bibliothèque vide — importe tes titres d\'abord.</div>';return;}
+  const pool=[...eligible].sort((a,b)=>_inferEnergy(b)-_inferEnergy(a));
+  const sel=[];let usedSec=0;const targetSec=targetMin*60;
+  for(const s of pool){const dur=parseSec(s.duree)||210;if(usedSec+dur<=targetSec+90){sel.push(s);usedSec+=dur;}if(usedSec>=targetSec-30)break;}
+  const ordered=_applyArcOrder(sel,arc);
+  if(addRappel){const rappels=lib.filter(s=>s.status==='rappel_only');ordered.push(...rappels.slice(0,2));}
+  _genResult=ordered;
+  const totDur=fmtDur(ordered.reduce((a,s)=>a+parseSec(s.duree),0));
+  const tcN=ordered.reduce((a,s,i)=>{if(!i)return a;const t1=_tuning(ordered[i-1]),t2=_tuning(s);return a+(t1!==t2?1:0);},0);
+  const tc=tcN>4?'#ff5b5b':tcN>2?'#ffb347':'var(--mint)';
+  document.getElementById('set-gen-result').innerHTML=`
+    <div style="display:flex;gap:10px;margin-bottom:10px;font-size:12px;font-weight:800;color:var(--mut);flex-wrap:wrap">
+      <span>🎸 ${ordered.length} titres</span><span>⏱ ${totDur}</span><span style="color:${tc}">🔄 ${tcN} accord. changes</span>
+    </div>`+
+    ordered.map((s,i)=>{const e=_inferEnergy(s);const ec=e>=7?'#34b531':e>=5?'#ffb347':'#ff5b5b';
+      return`<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg2);border-radius:10px;margin-bottom:5px;border-left:3px solid ${ec}">
+        <span style="font-size:13px;font-weight:900;color:${ec};min-width:22px">${pad(i+1)}</span>
+        <span style="flex:1;font-size:13px;font-weight:800;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.title||'—')}</span>
+        <span style="font-size:10px;color:var(--mut)">${s.duree||''}</span>
+      </div>`;}).join('');
+}
+
+/* ══════════════════════════════════════════════════
+   TIMELINE HORIZONTALE
+══════════════════════════════════════════════════ */
+const _MOOD_COLORS_TL={
+  baffe:'#ff5b5b',groovy:'#34b531',progressif:'#5aa7ff',explosif:'#ff8c00',
+  tension:'#c42020',hymne:'#b888ec',respiration:'#6e818c',intime:'#7ec8ff',
+  ouverture:'#ffb347',final:'#ffb347'
+};
+
+function renderTimeline(){
+  const songs=aSongs();
+  const cont=document.getElementById('timeline-inner');
+  const cumEl=document.getElementById('tl-cumul');
+  if(!cont)return;
+  const totalSec=songs.reduce((a,s)=>a+parseSec(s.duree),0)||1;
+  let cumSec=0;
+  cont.innerHTML=songs.map((s,i)=>{
+    const dur=parseSec(s.duree)||180;
+    const pct=Math.max(4,Math.round(dur/totalSec*100));
+    cumSec+=dur;
+    const e=_inferEnergy(s);
+    const base=s.caractere&&_MOOD_COLORS_TL[s.caractere]?_MOOD_COLORS_TL[s.caractere]:e>=7?'#34b531':e>=5?'#ffb347':'#ff5b5b';
+    const active=i===current?' tl-active':'';
+    const alpha=s.rappel?'66':'aa';
+    return`<div class="tl-seg${active}" style="min-width:${pct*2.8}px;background:${base}${alpha}"
+      onclick="goTo(${i});document.getElementById('tab-live').click()">
+      <div class="tl-num">${pad(i+1)}</div>
+      <div class="tl-title">${esc((s.title||'').slice(0,10))}</div>
+      <div class="tl-dur">${s.duree||'?'}</div>
+      ${i===current?'<div class="tl-cursor"></div>':''}
+    </div>`;
+  }).join('');
+  if(cumEl)cumEl.textContent=totalSec>1?`Total : ${fmtDur(totalSec)}`:'';
+}
+
+/* ══════════════════════════════════════════════════
+   TIROIR D'ÉDITION UNIVERSEL
+══════════════════════════════════════════════════ */
+let _drawerIdx=null;
+const DRAWER_FIELDS=['title','duree','bpm','accordage','caractere','energie','energie_intro','energie_fin',
+  'depart','public','technique','chant','vigilance','enchainement',
+  'intention','introphrase','emotion','lyrics','capo','guitarsound','samples','instrumentchanges','lightambiance','rappel'];
+
+function openDrawer(idx){
+  _drawerIdx=idx;
+  const songs=aSongs();
+  const rawSet=as().songs[idx]||{};
+  const lib=rawSet.libId?_libSong(rawSet.libId):null;
+  const s=lib?{...lib,rappel:rawSet.rappel,enchainement:rawSet.enchainement||lib.enchainement||'',libId:rawSet.libId}:rawSet;
+  // Update header
+  document.getElementById('drawer-pos').textContent=pad(idx+1)+'/'+pad(songs.length);
+  document.getElementById('drawer-song-title').textContent=s.title||'Sans titre';
+  // Fill fields
+  const map={'title':'d-title','duree':'d-duree','bpm':'d-bpm','accordage':'d-accordage',
+    'caractere':'d-caractere','energie':'d-energie','energie_intro':'d-energie_intro','energie_fin':'d-energie_fin',
+    'depart':'d-depart','public':'d-public','technique':'d-technique','chant':'d-chant',
+    'vigilance':'d-vigilance','enchainement':'d-enchainement',
+    'intention':'d-intention','introphrase':'d-introphrase','emotion':'d-emotion','lyrics':'d-lyrics',
+    'capo':'d-capo','guitarsound':'d-guitarsound','samples':'d-samples',
+    'instrumentchanges':'d-instrumentchanges','lightambiance':'d-lightambiance'};
+  Object.entries(map).forEach(([k,id])=>{const el=document.getElementById(id);if(el)el.value=s[k]||'';});
+  document.getElementById('d-rappel').checked=!!(rawSet.rappel);
+  // Sync mood UI in drawer
+  _syncDrawerMoodUI(s.caractere||'',parseInt(s.energie)||0,parseInt(s.energie_intro)||0,parseInt(s.energie_fin)||0);
+  // Lib badge
+  const badge=document.getElementById('drawer-lib-badge');
+  if(badge){
+    if(rawSet.libId){badge.innerHTML=`<span style="color:var(--green)">📚 Lié à la bibliothèque</span><button onclick="openLibFromSet('${rawSet.libId}')" style="border:1px solid var(--green-d);background:var(--gsof);color:var(--green);border-radius:7px;padding:3px 9px;font-size:11px;font-weight:900">Voir</button>`;badge.style.display='flex';}
+    else{badge.innerHTML=`<span style="color:var(--mut2)">Fiche locale</span><button onclick="linkToLib(${idx})" style="border:1px solid var(--line2);background:var(--panel);color:var(--mut);border-radius:7px;padding:3px 9px;font-size:11px;font-weight:800">💾 Sauver en biblio</button>`;badge.style.display='flex';}
+  }
+  // Versions
+  renderDrawerVersions(s);
+  // Show drawer
+  document.getElementById('edit-backdrop').hidden=false;
+  document.getElementById('edit-drawer').hidden=false;
+  if(navigator.vibrate)navigator.vibrate(15);
+  // Scroll drawer to top
+  document.getElementById('edit-drawer').scrollTop=0;
+  // Switch to first section
+  switchDrawerSection('essentiel',document.querySelector('.dsn-btn'));
+}
+
+function closeDrawer(){
+  document.getElementById('edit-drawer').hidden=true;
+  document.getElementById('edit-backdrop').hidden=true;
+  _drawerIdx=null;
+  // Refresh current view
+  renderLive();
+  if(document.getElementById('view-set')&&!document.getElementById('view-set').hidden)renderSetView();
+  if(document.getElementById('view-biblio')&&!document.getElementById('view-biblio').hidden)renderBiblio();
+}
+
+function switchDrawerSection(s,btn){
+  document.querySelectorAll('.dsn-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  document.querySelectorAll('.drawer-section').forEach(el=>el.classList.remove('active'));
+  const sec=document.getElementById('dsec-'+s);if(sec)sec.classList.add('active');
+}
+
+function saveDrawer(){
+  if(_drawerIdx===null)return;
+  const rawSet=as().songs[_drawerIdx];if(!rawSet)return;
+  autoLinkToLib(rawSet);
+  const lib=rawSet.libId?_libSong(rawSet.libId):null;
+  const target=lib||rawSet;
+  const map={'title':'d-title','duree':'d-duree','bpm':'d-bpm','accordage':'d-accordage',
+    'caractere':'d-caractere','energie':'d-energie','energie_intro':'d-energie_intro','energie_fin':'d-energie_fin',
+    'depart':'d-depart','public':'d-public','technique':'d-technique','chant':'d-chant',
+    'vigilance':'d-vigilance','enchainement':'d-enchainement',
+    'intention':'d-intention','introphrase':'d-introphrase','emotion':'d-emotion','lyrics':'d-lyrics',
+    'capo':'d-capo','guitarsound':'d-guitarsound','samples':'d-samples',
+    'instrumentchanges':'d-instrumentchanges','lightambiance':'d-lightambiance'};
+  Object.entries(map).forEach(([k,id])=>{const el=document.getElementById(id);if(el)target[k]=el.value||'';});
+  rawSet.rappel=document.getElementById('d-rappel').checked;
+  if(lib){['title','duree','bpm','accordage','caractere','energie','energie_intro','energie_fin','lyrics'].forEach(k=>rawSet[k]=lib[k]||'');}
+  persist();
+  // Update drawer title
+  document.getElementById('drawer-song-title').textContent=target.title||'Sans titre';
+}
+
+function saveDrawerEnergie(field,v){
+  const val=parseInt(v)||0;
+  const el=document.getElementById('d-'+field);if(el)el.value=val>0?String(val):'';
+  const labels={'energie':'d-energie-val','energie_intro':'d-ei-val','energie_fin':'d-ef-val'};
+  const vl=document.getElementById(labels[field]);
+  if(vl)vl.textContent=val>0?val+'/10':'Auto';
+  saveDrawer();
+}
+
+function _syncDrawerMoodUI(car,en,ei,ef){
+  document.querySelectorAll('[data-dmood]').forEach(b=>{
+    const sel=b.dataset.dmood===car;
+    b.classList.toggle('sel',sel);
+    b.style.setProperty('--mc',MOODS[b.dataset.dmood]?.color||'var(--green)');
+  });
+  const sl=document.getElementById('d-energie-sl');if(sl)sl.value=en;
+  const vl=document.getElementById('d-energie-val');if(vl)vl.textContent=en>0?en+'/10':'Auto';
+  const eiSl=document.getElementById('d-ei-sl');if(eiSl)eiSl.value=ei;
+  const eiVl=document.getElementById('d-ei-val');if(eiVl)eiVl.textContent=ei>0?ei+'/10':'Auto';
+  const efSl=document.getElementById('d-ef-sl');if(efSl)efSl.value=ef;
+  const efVl=document.getElementById('d-ef-val');if(efVl)efVl.textContent=ef>0?ef+'/10':'Auto';
+}
+
+function setDrawerMood(mood){
+  const cur=document.getElementById('d-caractere')?.value||'';
+  const nv=cur===mood?'':mood;
+  const el=document.getElementById('d-caractere');if(el)el.value=nv;
+  _syncDrawerMoodUI(nv,parseInt(document.getElementById('d-energie-sl')?.value)||0,
+    parseInt(document.getElementById('d-ei-sl')?.value)||0,
+    parseInt(document.getElementById('d-ef-sl')?.value)||0);
+  saveDrawer();
+}
+
+function drawerMoveSong(d){
+  if(_drawerIdx===null)return;
+  const i=_drawerIdx,j=i+d;
+  const s=as().songs;
+  if(j<0||j>=s.length)return;
+  [s[i],s[j]]=[s[j],s[i]];
+  _drawerIdx=j;
+  document.getElementById('drawer-pos').textContent=pad(j+1)+'/'+pad(s.length);
+  persist();renderSetView();renderLive();
+}
+
+function drawerDeleteSong(){
+  if(_drawerIdx===null)return;
+  const s=as().songs;
+  s.splice(_drawerIdx,1);
+  _drawerIdx=null;persist();
+  closeDrawer();
+  renderSetView();renderLive();
+}
+
+/* ══════════════════════════════════════════════════
+   VERSIONS PAR MORCEAU
+══════════════════════════════════════════════════ */
+function renderDrawerVersions(s){
+  const cont=document.getElementById('drawer-versions-list');if(!cont)return;
+  const vers=s.versions||[];
+  if(!vers.length){cont.innerHTML='<div style="color:var(--mut2);font-size:12px;font-weight:700;padding:8px 0">Aucune version — la durée principale est utilisée.</div>';return;}
+  cont.innerHTML=vers.map((v,i)=>`
+    <div class="ver-item">
+      ${v.active?'<span class="ver-active-dot"></span>':'<span style="width:8px;flex:0 0 auto"></span>'}
+      <span class="ver-name">${esc(v.name||'Version '+( i+1))}</span>
+      <span class="ver-dur">${v.duree||'—'}</span>
+      <button class="ver-use-btn" onclick="useVersion(${i})">✓ Utiliser</button>
+      <button class="ver-del-btn" onclick="deleteVersion(${i})">✕</button>
+    </div>`).join('');
+}
+
+function addDrawerVersion(){
+  if(_drawerIdx===null)return;
+  const rawSet=as().songs[_drawerIdx];if(!rawSet)return;
+  const lib=rawSet.libId?_libSong(rawSet.libId):null;
+  const target=lib||rawSet;
+  const name=document.getElementById('d-ver-name')?.value.trim();
+  const dur=document.getElementById('d-ver-dur')?.value.trim();
+  if(!name)return;
+  if(!target.versions)target.versions=[];
+  target.versions.push({id:uid(),name,duree:dur||'',active:false});
+  persist();renderDrawerVersions(target);
+  if(document.getElementById('d-ver-name'))document.getElementById('d-ver-name').value='';
+  if(document.getElementById('d-ver-dur'))document.getElementById('d-ver-dur').value='';
+}
+
+function useVersion(vi){
+  if(_drawerIdx===null)return;
+  const rawSet=as().songs[_drawerIdx];
+  const lib=rawSet?.libId?_libSong(rawSet.libId):null;
+  const target=lib||rawSet;if(!target?.versions)return;
+  target.versions.forEach((v,i)=>v.active=i===vi);
+  const ver=target.versions[vi];
+  if(ver?.duree){target.duree=ver.duree;const el=document.getElementById('d-duree');if(el)el.value=ver.duree;}
+  persist();renderDrawerVersions(target);saveDrawer();
+}
+
+function deleteVersion(vi){
+  if(_drawerIdx===null)return;
+  const rawSet=as().songs[_drawerIdx];
+  const lib=rawSet?.libId?_libSong(rawSet.libId):null;
+  const target=lib||rawSet;if(!target?.versions)return;
+  target.versions.splice(vi,1);persist();renderDrawerVersions(target);
+}
+
+/* ══════════════════════════════════════════════════
+   CARTE DE TRANSITION
+══════════════════════════════════════════════════ */
+let _tcTimer=null;
+
+function _showTransitionCard(fromIdx,toIdx){
+  const songs=aSongs();
+  const next=songs[toIdx];if(!next)return;
+  const from=songs[fromIdx];
+  const tuning=_tuning(next);
+  const enc=from&&from.enchainement?split(from.enchainement)[0]:'';
+  const mood=_getMoodData(next,toIdx,songs.filter(s=>!s.rappel).length,_inferEnergy(next));
+
+  document.getElementById('tc-next-title').textContent=(next.title||'').toUpperCase();
+
+  const chips=[];
+  if(tuning)chips.push({txt:'🎸 '+tuning,col:'var(--line2)'});
+  if(next.bpm)chips.push({txt:'♩ '+next.bpm,col:'var(--line2)'});
+  if(mood)chips.push({txt:mood.emoji+' '+mood.label,col:mood.color||'var(--line2)'});
+  if(next.depart)chips.push({txt:'🥁 '+split(next.depart)[0].slice(0,30),col:'var(--line2)'});
+  document.getElementById('tc-chips').innerHTML=chips.map(c=>`<span class="tc-chip" style="border-color:${c.col};color:${c.col==='var(--line2)'?'var(--ink)':c.col}">${esc(c.txt)}</span>`).join('');
+
+  const encEl=document.getElementById('tc-enc');
+  encEl.textContent=enc?'➡ '+enc:'';
+
+  const ov=document.getElementById('transition-overlay');
+  ov.hidden=false;
+
+  // Reset bar animation
+  const bar=ov.querySelector('.tc-bar');
+  if(bar){bar.style.animation='none';bar.offsetHeight;bar.style.animation='tc-shrink 4s linear forwards';}
+
+  if(_tcTimer)clearTimeout(_tcTimer);
+  _tcTimer=setTimeout(()=>dismissTransition(toIdx),4000);
+
+  ov.onclick=()=>dismissTransition(toIdx);
+}
+
+function dismissTransition(toIdx){
+  if(_tcTimer){clearTimeout(_tcTimer);_tcTimer=null;}
+  const ov=document.getElementById('transition-overlay');
+  ov.hidden=true;ov.onclick=null;
+  if(toIdx!==undefined){
+    current=toIdx;renderLive();
+    if(navigator.vibrate)navigator.vibrate(30);
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   COMPAT — openDrawer depuis les anciens appels
+══════════════════════════════════════════════════ */
+// goTo + showTab edit → openDrawer
+const _origGoTo=typeof goTo==='function'?goTo:null;
+function goTo(i){current=i;renderLive();renderTimeline();}
+
+// loadEditor/saveEditor compat → redirige vers tiroir
+function loadEditor(){if(_drawerIdx===null&&current>=0)openDrawer(current);}
+function saveEditor(){saveDrawer();}
 
 /* ── boot ── */
 function boot(){
@@ -3935,6 +4891,7 @@ function boot(){
   renderLive();
   renderSheets();
   updateExportInfo();
+  // init Set view cache
   // Sync slot from analyse
   const slot=document.getElementById('ana-slot');if(slot&&slot.value)setChrono(slot.value);
 }
