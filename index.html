@@ -8,6 +8,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Green Mouse">
+<link rel="apple-touch-icon" id="pwa-icon" href="">
 <title>Green Mouse — Set-list & conducteur</title>
 <!-- Version FIX : paroles plein écran + signature, JS corrigé -->
 <style>
@@ -223,7 +224,7 @@ textarea{min-height:58px;resize:vertical;line-height:1.4}
 /* ── PRINT SHEETS ── */
 .preview-outer{overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;scrollbar-width:none}
 .preview-outer::-webkit-scrollbar{display:none}
-.preview-wrap{display:flex;flex-direction:column;gap:20px;align-items:center;padding:4px 12px 8px;min-width:210mm}
+.preview-wrap{display:flex;flex-direction:column;gap:20px;align-items:center;padding:4px 12px 8px}
 .sheet{width:210mm;max-width:210mm;background:#fff;color:#172027;border:1px solid #cfd5d9;
   border-radius:6px;box-shadow:0 14px 40px rgba(0,0,0,.5);padding:8mm;
   display:flex;flex-direction:column;height:297mm;overflow:hidden;
@@ -659,7 +660,8 @@ textarea{min-height:58px;resize:vertical;line-height:1.4}
   .ana-curve-wrap svg{max-height:200px}
 
   /* ── FEUILLES : preview côte à côte ── */
-  .preview-wrap{flex-direction:row;flex-wrap:wrap;align-items:flex-start;gap:24px;padding:16px}
+  .preview-outer{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .preview-wrap{flex-direction:row;flex-wrap:wrap;align-items:flex-start;gap:24px;padding:16px;min-width:max-content}
 
   /* ── TABS : plus grands ── */
   .tabs button{font-size:13px;padding:10px 14px}
@@ -939,6 +941,271 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-radius:5px;
 .ver-use-btn{border:1px solid var(--green-d);background:var(--gsof);color:var(--green);border-radius:7px;padding:4px 10px;font-size:11px;font-weight:900;cursor:pointer;white-space:nowrap}
 .ver-del-btn{border:1px solid var(--line2);background:var(--panel);color:var(--mut2);border-radius:7px;padding:4px 8px;font-size:11px;cursor:pointer}
 
+
+/* ══════════ MÉTÉO DE SCÈNE ══════════ */
+.meteo-modal{position:fixed;inset:0;z-index:400;background:rgba(6,11,15,.88);display:flex;align-items:flex-end;justify-content:center;padding:env(safe-area-inset-top) 0 0}
+.meteo-modal[hidden]{display:none}
+.meteo-inner{background:var(--panel);border-top-left-radius:24px;border-top-right-radius:24px;width:100%;max-width:560px;max-height:85vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 18px calc(20px + env(safe-area-inset-bottom))}
+.meteo-handle{width:40px;height:4px;background:var(--line2);border-radius:2px;margin:0 auto 16px}
+.meteo-title{font-size:18px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.meteo-sub{font-size:13px;color:var(--mut);margin-bottom:20px}
+.meteo-gauge-row{margin-bottom:18px}
+.meteo-gauge-lbl{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.meteo-gauge-name{font-size:13px;font-weight:900;color:var(--ink)}
+.meteo-gauge-val{font-size:22px;line-height:1}
+.meteo-slider{width:100%;height:8px;border-radius:4px;cursor:pointer;appearance:none;-webkit-appearance:none;outline:none}
+.meteo-slider::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:26px;height:26px;border-radius:50%;cursor:pointer;border:3px solid #0e1418;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.meteo-tip-box{border-radius:14px;padding:14px 16px;margin:18px 0;border:1px solid;font-size:13px;font-weight:700;line-height:1.5}
+.meteo-tip-box b{display:block;font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px}
+.meteo-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-size:13px;font-weight:900;border:1px solid}
+.meteo-live-btn{position:fixed;bottom:calc(88px + env(safe-area-inset-bottom));right:18px;z-index:20;background:var(--panel);border:1px solid var(--line2);border-radius:999px;padding:8px 14px;font-size:12px;font-weight:900;color:var(--mut);box-shadow:0 4px 14px rgba(0,0,0,.3);display:none;-webkit-tap-highlight-color:transparent;cursor:pointer;gap:6px;align-items:center}
+.meteo-live-active{background:var(--gsof);border-color:var(--green-d);color:var(--green)}
+
+/* ══════════ DEBRIEFING POST-SHOW ══════════ */
+.debrief-modal{position:fixed;inset:0;z-index:400;background:rgba(6,11,15,.92);display:flex;align-items:flex-end;justify-content:center;padding:env(safe-area-inset-top) 0 0}
+.debrief-modal[hidden]{display:none}
+.debrief-inner{background:var(--panel);border-top-left-radius:24px;border-top-right-radius:24px;width:100%;max-width:580px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column}
+.debrief-header{padding:14px 18px 0;flex:0 0 auto}
+.debrief-handle{width:40px;height:4px;background:var(--line2);border-radius:2px;margin:0 auto 12px}
+.debrief-step-row{display:flex;gap:4px;margin-bottom:14px}
+.debrief-step-dot{flex:1;height:3px;border-radius:2px;background:var(--line);transition:.3s}
+.debrief-step-dot.done{background:var(--green)}
+.debrief-step-dot.active{background:var(--green);opacity:.6}
+.debrief-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 18px 14px}
+.debrief-q{font-size:16px;font-weight:900;line-height:1.35;margin-bottom:6px;color:var(--ink)}
+.debrief-hint{font-size:12px;color:var(--mut);margin-bottom:16px;line-height:1.4}
+.debrief-footer{padding:12px 18px calc(16px + env(safe-area-inset-bottom));display:flex;gap:10px;border-top:1px solid var(--line);flex:0 0 auto}
+/* Emoji picker */
+.emoji-pick-grid{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.emoji-pick-btn{width:56px;height:56px;border-radius:14px;font-size:26px;border:2px solid var(--line2);background:var(--panel2);display:grid;place-items:center;cursor:pointer;transition:.15s;-webkit-tap-highlight-color:transparent}
+.emoji-pick-btn.sel{border-color:var(--green);background:var(--gsof);transform:scale(1.1)}
+/* Song pick */
+.song-pick-list{display:flex;flex-direction:column;gap:6px;max-height:260px;overflow-y:auto}
+.song-pick-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--panel2);border:2px solid var(--line2);border-radius:12px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:.15s}
+.song-pick-item.sel{border-color:var(--green);background:var(--gsof)}
+.song-pick-title{flex:1;font-size:13px;font-weight:800;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.song-pick-meta{font-size:11px;color:var(--mut);white-space:nowrap}
+/* Debrief summary in concert card */
+.debrief-summary{background:var(--bg2);border-radius:12px;padding:12px 14px;margin-top:10px;border:1px solid var(--line2)}
+.debrief-summary-title{font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-bottom:8px}
+.debrief-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:6px;font-size:12px;font-weight:700;color:var(--ink)}
+.debrief-row .dr-label{color:var(--mut2);white-space:nowrap;min-width:80px}
+
+/* ══════════ THERMOMÈTRE DE RODAGE ══════════ */
+.rodage-bar-wrap{display:flex;align-items:center;gap:8px;margin-top:5px}
+.rodage-bar{flex:1;height:5px;background:var(--panel2);border-radius:3px;overflow:hidden}
+.rodage-bar-fill{height:100%;border-radius:3px;transition:width .4s}
+.rodage-badge{font-size:10px;font-weight:900;padding:2px 7px;border-radius:999px;border:1px solid;white-space:nowrap}
+.rodage-fragile{color:#ff5b5b;border-color:#ff5b5b;background:rgba(255,91,91,.1)}
+.rodage-construction{color:#ffb347;border-color:#ffb347;background:rgba(255,179,71,.1)}
+.rodage-solide{color:#5aa7ff;border-color:#5aa7ff;background:rgba(90,167,255,.1)}
+.rodage-rode{color:#34b531;border-color:#34b531;background:rgba(52,181,49,.1)}
+
+
+/* ══ ASSISTANT DE SCÈNE ══ */
+.assistant-bar{
+  height:0;overflow:hidden;transition:height .3s ease,opacity .3s;
+  opacity:0;display:flex;align-items:center;gap:8px;
+  padding:0 2px;font-size:12px;font-weight:800;
+  border-radius:8px;margin-bottom:4px;
+}
+.assistant-bar.visible{
+  height:34px;opacity:1;padding:0 10px;
+}
+.assistant-bar.ab-info{background:rgba(90,167,255,.1);color:#7ec8ff}
+.assistant-bar.ab-warn{background:rgba(255,179,71,.1);color:var(--amber)}
+.assistant-bar.ab-danger{background:rgba(255,91,91,.1);color:#ff8080}
+.assistant-bar.ab-good{background:rgba(52,181,49,.08);color:var(--green)}
+.ab-ico{font-size:15px;flex:0 0 auto}
+.ab-msg{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ab-dismiss{color:inherit;opacity:.5;font-size:16px;padding:0 2px;background:none;border:none;cursor:pointer;flex:0 0 auto}
+
+/* ══ RATING LIVE (dans carte de transition) ══ */
+.tc-rating-row{
+  display:flex;gap:14px;justify-content:center;
+  margin:4px 0 16px;
+}
+.tc-rate-btn{
+  width:58px;height:58px;border-radius:16px;
+  font-size:28px;border:2px solid var(--line2);
+  background:var(--panel2);display:grid;place-items:center;
+  cursor:pointer;transition:.15s;-webkit-tap-highlight-color:transparent;
+  position:relative;
+}
+.tc-rate-btn:active{transform:scale(.92)}
+.tc-rate-btn.rated{border-color:var(--green);background:var(--gsof);transform:scale(1.08)}
+.tc-rate-btn .tc-rate-lbl{
+  position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);
+  font-size:9px;font-weight:900;color:var(--mut2);white-space:nowrap;
+  letter-spacing:.04em;text-transform:uppercase;
+}
+
+/* ══ HEATMAP ══ */
+.heatmap-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:4px 0 8px;scrollbar-width:thin}
+.heatmap-table{border-collapse:separate;border-spacing:3px;min-width:100%}
+.heatmap-row-lbl{font-size:10px;font-weight:800;color:var(--mut);padding-right:8px;white-space:nowrap;text-align:right;vertical-align:middle}
+.hm-cell{
+  width:28px;height:28px;border-radius:6px;cursor:pointer;
+  transition:.15s;position:relative;-webkit-tap-highlight-color:transparent;
+}
+.hm-cell:active{transform:scale(.9)}
+.hm-col-lbl{font-size:8px;font-weight:900;color:var(--mut2);text-align:center;padding-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:28px;vertical-align:top}
+.hm-legend{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:11px;color:var(--mut2);font-weight:700}
+.hm-legend-bar{display:flex;height:6px;border-radius:3px;overflow:hidden;flex:1}
+
+/* ══ SIGNATURE LIVE ══ */
+.sig-card{
+  background:var(--panel);border:1px solid var(--line);border-radius:18px;
+  padding:16px;margin-bottom:12px;
+}
+.sig-card-title{font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-bottom:12px}
+.sig-insight{
+  display:flex;align-items:flex-start;gap:10px;padding:10px 0;
+  border-bottom:1px solid var(--line);font-size:13px;font-weight:700;color:var(--ink);line-height:1.4;
+}
+.sig-insight:last-child{border-bottom:none;padding-bottom:0}
+.sig-ico{font-size:20px;flex:0 0 auto;margin-top:1px}
+.sig-txt{flex:1;min-width:0}
+.sig-txt b{color:var(--green)}
+.sig-txt .sig-sub{font-size:11px;color:var(--mut);margin-top:2px;font-weight:700}
+.sig-score-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.sig-score-pill{font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;background:var(--bg2);border:1px solid var(--line2)}
+.sig-empty{text-align:center;padding:28px;color:var(--mut);font-weight:700;line-height:1.6}
+
+/* ══ CHRONO RÉPÈTE ══ */
+.rh-chrono-wrap{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800}
+.rh-avg{color:var(--mint);white-space:nowrap}
+.rh-delta{white-space:nowrap}
+.rh-chrono-btn{
+  border:1px solid var(--line2);background:var(--panel);color:var(--mut);
+  border-radius:999px;padding:3px 9px;font-size:11px;font-weight:800;
+  white-space:nowrap;-webkit-tap-highlight-color:transparent;
+}
+.rh-chrono-btn.running{background:var(--gsof);color:var(--green);border-color:var(--green-d)}
+.rehears-row{flex-wrap:wrap;gap:6px}
+
+
+/* ══════════ ANALYSE+ ══════════ */
+.ap-section{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}
+.ap-title{font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--mut2);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ap-title-ico{font-size:18px}
+.ap-chart-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:2px 0 6px}
+.ap-chart-wrap::-webkit-scrollbar{display:none}
+.ap-chart-wrap svg{display:block}
+
+/* Position heatmap */
+.pos-hm-grid{display:flex;flex-direction:column;gap:2px;min-width:max-content}
+.pos-hm-row{display:flex;gap:2px;align-items:center}
+.pos-hm-lbl{font-size:9px;font-weight:800;color:var(--mut2);min-width:20px;text-align:right;margin-right:4px}
+.pos-hm-cell{width:22px;height:22px;border-radius:4px;cursor:pointer;flex:0 0 auto;transition:.1s}
+.pos-hm-cell:active{transform:scale(.9)}
+.pos-hm-avg{font-size:9px;font-weight:900;min-width:28px;text-align:left;margin-left:4px}
+.pos-hm-concert-hdr{display:flex;gap:2px;padding-left:28px;margin-bottom:3px}
+.pos-hm-concert-num{width:22px;font-size:8px;font-weight:800;color:var(--mut2);text-align:center;flex:0 0 auto}
+
+/* Title trends */
+.trend-list{display:flex;flex-direction:column;gap:7px}
+.trend-item{display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--bg2);border-radius:12px;border-left:4px solid}
+.trend-title{flex:1;font-size:13px;font-weight:800;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.trend-arrow{font-size:17px;flex:0 0 auto}
+.trend-detail{font-size:11px;font-weight:700;color:var(--mut);white-space:nowrap}
+
+/* Waouh */
+.waouh-rate{font-size:36px;font-weight:900;color:var(--green);line-height:1}
+.waouh-sub{font-size:13px;font-weight:700;color:var(--mut);margin-top:4px}
+.waouh-list{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+.waouh-item{font-size:12px;font-weight:800;color:var(--ink);padding:7px 12px;background:var(--bg2);border-radius:10px;display:flex;align-items:center;gap:8px}
+
+/* Monthly report */
+.monthly-report-box{background:var(--bg2);border:1px solid var(--line2);border-radius:12px;padding:14px;font-size:13px;font-weight:700;color:var(--ink);line-height:1.7;white-space:pre-wrap}
+.monthly-copy-btn{border:1px solid var(--line2);background:var(--panel);color:var(--mut);border-radius:999px;padding:7px 14px;font-size:12px;font-weight:800;margin-top:10px;cursor:pointer}
+
+
+/* ══ PWA HINT ══ */
+.pwa-banner{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom));left:16px;right:16px;z-index:500;
+  background:linear-gradient(135deg,var(--panel),#1a2830);border:1px solid var(--green-d);
+  border-radius:18px;padding:14px 16px;box-shadow:0 8px 28px rgba(0,0,0,.5);
+  display:flex;align-items:center;gap:12px;animation:pwa-in .4s ease}
+.pwa-banner[hidden]{display:none}
+@keyframes pwa-in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.pwa-banner-ico{font-size:28px;flex:0 0 auto}
+.pwa-banner-txt{flex:1;min-width:0}
+.pwa-banner-title{font-size:14px;font-weight:900;color:var(--ink);margin-bottom:2px}
+.pwa-banner-sub{font-size:12px;font-weight:700;color:var(--mut);line-height:1.4}
+.pwa-banner-close{border:none;background:none;color:var(--mut2);font-size:20px;font-weight:900;
+  padding:4px;cursor:pointer;flex:0 0 auto}
+
+/* ══ EMERGENCY SONGS ══ */
+.emg-modal{position:fixed;inset:0;z-index:350;background:rgba(6,11,15,.85);
+  display:flex;align-items:flex-end;justify-content:center;padding:env(safe-area-inset-top) 0 0}
+.emg-modal[hidden]{display:none}
+.emg-inner{background:var(--panel);border-top-left-radius:24px;border-top-right-radius:24px;
+  width:100%;max-width:540px;max-height:75vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:18px 16px calc(16px + env(safe-area-inset-bottom))}
+.emg-handle{width:40px;height:4px;background:var(--line2);border-radius:2px;margin:0 auto 14px}
+.emg-title{font-size:16px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;margin-bottom:14px}
+.emg-song-row{display:flex;align-items:center;gap:10px;padding:11px 14px;
+  background:var(--bg2);border:1px solid var(--line2);border-radius:14px;margin-bottom:7px}
+.emg-song-title{flex:1;font-size:13px;font-weight:800;text-transform:uppercase;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.emg-meta{font-size:11px;font-weight:700;color:var(--mut);white-space:nowrap}
+.emg-use-btn{border:1px solid var(--green-d);background:var(--gsof);color:var(--green);
+  border-radius:8px;padding:6px 12px;font-size:12px;font-weight:900;cursor:pointer;white-space:nowrap}
+.emg-empty{text-align:center;padding:24px;color:var(--mut);font-weight:700}
+
+/* ══ SNAPSHOTS ══ */
+.snap-list{display:flex;flex-direction:column;gap:7px}
+.snap-item{display:flex;align-items:center;gap:10px;padding:10px 14px;
+  background:var(--panel);border:1px solid var(--line);border-radius:14px}
+.snap-name{flex:1;font-size:13px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.snap-date{font-size:11px;font-weight:700;color:var(--mut);white-space:nowrap}
+.snap-restore{border:1px solid var(--line2);background:var(--panel2);color:var(--mut);
+  border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;cursor:pointer}
+.snap-del{border:none;background:none;color:var(--mut2);font-size:15px;cursor:pointer;padding:2px 4px}
+
+/* ══ VENUES ══ */
+.venue-list{display:flex;flex-direction:column;gap:9px}
+.venue-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px 15px}
+.venue-card-header{display:flex;align-items:flex-start;gap:10px}
+.venue-name{font-size:15px;font-weight:900;text-transform:uppercase;flex:1;min-width:0}
+.venue-city{font-size:12px;font-weight:700;color:var(--mut);margin-top:2px}
+.venue-type-badge{font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px;
+  background:var(--bg2);border:1px solid var(--line2);color:var(--mut);white-space:nowrap;flex:0 0 auto}
+.venue-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;font-size:12px;font-weight:700;color:var(--mut)}
+.venue-notes{font-size:12px;font-weight:700;color:var(--ink);margin-top:6px;line-height:1.4;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.venue-actions{display:flex;gap:6px;margin-top:8px}
+.venue-modal{position:fixed;inset:0;z-index:360;background:rgba(6,11,15,.88);
+  display:flex;align-items:flex-end;justify-content:center;padding:env(safe-area-inset-top) 0 0}
+.venue-modal[hidden]{display:none}
+.venue-modal-inner{background:var(--panel);border-top-left-radius:24px;border-top-right-radius:24px;
+  width:100%;max-width:560px;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:18px 16px calc(16px + env(safe-area-inset-bottom))}
+
+/* ══ PLANNING ══ */
+.plan-list{display:flex;flex-direction:column;gap:10px;padding-bottom:30px}
+.plan-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.plan-card-header{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent}
+.plan-days-badge{flex:0 0 auto;text-align:center;padding:8px 10px;border-radius:12px;min-width:52px}
+.plan-days-num{font-size:22px;font-weight:900;line-height:1}
+.plan-days-lbl{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.plan-info{flex:1;min-width:0}
+.plan-venue{font-size:15px;font-weight:900;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.plan-date{font-size:12px;font-weight:700;color:var(--mut);margin-top:2px}
+.plan-readiness{height:4px;background:var(--line);margin:8px 16px 0;border-radius:2px;overflow:hidden}
+.plan-readiness-fill{height:100%;border-radius:2px}
+.plan-detail{border-top:1px solid var(--line);padding:12px 16px;display:none}
+.plan-detail.open{display:block}
+
+/* ══ CONFIDENCE STARS ══ */
+.conf-star-row{display:flex;gap:5px;margin-top:5px}
+.conf-star-btn{border:1px solid var(--line2);background:var(--panel);border-radius:7px;
+  padding:4px 8px;font-size:13px;cursor:pointer;-webkit-tap-highlight-color:transparent;
+  transition:.15s;white-space:nowrap}
+.conf-star-btn.sel{background:var(--gsof);border-color:var(--green-d)}
+.conf-avg{font-size:11px;font-weight:800;color:var(--amber);white-space:nowrap}
+
 </style>
 </head>
 <body>
@@ -1042,6 +1309,7 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-radius:5px;
     <span class="chrono-end" id="chrono-end"></span>
     <button class="chrono-reset" onclick="resetChrono()" title="Reset">↺</button>
   </div>
+  <div class="assistant-bar" id="assistant-bar"><span class="ab-ico" id="ab-ico"></span><span class="ab-msg" id="ab-msg"></span><button class="ab-dismiss" onclick="_dismissAssistant()">×</button></div>
   <div class="progress"><i id="liveBar"></i></div>
   <div class="card-wrap">
     <div class="tap-prev" onclick="step(-1)" aria-label="Précédent"></div>
@@ -1315,6 +1583,7 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-radius:5px;
         <div class="mood-opt" data-lmmood="ouverture" onclick="setLibMood('ouverture')" style="--mc:#ffb347"><div class="mico">🚀</div><div class="mlb">Ouverture</div></div>
       </div>
     </div>
+    <label class="chk-row" style="margin-bottom:10px"><input type="checkbox" id="lm-emergency" onchange="toggleEmergencyFlag()"><div class="cl"><b>🆘 Titre de réserve</b><span>Accessible en un tap depuis la Scène en cas d'urgence</span></div></label>
     <label class="fl">📝 Notes d'arrangement</label>
     <textarea id="lm-notes" oninput="libModalChange()" placeholder="Notes, versions, structure…"></textarea>
     <label class="fl">🎭 Intention / émotion</label>
@@ -1657,6 +1926,13 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-radius:5px;
 
 <!-- ══════════ CARTE DE TRANSITION (overlay dans .card-wrap) ══════════ -->
 <div class="transition-overlay" id="transition-overlay" hidden>
+  <div class="tc-label" id="tc-from-label" style="margin-bottom:6px;font-size:10px;color:var(--mut2)"></div>
+  <div class="tc-rating-row" id="tc-rating-row">
+    <div class="tc-rate-btn" id="tcr-fire" onclick="saveLiveRating('fire',this)">🔥<span class="tc-rate-lbl">Super</span></div>
+    <div class="tc-rate-btn" id="tcr-ok" onclick="saveLiveRating('ok',this)">👍<span class="tc-rate-lbl">Ok</span></div>
+    <div class="tc-rate-btn" id="tcr-meh" onclick="saveLiveRating('meh',this)">😐<span class="tc-rate-lbl">Moyen</span></div>
+  </div>
+  <div style="height:1px;background:var(--line);width:80%;margin:0 auto 16px"></div>
   <div class="tc-label">Morceau suivant</div>
   <div class="tc-next-title" id="tc-next-title">TITRE</div>
   <div class="tc-chips" id="tc-chips"></div>
@@ -1673,6 +1949,7 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-radius:5px;
     <button class="ssn-btn" id="ssn-ordre" onclick="switchSetSection('ordre',this)">≡ Ordre</button>
     <button class="ssn-btn" id="ssn-analyse" onclick="switchSetSection('analyse',this)">📊 Analyse</button>
     <button class="ssn-btn" id="ssn-generate" onclick="switchSetSection('generate',this)">🎲 Générer</button>
+    <button class="ssn-btn" id="ssn-heatmap" onclick="switchSetSection('heatmap',this)">🌡️ Heatmap</button>
   </div>
   <!-- Arc -->
   <div class="set-section active" id="sset-arc">
@@ -1687,7 +1964,9 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-radius:5px;
     <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
       <button class="btn green" onclick="addSong()">＋ Ajouter</button>
       <button class="btn ghost" onclick="importSetToLib()">📥 Importer biblio</button>
+      <button class="btn ghost" onclick="saveSnapshot()" style="background:rgba(184,136,236,.1);border-color:var(--purple);color:var(--purple)">📸 Snapshot</button>
     </div>
+    <div id="snapshot-list" class="snap-list" style="margin-bottom:12px"></div>
     <div id="set-sortable" class="sortable-list"></div>
   </div>
   <!-- Analyse -->
@@ -1704,6 +1983,10 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-radius:5px;
     <div id="set-ana-stats" class="ana-stats-bar"></div>
     <div id="set-ana-curve-wrap" class="ana-curve-wrap" style="display:none"></div>
     <div id="set-ana-alerts"></div>
+  </div>
+  <!-- Heatmap -->
+  <div class="set-section" id="sset-heatmap">
+    <div id="heatmap-container"></div>
   </div>
   <!-- Générer -->
   <div class="set-section" id="sset-generate">
@@ -1728,6 +2011,170 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-radius:5px;
     </div>
   </div>
 </section>
+
+<!-- ══════════ MÉTÉO DE SCÈNE ══════════ -->
+<div class="meteo-modal" id="meteo-modal" hidden>
+  <div class="meteo-inner">
+    <div class="meteo-handle"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+      <div class="meteo-title">🌤️ Météo du concert</div>
+      <button style="border:1px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:999px;width:38px;height:38px;font-size:18px;font-weight:900" onclick="closeMeteo()">×</button>
+    </div>
+    <div class="meteo-sub">30 secondes · avant de monter sur scène</div>
+
+    <div class="meteo-gauge-row">
+      <div class="meteo-gauge-lbl">
+        <span class="meteo-gauge-name">🏟️ Type de salle</span>
+        <span class="meteo-gauge-val" id="meteo-salle-val">😐</span>
+      </div>
+      <input class="meteo-slider" id="meteo-salle" type="range" min="1" max="5" value="3"
+        style="background:linear-gradient(90deg,#5aa7ff,#b888ec)"
+        oninput="updateMeteoGauge('salle',this.value)">
+      <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:700;color:var(--mut);margin-top:4px">
+        <span>Intime / Bar</span><span>Grande scène</span>
+      </div>
+    </div>
+
+    <div class="meteo-gauge-row">
+      <div class="meteo-gauge-lbl">
+        <span class="meteo-gauge-name">🔥 Chaleur du public</span>
+        <span class="meteo-gauge-val" id="meteo-public-val">😐</span>
+      </div>
+      <input class="meteo-slider" id="meteo-public" type="range" min="1" max="5" value="3"
+        style="background:linear-gradient(90deg,#6e818c,#ff5b5b)"
+        oninput="updateMeteoGauge('public',this.value)">
+      <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:700;color:var(--mut);margin-top:4px">
+        <span>Froid / Curieux</span><span>Chaud / Bouillant</span>
+      </div>
+    </div>
+
+    <div class="meteo-gauge-row">
+      <div class="meteo-gauge-lbl">
+        <span class="meteo-gauge-name">⚡ Forme du groupe</span>
+        <span class="meteo-gauge-val" id="meteo-groupe-val">😐</span>
+      </div>
+      <input class="meteo-slider" id="meteo-groupe" type="range" min="1" max="5" value="3"
+        style="background:linear-gradient(90deg,#ff5b5b,#34b531)"
+        oninput="updateMeteoGauge('groupe',this.value)">
+      <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:700;color:var(--mut);margin-top:4px">
+        <span>Fatigués</span><span>Au top</span>
+      </div>
+    </div>
+
+    <div class="meteo-tip-box" id="meteo-tip-box"></div>
+
+    <button class="btn green" onclick="saveMeteo()" style="width:100%;margin-top:4px">✅ C'est noté — à l'attaque !</button>
+  </div>
+</div>
+
+<!-- ══════════ DEBRIEFING POST-SHOW ══════════ -->
+<div class="debrief-modal" id="debrief-modal" hidden>
+  <div class="debrief-inner">
+    <div class="debrief-header">
+      <div class="debrief-handle"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <span style="font-size:16px;font-weight:900;text-transform:uppercase">🎙️ Débriefing</span>
+        <span style="font-size:12px;font-weight:800;color:var(--mut)" id="debrief-step-label">1/6</span>
+      </div>
+      <div class="debrief-step-row" id="debrief-step-row"></div>
+    </div>
+    <div class="debrief-body" id="debrief-body"></div>
+    <div class="debrief-footer">
+      <button class="btn ghost" id="debrief-prev" onclick="debriefPrev()" style="display:none">← Préc.</button>
+      <button class="btn green" id="debrief-next" onclick="debriefNext()" style="flex:1">Suivant →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ EMERGENCY SONGS ══ -->
+<div class="emg-modal" id="emg-modal" hidden>
+  <div class="emg-inner">
+    <div class="emg-handle"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div class="emg-title">🆘 Titres de réserve</div>
+      <button style="border:1px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:999px;width:38px;height:38px;font-size:18px;font-weight:900" onclick="closeEmergency()">×</button>
+    </div>
+    <div id="emg-list"></div>
+    <p class="fhint">Ces titres sont marqués ⚡ dans la Biblio. Tap "Jouer après" pour insérer dans le set.</p>
+    <button class="btn ghost" onclick="closeEmergency();showTab('biblio')" style="width:100%;margin-top:8px">Gérer dans la Biblio →</button>
+  </div>
+</div>
+
+<!-- ══ VENUE MODAL ══ -->
+<div class="venue-modal" id="venue-modal" hidden>
+  <div class="venue-modal-inner">
+    <div class="emg-handle"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <span id="venue-modal-title" style="font-size:16px;font-weight:900;text-transform:uppercase">Nouvelle salle</span>
+      <button style="border:1px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:999px;width:38px;height:38px;font-size:18px;font-weight:900" onclick="closeVenueModal()">×</button>
+    </div>
+    <div class="row2">
+      <div><label class="fl">🏟️ Nom de la salle</label><input id="vm-name" type="text" placeholder="Le Trabendo"></div>
+      <div><label class="fl">📍 Ville</label><input id="vm-city" type="text" placeholder="Paris"></div>
+    </div>
+    <div class="row2">
+      <div><label class="fl">📐 Type</label>
+        <select id="vm-type">
+          <option value="bar">🍺 Bar / Club</option>
+          <option value="salle">🎭 Salle de concert</option>
+          <option value="festival">🎪 Festival</option>
+          <option value="studio">🎙️ Studio / Privé</option>
+          <option value="plein-air">🌳 Plein air</option>
+        </select>
+      </div>
+      <div><label class="fl">👤 Soundman</label><input id="vm-soundman" type="text" placeholder="Prénom / contact"></div>
+    </div>
+    <label class="fl">🔊 Notes de son</label>
+    <textarea id="vm-sound" placeholder="Retours, line check, fréquences problématiques…"></textarea>
+    <label class="fl">🎸 Notes de scène</label>
+    <textarea id="vm-stage" placeholder="Taille, disposition, câbles, accès…"></textarea>
+    <label class="fl">🅿️ Logistique</label>
+    <textarea id="vm-logistics" placeholder="Parking, horaire accueil, chargement, loges…"></textarea>
+    <div class="tools" style="margin-top:12px">
+      <button class="btn green" onclick="saveVenue()">✅ Enregistrer</button>
+      <button class="btn danger" id="venue-delete-btn" onclick="deleteVenue()" style="display:none">🗑 Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PLAN CONCERT MODAL ══ -->
+<div class="venue-modal" id="plan-modal" hidden>
+  <div class="venue-modal-inner">
+    <div class="emg-handle"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <span id="plan-modal-title" style="font-size:16px;font-weight:900;text-transform:uppercase">Planifier un concert</span>
+      <button style="border:1px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:999px;width:38px;height:38px;font-size:18px;font-weight:900" onclick="closePlanModal()">×</button>
+    </div>
+    <div class="row2">
+      <div><label class="fl">📅 Date</label><input id="pm-date" type="date"></div>
+      <div><label class="fl">⏱ Créneau (min)</label><input id="pm-creneau" type="number" placeholder="45" min="10" max="300"></div>
+    </div>
+    <label class="fl">🏟️ Salle</label>
+    <select id="pm-venue">
+      <option value="">— Sélectionner ou laisser vide</option>
+    </select>
+    <label class="fl">🎸 Set assigné</label>
+    <select id="pm-set">
+      <option value="">— Sélectionner un set</option>
+    </select>
+    <label class="fl">📝 Notes</label>
+    <textarea id="pm-notes" placeholder="Infos pratiques, contexte, contacts…"></textarea>
+    <div class="tools" style="margin-top:12px">
+      <button class="btn green" onclick="savePlan()">✅ Enregistrer</button>
+      <button class="btn danger" id="plan-delete-btn" onclick="deletePlan()" style="display:none">🗑 Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PWA HINT ══ -->
+<div class="pwa-banner" id="pwa-banner" hidden>
+  <span class="pwa-banner-ico">📱</span>
+  <div class="pwa-banner-txt">
+    <div class="pwa-banner-title">Ajouter à l'écran d'accueil</div>
+    <div class="pwa-banner-sub">Safari → Partager → Sur l'écran d'accueil → Ajouter. L'app aura sa propre icône.</div>
+  </div>
+  <button class="pwa-banner-close" onclick="dismissPWAHint()">×</button>
+</div>
 
 <div class="app-credit">Conçu par Clément Laboret · @ByGinette</div>
 </main>
@@ -1872,6 +2319,7 @@ function showTab(t){
     document.getElementById('wakeBtn')?.classList.remove('on');
   }
   if(t==='set'){renderSetView();}
+  if(t==='sheets')renderSheets();
   if(t==='biblio')renderBiblio();
   if(t==='journal')renderJournal();
 }
@@ -1991,6 +2439,7 @@ function renderLive(){
   document.getElementById('prevBtn').disabled=current<=0;
   setTimeout(_patchTuneTagClick,0);
   renderTimeline();
+  setTimeout(updateAssistant,100);
   document.getElementById('nextBtn').disabled=current>=songs.length-1;
 
   // jump strip with tune dots
@@ -2687,6 +3136,13 @@ function _analyzeSet(songs, targetMin){
     }
   }
 
+  // ─ 10b. Rodage des morceaux clés
+  const fragileKey=songs.slice(0,3).filter(s=>{const r=_rodageScore(s.title);return r&&r.score<25;});
+  if(fragileKey.length){
+    alerts.push({type:'warn',emoji:'⚠️',badge:'Rodage',
+      msg:`${fragileKey.map(s=>'"'+s.title+'"').join(', ')} ${fragileKey.length>1?'sont':'est'} fragile${fragileKey.length>1?'s':''} (peu répété${fragileKey.length>1?'s':''} et peu joué${fragileKey.length>1?'s':''}). Pas idéal en début de set.`});
+  }
+
   // ─ 11. Vigilance + BPM + Départ
   const vigN=songs.filter(s=>s.vigilance&&s.vigilance.trim()).length;
   if(vigN>n*0.6)alerts.push({type:'warn',emoji:'⚠️',badge:'Vigilance',msg:`${vigN}/${n} morceaux avec vigilance — beaucoup. Priorise les plus critiques.`});
@@ -2905,6 +3361,7 @@ function renderBiblio(){
           ${s.caractere&&MOODS[s.caractere]?`<span class="lib-mood-badge" style="color:${MOODS[s.caractere].color};border-color:${MOODS[s.caractere].color};background:${_hex2rgba(MOODS[s.caractere].color,.10)}">${MOODS[s.caractere].emoji} ${MOODS[s.caractere].label}</span>`:''}
         </div>
         ${s.notes?`<div class="lib-song-notes">${esc(s.notes)}</div>`:''}
+        ${_rodageHTML(s.title)}
       </div>
       <div class="lib-song-actions">
         <button class="lib-add-btn" onclick="addLibSongToSet('${s.id}')">＋ Set</button>
@@ -2927,6 +3384,7 @@ function openLibModal(id){
   document.getElementById('lm-intention').value=s?s.intention||'':'';
   document.getElementById('lm-lyrics').value=s?s.lyrics||'':'';
   document.getElementById('lm-caractere').value=s?s.caractere||'':'';
+  const emgCb=document.getElementById('lm-emergency');if(emgCb)emgCb.checked=!!(s&&s.emergency);
   _syncLibMoodUI(s?s.caractere||'':'');
   document.getElementById('libDeleteBtn').style.display=s?'':'none';
   document.getElementById('libAddedMsg').style.display='none';
@@ -3164,17 +3622,19 @@ function saveConcert(){
     fill:document.getElementById('c-fill')?.value||'full',
     vibe:document.getElementById('c-vibe')?.value||'',
     setName:as().name,setId:state.activeId,
-    songs:JSON.parse(JSON.stringify(aSongs())),ratings:{},
+    songs:JSON.parse(JSON.stringify(aSongs())),
+    ratings:state.liveSession?.ratings?{...state.liveSession.ratings}:{},
+    meteo:state.currentMeteo||null,
     createdAt:Date.now()
   };
   if(!state.concerts)state.concerts=[];
-  state.concerts.unshift(concert);persist();
+  state.concerts.unshift(concert);
+  state.liveSession=null;state.currentMeteo=null;
+  persist();
   document.getElementById('save-concert-panel').style.display='none';
   renderJournal();
-  // Prompt rating
-  if(confirm('Concert sauvegardé ! Veux-tu noter les morceaux maintenant ?')){
-    openConcertRating(concert.id);
-  }
+  // Propose debriefing
+  setTimeout(()=>openDebrief(concert.id),400);
 }
 
 function openConcertRating(cid){
@@ -3294,7 +3754,9 @@ function renderJournal(){
         ${c.notes?`<div style="font-size:12px;color:var(--mut);font-style:italic;margin:8px 0">"${esc(c.notes)}"</div>`:''}
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
           <button class="rapport-btn" onclick="generateConcertReport('${c.id}')">📝 Rapport</button>
+          <button class="rapport-btn" onclick="openDebrief('${c.id}')" style="background:rgba(184,136,236,.1);border-color:var(--purple);color:var(--purple)">🎙️ Débriefing</button>
         </div>
+        ${c.debrief?_renderDebriefSummary(c.debrief):''}
         <button class="btn danger" onclick="window._askDeleteConcert(this,'${c.id}')" style="font-size:12px;padding:8px;margin-top:8px;transition:.2s">🗑 Supprimer ce concert</button>
       </div>
     </div>`;
@@ -3332,15 +3794,32 @@ function renderRehearsals(){
   const today=new Date().toISOString().slice(0,10);
   const rows=songs.map((s,i)=>{
     const key=state.activeId+'_'+i;
-    const r=(state.rehearsals||{})[key]||{count:0,last:''};
+    const r=(state.rehearsals||{})[key]||{count:0,last:'',durations:[]};
     const daysAgo=r.last?Math.floor((new Date(today)-new Date(r.last))/(864e5)):999;
     const dotCls=daysAgo<=7?'rh-fresh':daysAgo<=14?'rh-warn':'rh-stale';
     const infoStr=r.last?`${r.count}× · il y a ${daysAgo===0?'aujourd\'hui':daysAgo===1?'1j':daysAgo+'j'}`:'jamais répété';
+    const durs=r.durations||[];
+    const avgDur=durs.length?Math.round(durs.reduce((a,b)=>a+b,0)/durs.length):0;
+    const estDur=parseSec(s.duree)||0;
+    const delta=avgDur&&estDur?avgDur-estDur:0;
+    const deltaStr=delta?` (${delta>0?'+':''}${fmtDur(Math.abs(delta))})`:' ';
+    const isRunning=_rhChronoRunning===key;
     return`<div class="rehears-row">
       <span class="rh-dot ${dotCls}"></span>
       <span class="rh-title">${esc(s.title||'Sans titre')}</span>
       <span class="rh-info">${infoStr}</span>
-      <button class="rh-btn" onclick="markRehearsed('${key}')">✓ Répété</button>
+      <div class="rh-chrono-wrap">
+        ${avgDur?`<span class="rh-avg">⏱ ${fmtDur(avgDur)}</span><span class="rh-delta" style="color:${delta>15?'#ff5b5b':delta>0?'#ffb347':'var(--mint)'}">${deltaStr}</span>`:''}
+        <span id="rhc-${key}" style="font-size:10px;color:var(--mut);min-width:28px">${isRunning?fmtDur(Math.floor((Date.now()-_rhChronoStart)/1000)):''}</span>
+        <button class="rh-chrono-btn ${isRunning?'running':''}" onclick="startRhChrono('${key}',this)">${isRunning?'⏹ Stop':'⏱'}</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">
+        <button class="rh-btn" onclick="markRehearsed('${key}')">✓ Répété</button>
+        <div class="conf-star-row">
+          ${[1,2,3].map(n=>{const avg=_avgConfidence('${key}');const isSel=avg&&Math.round(avg)===n;return`<button class="conf-star-btn ${isSel?'sel':''}" onclick="saveConfidence('${key}',${n})" title="Confiance ${n}/3">${'⭐'.repeat(n)}</button>`;}).join('')}
+        </div>
+        ${_avgConfidence('${key}')?`<span class="conf-avg">${_avgConfidence('${key}').toFixed(1)} ⭐ confiance</span>`:''}
+      </div>
     </div>`;
   }).join('');
   document.getElementById('rehear-list').innerHTML=rows||'<div style="text-align:center;padding:20px;color:var(--mut)">Aucun morceau dans le set.</div>';
@@ -3472,7 +3951,8 @@ function _buildShareHTML(){
       ${rappel?'<span class="srp">🔁 RAPPEL</span>':''}
     </div>`;
   }).join('');
-  return`<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Green Mouse — ${name}</title>
+  return`<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="apple-touch-icon" id="pwa-icon" href="">
+<title>Green Mouse — ${name}</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;padding:0;background:#0e1418;color:#eef4f0;font-family:ui-sans-serif,system-ui,-apple-system,"Helvetica Neue",sans-serif;-webkit-font-smoothing:antialiased;font-size:16px}
@@ -3745,6 +4225,271 @@ body{margin:0;padding:0;background:#0e1418;color:#eef4f0;font-family:ui-sans-ser
 .ver-dur{font-size:12px;font-weight:700;color:var(--mut2);white-space:nowrap}
 .ver-use-btn{border:1px solid var(--green-d);background:var(--gsof);color:var(--green);border-radius:7px;padding:4px 10px;font-size:11px;font-weight:900;cursor:pointer;white-space:nowrap}
 .ver-del-btn{border:1px solid var(--line2);background:var(--panel);color:var(--mut2);border-radius:7px;padding:4px 8px;font-size:11px;cursor:pointer}
+
+
+/* ══════════ MÉTÉO DE SCÈNE ══════════ */
+.meteo-modal{position:fixed;inset:0;z-index:400;background:rgba(6,11,15,.88);display:flex;align-items:flex-end;justify-content:center;padding:env(safe-area-inset-top) 0 0}
+.meteo-modal[hidden]{display:none}
+.meteo-inner{background:var(--panel);border-top-left-radius:24px;border-top-right-radius:24px;width:100%;max-width:560px;max-height:85vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 18px calc(20px + env(safe-area-inset-bottom))}
+.meteo-handle{width:40px;height:4px;background:var(--line2);border-radius:2px;margin:0 auto 16px}
+.meteo-title{font-size:18px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.meteo-sub{font-size:13px;color:var(--mut);margin-bottom:20px}
+.meteo-gauge-row{margin-bottom:18px}
+.meteo-gauge-lbl{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.meteo-gauge-name{font-size:13px;font-weight:900;color:var(--ink)}
+.meteo-gauge-val{font-size:22px;line-height:1}
+.meteo-slider{width:100%;height:8px;border-radius:4px;cursor:pointer;appearance:none;-webkit-appearance:none;outline:none}
+.meteo-slider::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:26px;height:26px;border-radius:50%;cursor:pointer;border:3px solid #0e1418;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.meteo-tip-box{border-radius:14px;padding:14px 16px;margin:18px 0;border:1px solid;font-size:13px;font-weight:700;line-height:1.5}
+.meteo-tip-box b{display:block;font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px}
+.meteo-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-size:13px;font-weight:900;border:1px solid}
+.meteo-live-btn{position:fixed;bottom:calc(88px + env(safe-area-inset-bottom));right:18px;z-index:20;background:var(--panel);border:1px solid var(--line2);border-radius:999px;padding:8px 14px;font-size:12px;font-weight:900;color:var(--mut);box-shadow:0 4px 14px rgba(0,0,0,.3);display:none;-webkit-tap-highlight-color:transparent;cursor:pointer;gap:6px;align-items:center}
+.meteo-live-active{background:var(--gsof);border-color:var(--green-d);color:var(--green)}
+
+/* ══════════ DEBRIEFING POST-SHOW ══════════ */
+.debrief-modal{position:fixed;inset:0;z-index:400;background:rgba(6,11,15,.92);display:flex;align-items:flex-end;justify-content:center;padding:env(safe-area-inset-top) 0 0}
+.debrief-modal[hidden]{display:none}
+.debrief-inner{background:var(--panel);border-top-left-radius:24px;border-top-right-radius:24px;width:100%;max-width:580px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column}
+.debrief-header{padding:14px 18px 0;flex:0 0 auto}
+.debrief-handle{width:40px;height:4px;background:var(--line2);border-radius:2px;margin:0 auto 12px}
+.debrief-step-row{display:flex;gap:4px;margin-bottom:14px}
+.debrief-step-dot{flex:1;height:3px;border-radius:2px;background:var(--line);transition:.3s}
+.debrief-step-dot.done{background:var(--green)}
+.debrief-step-dot.active{background:var(--green);opacity:.6}
+.debrief-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 18px 14px}
+.debrief-q{font-size:16px;font-weight:900;line-height:1.35;margin-bottom:6px;color:var(--ink)}
+.debrief-hint{font-size:12px;color:var(--mut);margin-bottom:16px;line-height:1.4}
+.debrief-footer{padding:12px 18px calc(16px + env(safe-area-inset-bottom));display:flex;gap:10px;border-top:1px solid var(--line);flex:0 0 auto}
+/* Emoji picker */
+.emoji-pick-grid{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.emoji-pick-btn{width:56px;height:56px;border-radius:14px;font-size:26px;border:2px solid var(--line2);background:var(--panel2);display:grid;place-items:center;cursor:pointer;transition:.15s;-webkit-tap-highlight-color:transparent}
+.emoji-pick-btn.sel{border-color:var(--green);background:var(--gsof);transform:scale(1.1)}
+/* Song pick */
+.song-pick-list{display:flex;flex-direction:column;gap:6px;max-height:260px;overflow-y:auto}
+.song-pick-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--panel2);border:2px solid var(--line2);border-radius:12px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:.15s}
+.song-pick-item.sel{border-color:var(--green);background:var(--gsof)}
+.song-pick-title{flex:1;font-size:13px;font-weight:800;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.song-pick-meta{font-size:11px;color:var(--mut);white-space:nowrap}
+/* Debrief summary in concert card */
+.debrief-summary{background:var(--bg2);border-radius:12px;padding:12px 14px;margin-top:10px;border:1px solid var(--line2)}
+.debrief-summary-title{font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-bottom:8px}
+.debrief-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:6px;font-size:12px;font-weight:700;color:var(--ink)}
+.debrief-row .dr-label{color:var(--mut2);white-space:nowrap;min-width:80px}
+
+/* ══════════ THERMOMÈTRE DE RODAGE ══════════ */
+.rodage-bar-wrap{display:flex;align-items:center;gap:8px;margin-top:5px}
+.rodage-bar{flex:1;height:5px;background:var(--panel2);border-radius:3px;overflow:hidden}
+.rodage-bar-fill{height:100%;border-radius:3px;transition:width .4s}
+.rodage-badge{font-size:10px;font-weight:900;padding:2px 7px;border-radius:999px;border:1px solid;white-space:nowrap}
+.rodage-fragile{color:#ff5b5b;border-color:#ff5b5b;background:rgba(255,91,91,.1)}
+.rodage-construction{color:#ffb347;border-color:#ffb347;background:rgba(255,179,71,.1)}
+.rodage-solide{color:#5aa7ff;border-color:#5aa7ff;background:rgba(90,167,255,.1)}
+.rodage-rode{color:#34b531;border-color:#34b531;background:rgba(52,181,49,.1)}
+
+
+/* ══ ASSISTANT DE SCÈNE ══ */
+.assistant-bar{
+  height:0;overflow:hidden;transition:height .3s ease,opacity .3s;
+  opacity:0;display:flex;align-items:center;gap:8px;
+  padding:0 2px;font-size:12px;font-weight:800;
+  border-radius:8px;margin-bottom:4px;
+}
+.assistant-bar.visible{
+  height:34px;opacity:1;padding:0 10px;
+}
+.assistant-bar.ab-info{background:rgba(90,167,255,.1);color:#7ec8ff}
+.assistant-bar.ab-warn{background:rgba(255,179,71,.1);color:var(--amber)}
+.assistant-bar.ab-danger{background:rgba(255,91,91,.1);color:#ff8080}
+.assistant-bar.ab-good{background:rgba(52,181,49,.08);color:var(--green)}
+.ab-ico{font-size:15px;flex:0 0 auto}
+.ab-msg{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ab-dismiss{color:inherit;opacity:.5;font-size:16px;padding:0 2px;background:none;border:none;cursor:pointer;flex:0 0 auto}
+
+/* ══ RATING LIVE (dans carte de transition) ══ */
+.tc-rating-row{
+  display:flex;gap:14px;justify-content:center;
+  margin:4px 0 16px;
+}
+.tc-rate-btn{
+  width:58px;height:58px;border-radius:16px;
+  font-size:28px;border:2px solid var(--line2);
+  background:var(--panel2);display:grid;place-items:center;
+  cursor:pointer;transition:.15s;-webkit-tap-highlight-color:transparent;
+  position:relative;
+}
+.tc-rate-btn:active{transform:scale(.92)}
+.tc-rate-btn.rated{border-color:var(--green);background:var(--gsof);transform:scale(1.08)}
+.tc-rate-btn .tc-rate-lbl{
+  position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);
+  font-size:9px;font-weight:900;color:var(--mut2);white-space:nowrap;
+  letter-spacing:.04em;text-transform:uppercase;
+}
+
+/* ══ HEATMAP ══ */
+.heatmap-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:4px 0 8px;scrollbar-width:thin}
+.heatmap-table{border-collapse:separate;border-spacing:3px;min-width:100%}
+.heatmap-row-lbl{font-size:10px;font-weight:800;color:var(--mut);padding-right:8px;white-space:nowrap;text-align:right;vertical-align:middle}
+.hm-cell{
+  width:28px;height:28px;border-radius:6px;cursor:pointer;
+  transition:.15s;position:relative;-webkit-tap-highlight-color:transparent;
+}
+.hm-cell:active{transform:scale(.9)}
+.hm-col-lbl{font-size:8px;font-weight:900;color:var(--mut2);text-align:center;padding-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:28px;vertical-align:top}
+.hm-legend{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:11px;color:var(--mut2);font-weight:700}
+.hm-legend-bar{display:flex;height:6px;border-radius:3px;overflow:hidden;flex:1}
+
+/* ══ SIGNATURE LIVE ══ */
+.sig-card{
+  background:var(--panel);border:1px solid var(--line);border-radius:18px;
+  padding:16px;margin-bottom:12px;
+}
+.sig-card-title{font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-bottom:12px}
+.sig-insight{
+  display:flex;align-items:flex-start;gap:10px;padding:10px 0;
+  border-bottom:1px solid var(--line);font-size:13px;font-weight:700;color:var(--ink);line-height:1.4;
+}
+.sig-insight:last-child{border-bottom:none;padding-bottom:0}
+.sig-ico{font-size:20px;flex:0 0 auto;margin-top:1px}
+.sig-txt{flex:1;min-width:0}
+.sig-txt b{color:var(--green)}
+.sig-txt .sig-sub{font-size:11px;color:var(--mut);margin-top:2px;font-weight:700}
+.sig-score-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.sig-score-pill{font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;background:var(--bg2);border:1px solid var(--line2)}
+.sig-empty{text-align:center;padding:28px;color:var(--mut);font-weight:700;line-height:1.6}
+
+/* ══ CHRONO RÉPÈTE ══ */
+.rh-chrono-wrap{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800}
+.rh-avg{color:var(--mint);white-space:nowrap}
+.rh-delta{white-space:nowrap}
+.rh-chrono-btn{
+  border:1px solid var(--line2);background:var(--panel);color:var(--mut);
+  border-radius:999px;padding:3px 9px;font-size:11px;font-weight:800;
+  white-space:nowrap;-webkit-tap-highlight-color:transparent;
+}
+.rh-chrono-btn.running{background:var(--gsof);color:var(--green);border-color:var(--green-d)}
+.rehears-row{flex-wrap:wrap;gap:6px}
+
+
+/* ══════════ ANALYSE+ ══════════ */
+.ap-section{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}
+.ap-title{font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--mut2);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ap-title-ico{font-size:18px}
+.ap-chart-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:2px 0 6px}
+.ap-chart-wrap::-webkit-scrollbar{display:none}
+.ap-chart-wrap svg{display:block}
+
+/* Position heatmap */
+.pos-hm-grid{display:flex;flex-direction:column;gap:2px;min-width:max-content}
+.pos-hm-row{display:flex;gap:2px;align-items:center}
+.pos-hm-lbl{font-size:9px;font-weight:800;color:var(--mut2);min-width:20px;text-align:right;margin-right:4px}
+.pos-hm-cell{width:22px;height:22px;border-radius:4px;cursor:pointer;flex:0 0 auto;transition:.1s}
+.pos-hm-cell:active{transform:scale(.9)}
+.pos-hm-avg{font-size:9px;font-weight:900;min-width:28px;text-align:left;margin-left:4px}
+.pos-hm-concert-hdr{display:flex;gap:2px;padding-left:28px;margin-bottom:3px}
+.pos-hm-concert-num{width:22px;font-size:8px;font-weight:800;color:var(--mut2);text-align:center;flex:0 0 auto}
+
+/* Title trends */
+.trend-list{display:flex;flex-direction:column;gap:7px}
+.trend-item{display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--bg2);border-radius:12px;border-left:4px solid}
+.trend-title{flex:1;font-size:13px;font-weight:800;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.trend-arrow{font-size:17px;flex:0 0 auto}
+.trend-detail{font-size:11px;font-weight:700;color:var(--mut);white-space:nowrap}
+
+/* Waouh */
+.waouh-rate{font-size:36px;font-weight:900;color:var(--green);line-height:1}
+.waouh-sub{font-size:13px;font-weight:700;color:var(--mut);margin-top:4px}
+.waouh-list{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+.waouh-item{font-size:12px;font-weight:800;color:var(--ink);padding:7px 12px;background:var(--bg2);border-radius:10px;display:flex;align-items:center;gap:8px}
+
+/* Monthly report */
+.monthly-report-box{background:var(--bg2);border:1px solid var(--line2);border-radius:12px;padding:14px;font-size:13px;font-weight:700;color:var(--ink);line-height:1.7;white-space:pre-wrap}
+.monthly-copy-btn{border:1px solid var(--line2);background:var(--panel);color:var(--mut);border-radius:999px;padding:7px 14px;font-size:12px;font-weight:800;margin-top:10px;cursor:pointer}
+
+
+/* ══ PWA HINT ══ */
+.pwa-banner{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom));left:16px;right:16px;z-index:500;
+  background:linear-gradient(135deg,var(--panel),#1a2830);border:1px solid var(--green-d);
+  border-radius:18px;padding:14px 16px;box-shadow:0 8px 28px rgba(0,0,0,.5);
+  display:flex;align-items:center;gap:12px;animation:pwa-in .4s ease}
+.pwa-banner[hidden]{display:none}
+@keyframes pwa-in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.pwa-banner-ico{font-size:28px;flex:0 0 auto}
+.pwa-banner-txt{flex:1;min-width:0}
+.pwa-banner-title{font-size:14px;font-weight:900;color:var(--ink);margin-bottom:2px}
+.pwa-banner-sub{font-size:12px;font-weight:700;color:var(--mut);line-height:1.4}
+.pwa-banner-close{border:none;background:none;color:var(--mut2);font-size:20px;font-weight:900;
+  padding:4px;cursor:pointer;flex:0 0 auto}
+
+/* ══ EMERGENCY SONGS ══ */
+.emg-modal{position:fixed;inset:0;z-index:350;background:rgba(6,11,15,.85);
+  display:flex;align-items:flex-end;justify-content:center;padding:env(safe-area-inset-top) 0 0}
+.emg-modal[hidden]{display:none}
+.emg-inner{background:var(--panel);border-top-left-radius:24px;border-top-right-radius:24px;
+  width:100%;max-width:540px;max-height:75vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:18px 16px calc(16px + env(safe-area-inset-bottom))}
+.emg-handle{width:40px;height:4px;background:var(--line2);border-radius:2px;margin:0 auto 14px}
+.emg-title{font-size:16px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;margin-bottom:14px}
+.emg-song-row{display:flex;align-items:center;gap:10px;padding:11px 14px;
+  background:var(--bg2);border:1px solid var(--line2);border-radius:14px;margin-bottom:7px}
+.emg-song-title{flex:1;font-size:13px;font-weight:800;text-transform:uppercase;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.emg-meta{font-size:11px;font-weight:700;color:var(--mut);white-space:nowrap}
+.emg-use-btn{border:1px solid var(--green-d);background:var(--gsof);color:var(--green);
+  border-radius:8px;padding:6px 12px;font-size:12px;font-weight:900;cursor:pointer;white-space:nowrap}
+.emg-empty{text-align:center;padding:24px;color:var(--mut);font-weight:700}
+
+/* ══ SNAPSHOTS ══ */
+.snap-list{display:flex;flex-direction:column;gap:7px}
+.snap-item{display:flex;align-items:center;gap:10px;padding:10px 14px;
+  background:var(--panel);border:1px solid var(--line);border-radius:14px}
+.snap-name{flex:1;font-size:13px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.snap-date{font-size:11px;font-weight:700;color:var(--mut);white-space:nowrap}
+.snap-restore{border:1px solid var(--line2);background:var(--panel2);color:var(--mut);
+  border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;cursor:pointer}
+.snap-del{border:none;background:none;color:var(--mut2);font-size:15px;cursor:pointer;padding:2px 4px}
+
+/* ══ VENUES ══ */
+.venue-list{display:flex;flex-direction:column;gap:9px}
+.venue-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px 15px}
+.venue-card-header{display:flex;align-items:flex-start;gap:10px}
+.venue-name{font-size:15px;font-weight:900;text-transform:uppercase;flex:1;min-width:0}
+.venue-city{font-size:12px;font-weight:700;color:var(--mut);margin-top:2px}
+.venue-type-badge{font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px;
+  background:var(--bg2);border:1px solid var(--line2);color:var(--mut);white-space:nowrap;flex:0 0 auto}
+.venue-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;font-size:12px;font-weight:700;color:var(--mut)}
+.venue-notes{font-size:12px;font-weight:700;color:var(--ink);margin-top:6px;line-height:1.4;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.venue-actions{display:flex;gap:6px;margin-top:8px}
+.venue-modal{position:fixed;inset:0;z-index:360;background:rgba(6,11,15,.88);
+  display:flex;align-items:flex-end;justify-content:center;padding:env(safe-area-inset-top) 0 0}
+.venue-modal[hidden]{display:none}
+.venue-modal-inner{background:var(--panel);border-top-left-radius:24px;border-top-right-radius:24px;
+  width:100%;max-width:560px;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:18px 16px calc(16px + env(safe-area-inset-bottom))}
+
+/* ══ PLANNING ══ */
+.plan-list{display:flex;flex-direction:column;gap:10px;padding-bottom:30px}
+.plan-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.plan-card-header{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent}
+.plan-days-badge{flex:0 0 auto;text-align:center;padding:8px 10px;border-radius:12px;min-width:52px}
+.plan-days-num{font-size:22px;font-weight:900;line-height:1}
+.plan-days-lbl{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.plan-info{flex:1;min-width:0}
+.plan-venue{font-size:15px;font-weight:900;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.plan-date{font-size:12px;font-weight:700;color:var(--mut);margin-top:2px}
+.plan-readiness{height:4px;background:var(--line);margin:8px 16px 0;border-radius:2px;overflow:hidden}
+.plan-readiness-fill{height:100%;border-radius:2px}
+.plan-detail{border-top:1px solid var(--line);padding:12px 16px;display:none}
+.plan-detail.open{display:block}
+
+/* ══ CONFIDENCE STARS ══ */
+.conf-star-row{display:flex;gap:5px;margin-top:5px}
+.conf-star-btn{border:1px solid var(--line2);background:var(--panel);border-radius:7px;
+  padding:4px 8px;font-size:13px;cursor:pointer;-webkit-tap-highlight-color:transparent;
+  transition:.15s;white-space:nowrap}
+.conf-star-btn.sel{background:var(--gsof);border-color:var(--green-d)}
+.conf-avg{font-size:11px;font-weight:800;color:var(--amber);white-space:nowrap}
 
 </style></head><body>
 <div class="header"><img class="logo" src="${LOGO}" alt="Green Mouse"><div><div class="hname">GREEN MOUSE</div><div class="hset">${name} · ${new Date().toLocaleDateString('fr-FR')}</div></div></div>
@@ -4512,6 +5257,7 @@ function _renderSetArc(){
 function _renderSetOrdre(){
   const songs=aSongs();
   const cont=document.getElementById('set-sortable');if(!cont)return;
+  _renderSnapshots();
   cont.innerHTML=songs.map((s,i)=>{
     const e=_inferEnergy(s);
     const mood=_getMoodData(s,i,songs.filter(x=>!x.rappel).length,e);
@@ -4831,6 +5577,14 @@ function _showTransitionCard(fromIdx,toIdx){
   const enc=from&&from.enchainement?split(from.enchainement)[0]:'';
   const mood=_getMoodData(next,toIdx,songs.filter(s=>!s.rappel).length,_inferEnergy(next));
 
+  _liveRatingFrom=fromIdx;
+  const fromLabel=document.getElementById('tc-from-label');
+  if(fromLabel){const ft=(from&&from.title)?from.title.toUpperCase():'';fromLabel.textContent=ft?'Morceau : '+ft:'';}
+  // Reset rating buttons
+  ['tcr-fire','tcr-ok','tcr-meh'].forEach(id=>{const b=document.getElementById(id);if(b)b.classList.remove('rated');});
+  // Pre-fill if already rated
+  const existingRating=state.liveSession?.ratings?.[fromIdx];
+  if(existingRating){const rb=document.getElementById('tcr-'+existingRating);if(rb)rb.classList.add('rated');}
   document.getElementById('tc-next-title').textContent=(next.title||'').toUpperCase();
 
   const chips=[];
@@ -4877,9 +5631,1246 @@ function goTo(i){current=i;renderLive();renderTimeline();}
 function loadEditor(){if(_drawerIdx===null&&current>=0)openDrawer(current);}
 function saveEditor(){saveDrawer();}
 
+
+/* ══════════════════════════════════════════════════
+   THERMOMÈTRE DE RODAGE
+══════════════════════════════════════════════════ */
+function _rodageScore(title){
+  const t=(title||'').trim().toLowerCase();
+  if(!t)return null;
+  // Répètes : cherche dans tous les sets
+  let totalRehearses=0;
+  (state.sets||[]).forEach(set=>{
+    (set.songs||[]).forEach((ss,i)=>{
+      if((ss.title||'').trim().toLowerCase()===t){
+        const key=set.id+'_'+i;
+        const r=(state.rehearsals||{})[key];
+        if(r)totalRehearses+=r.count||0;
+      }
+    });
+  });
+  // Concerts : nb de fois joué + ratings
+  let timesPlayed=0,ratingSum=0,ratingCount=0;
+  (state.concerts||[]).forEach(c=>{
+    (c.songs||[]).forEach((s,i)=>{
+      if((s.title||'').trim().toLowerCase()===t){
+        timesPlayed++;
+        const r=(c.ratings||{})[i];
+        if(r&&r.pub){ratingSum+=(r.pub==='fire'?3:r.pub==='ok'?2:1);ratingCount++;}
+      }
+    });
+  });
+  const repPts=Math.min(totalRehearses*4,40);     // 4pts/répète, max 40
+  const showPts=Math.min(timesPlayed*8,40);        // 8pts/concert, max 40
+  const ratPts=ratingCount?Math.round((ratingSum/ratingCount)*6.67):0; // max 20
+  const score=Math.min(100,repPts+showPts+ratPts);
+  return{score,rehearses:totalRehearses,played:timesPlayed};
+}
+
+function _rodageLabel(score){
+  if(score<25)return{cls:'rodage-fragile',icon:'⚠️',label:'Fragile'};
+  if(score<50)return{cls:'rodage-construction',icon:'🌱',label:'En construction'};
+  if(score<75)return{cls:'rodage-solide',icon:'✅',label:'Solide'};
+  return{cls:'rodage-rode',icon:'🔥',label:'Rodé'};
+}
+
+function _rodageHTML(title){
+  const r=_rodageScore(title);
+  if(!r)return'';
+  const l=_rodageLabel(r.score);
+  const barColor=r.score<25?'#ff5b5b':r.score<50?'#ffb347':r.score<75?'#5aa7ff':'#34b531';
+  return`<div class="rodage-bar-wrap">
+    <div class="rodage-bar"><div class="rodage-bar-fill" style="width:${r.score}%;background:${barColor}"></div></div>
+    <span class="rodage-badge ${l.cls}">${l.icon} ${l.label}</span>
+  </div>`;
+}
+
+/* ══════════════════════════════════════════════════
+   MÉTÉO DE SCÈNE
+══════════════════════════════════════════════════ */
+const _METEO_EMOJI=[null,'😰','😟','😐','😊','🔥'];
+const _METEO_TIPS=[
+  // [salle 1-5][public 1-5][groupe 1-5] → tip (simplifié par catégories)
+];
+
+function _computeMeteoTip(salle,public_,groupe){
+  const hot=public_>=4,cold=public_<=2,tired=groupe<=2,peak=groupe>=4,big=salle>=4,small=salle<=2;
+  if(cold&&tired)return{type:'danger',text:'Public froid + groupe fatigué → partez FORT dès les premières secondes. Ne laissez pas de silence s\'installer. Vos 3 premiers morceaux créent ou brisent la soirée.'};
+  if(hot&&peak)return{type:'good',text:'Vous êtes au top et le public aussi → vous pouvez tout vous permettre. Prenez du plaisir, laissez respirer, ajoutez de l\'impro. La salle est avec vous.'};
+  if(cold&&peak)return{type:'warn',text:'Vous êtes chauds mais le public est froid → ne les attendez pas, emmenez-les. Accentuez le contact, interpellez-les dès le 2ème morceau.'};
+  if(hot&&tired)return{type:'warn',text:'Le public est chaud mais vous êtes fatigués → rationalisez votre énergie. Jouez sur l\'interaction plutôt que sur la puissance brute. Le public fera le travail.'};
+  if(big&&cold)return{type:'warn',text:'Grande salle froide → le contact prend plus de temps à s\'établir. Misez sur une ouverture spectaculaire et attendez le 4ème morceau avant d\'interagir longuement.'};
+  if(small&&hot)return{type:'good',text:'Petite salle chaude → le meilleur terrain de jeu. C\'est là que les concerts deviennent des souvenirs. Soyez proches, spontanés, présents.'};
+  if(tired)return{type:'info',text:'Le groupe est fatigué → simplifiez les arrangements si possible. Concentrez-vous sur le cœur des morceaux. Un concert plus brut peut être le meilleur.'};
+  return{type:'info',text:'Conditions normales → faites confiance à votre préparation. Vous connaissez ces morceaux. Profitez.'};
+}
+
+function updateMeteoGauge(which,v){
+  const emojis=_METEO_EMOJI;
+  const el=document.getElementById('meteo-'+which+'-val');
+  if(el)el.textContent=emojis[parseInt(v)]||'😐';
+  _refreshMeteoTip();
+}
+
+function _refreshMeteoTip(){
+  const s=parseInt(document.getElementById('meteo-salle')?.value||3);
+  const p=parseInt(document.getElementById('meteo-public')?.value||3);
+  const g=parseInt(document.getElementById('meteo-groupe')?.value||3);
+  const tip=_computeMeteoTip(s,p,g);
+  const colors={good:'rgba(52,181,49,.1)',warn:'rgba(255,179,71,.1)',danger:'rgba(255,91,91,.1)',info:'rgba(90,167,255,.1)'};
+  const borders={good:'rgba(52,181,49,.35)',warn:'rgba(255,179,71,.35)',danger:'rgba(255,91,91,.35)',info:'rgba(90,167,255,.35)'};
+  const tc={good:'var(--mint)',warn:'var(--amber)',danger:'#ff8080',info:'#7ec8ff'};
+  const el=document.getElementById('meteo-tip-box');
+  if(el){
+    el.style.background=colors[tip.type];
+    el.style.borderColor=borders[tip.type];
+    el.style.color=tc[tip.type];
+    el.innerHTML=`<b>💡 Conseil</b>${tip.text}`;
+  }
+}
+
+function openMeteo(){
+  _refreshMeteoTip();
+  document.getElementById('meteo-modal').hidden=false;
+  if(navigator.vibrate)navigator.vibrate(20);
+}
+function closeMeteo(){document.getElementById('meteo-modal').hidden=true;}
+
+function saveMeteo(){
+  const s=parseInt(document.getElementById('meteo-salle')?.value||3);
+  const p=parseInt(document.getElementById('meteo-public')?.value||3);
+  const g=parseInt(document.getElementById('meteo-groupe')?.value||3);
+  const tip=_computeMeteoTip(s,p,g);
+  state.currentMeteo={salle:s,public:p,groupe:g,tip:tip.text,type:tip.type,ts:Date.now()};
+  persist();closeMeteo();
+  const btn=document.getElementById('meteo-live-btn');
+  if(btn)btn.classList.add('meteo-live-active');
+  if(navigator.vibrate)navigator.vibrate([40,20,80]);
+}
+
+/* ══════════════════════════════════════════════════
+   DEBRIEFING POST-SHOW
+══════════════════════════════════════════════════ */
+let _debriefCid=null,_debriefStep=0,_debriefData={};
+const _DEBRIEF_STEPS=[
+  {id:'etat',q:'Ton état en montant sur scène ?',hint:'Sois honnête — ça sert à comprendre la corrélation entre ton état et la performance.',type:'emoji',
+    opts:[{v:'anxieux',e:'😰',l:'Anxieux'},{v:'doute',e:'😟',l:'Incertain'},{v:'ok',e:'😐',l:'Ok'},{v:'bien',e:'😊',l:'Bien'},{v:'feu',e:'🔥',l:'En feu'}]},
+  {id:'meilleur_scene',q:'Quel morceau a le plus résonné avec le public ?',hint:'Celui qui a vraiment créé quelque chose dans la salle.',type:'songpick'},
+  {id:'meilleur_toi',q:'Quel morceau t\'a le plus donné, toi ?',hint:'Celui où tu t\'es senti le plus connecté à ce que tu fais.',type:'songpick'},
+  {id:'imprévu',q:'Qu\'est-ce qui ne s\'est pas passé comme prévu ?',hint:'Technique, énergie, ordre, texte… tout ce qui a surpris.',type:'text',placeholder:'Optionnel — laisse vide si tout s\'est bien passé'},
+  {id:'ajustement',q:'Si tu pouvais changer un truc dans l\'ordre, lequel ?',hint:'Un feeling, pas une certitude. Ça aide à construire le prochain set.',type:'text',placeholder:'Ex: "Mettre X après Y", "Commencer par Z"…'},
+  {id:'mot',q:'Un mot (ou une phrase) pour résumer ce concert.',hint:'Pour toi, dans 2 ans, quand tu relis ce journal.',type:'text',placeholder:'Ex: "Électrique", "On a basculé le 4e morceau", "Salle difficile mais on a tenu"…'}
+];
+
+function openDebrief(cid){
+  _debriefCid=cid;
+  const c=(state.concerts||[]).find(x=>x.id===cid);
+  _debriefData=c?.debrief?{...c.debrief}:{};
+  _debriefStep=0;
+  document.getElementById('debrief-modal').hidden=false;
+  _renderDebriefStep();
+}
+function closeDebrief(){document.getElementById('debrief-modal').hidden=true;_debriefCid=null;}
+
+function _renderDebriefStep(){
+  const step=_DEBRIEF_STEPS[_debriefStep];
+  const total=_DEBRIEF_STEPS.length;
+  // Progress dots
+  document.getElementById('debrief-step-label').textContent=(_debriefStep+1)+'/'+total;
+  document.getElementById('debrief-step-row').innerHTML=_DEBRIEF_STEPS.map((_,i)=>`
+    <div class="debrief-step-dot ${i<_debriefStep?'done':i===_debriefStep?'active':''}"></div>`).join('');
+  // Prev button
+  document.getElementById('debrief-prev').style.display=_debriefStep>0?'':'none';
+  document.getElementById('debrief-next').textContent=_debriefStep===total-1?'✅ Terminer':'Suivant →';
+
+  let body=`<div class="debrief-q">${step.q}</div><div class="debrief-hint">${step.hint}</div>`;
+  const cur=_debriefData[step.id]||'';
+
+  if(step.type==='emoji'){
+    body+=`<div class="emoji-pick-grid">${step.opts.map(o=>`
+      <div class="emoji-pick-btn ${cur===o.v?'sel':''}" onclick="pickDebriefEmoji('${step.id}','${o.v}',this)">
+        <div>${o.e}</div>
+        <div style="font-size:9px;font-weight:800;margin-top:3px;color:var(--mut)">${o.l}</div>
+      </div>`).join('')}</div>`;
+  } else if(step.type==='songpick'){
+    const c=(state.concerts||[]).find(x=>x.id===_debriefCid);
+    const songs=(c?.songs||aSongs()).map(s=>s.title||'—');
+    body+=`<div class="song-pick-list">${songs.map((t,i)=>`
+      <div class="song-pick-item ${cur===t?'sel':''}" onclick="pickDebriefSong('${step.id}','${t.replace(/'/g,"\\'")}',this)">
+        <span class="song-pick-title">${esc(t)}</span>
+        <span class="song-pick-meta">${pad(i+1)}</span>
+      </div>`).join('')}</div>`;
+  } else {
+    body+=`<textarea id="debrief-text-input" style="width:100%;min-height:100px;background:var(--bg2);border:1px solid var(--line2);border-radius:12px;padding:12px;font-size:14px;color:var(--ink);resize:vertical;line-height:1.5" placeholder="${step.placeholder||''}">${esc(cur)}</textarea>`;
+  }
+  document.getElementById('debrief-body').innerHTML=body;
+  document.getElementById('debrief-body').scrollTop=0;
+}
+
+function pickDebriefEmoji(id,v,el){
+  _debriefData[id]=v;
+  el.closest('.emoji-pick-grid').querySelectorAll('.emoji-pick-btn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function pickDebriefSong(id,t,el){
+  _debriefData[id]=t;
+  el.closest('.song-pick-list').querySelectorAll('.song-pick-item').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+function debriefNext(){
+  // Save current step value
+  const step=_DEBRIEF_STEPS[_debriefStep];
+  if(step.type==='text'){
+    const ta=document.getElementById('debrief-text-input');
+    if(ta)_debriefData[step.id]=ta.value.trim();
+  }
+  if(_debriefStep===_DEBRIEF_STEPS.length-1){
+    // Save to concert
+    const c=(state.concerts||[]).find(x=>x.id===_debriefCid);
+    if(c){c.debrief={..._debriefData,savedAt:Date.now()};persist();renderJournal();}
+    closeDebrief();
+    if(navigator.vibrate)navigator.vibrate([30,20,30,20,60]);
+    return;
+  }
+  _debriefStep++;_renderDebriefStep();
+}
+function debriefPrev(){
+  if(_debriefStep===0)return;
+  const step=_DEBRIEF_STEPS[_debriefStep];
+  if(step.type==='text'){const ta=document.getElementById('debrief-text-input');if(ta)_debriefData[step.id]=ta.value.trim();}
+  _debriefStep--;_renderDebriefStep();
+}
+
+function _renderDebriefSummary(d){
+  if(!d)return'';
+  const etatMap={anxieux:'😰 Anxieux',doute:'😟 Incertain',ok:'😐 Ok',bien:'😊 Bien',feu:'🔥 En feu'};
+  const rows=[];
+  if(d.etat)rows.push({l:'État',v:etatMap[d.etat]||d.etat});
+  if(d.meilleur_scene)rows.push({l:'Public a adoré',v:d.meilleur_scene});
+  if(d.meilleur_toi)rows.push({l:'Ton meilleur',v:d.meilleur_toi});
+  if(d.imprévu)rows.push({l:'Imprévu',v:d.imprévu});
+  if(d.ajustement)rows.push({l:'Ajustement',v:d.ajustement});
+  if(d.mot)rows.push({l:'En un mot',v:'« '+d.mot+' »'});
+  if(!rows.length)return'';
+  return`<div class="debrief-summary">
+    <div class="debrief-summary-title">🎙️ Débriefing</div>
+    ${rows.map(r=>`<div class="debrief-row"><span class="dr-label">${r.l}</span><span>${esc(r.v)}</span></div>`).join('')}
+  </div>`;
+}
+
+
+/* ══════════════════════════════════════════════════
+   ASSISTANT DE SCÈNE — discret, utile
+══════════════════════════════════════════════════ */
+let _abDismissed=false;
+
+function _computeAssistantAlert(idx){
+  const songs=aSongs();const n=songs.length;
+  if(!n)return null;
+  // 1. Temps vs morceaux restants
+  if(_chronoSlotMin>0&&(_chronoActive||_chronoPaused>0)){
+    const elapsed=_getElapsed();
+    const rem=_chronoSlotMin*60-elapsed;
+    const left=n-idx-1;
+    if(left>0&&rem>0){
+      const estLeft=songs.slice(idx+1).reduce((a,s)=>a+parseSec(s.duree)||180,0);
+      if(estLeft>rem+120)return{type:'danger',ico:'⏱',msg:`${left} morceaux estimés à ${fmtDur(estLeft)} — il ne reste que ${fmtDur(Math.max(0,rem))}`};
+    }
+  }
+  // 2. Série intense non interrompue
+  if(idx>=2){
+    const last3=songs.slice(idx-2,idx+1).map(_inferEnergy);
+    if(last3.every(e=>e>=7))return{type:'warn',ico:'🔥',msg:`3 morceaux intenses d'affilée · respiration recommandée`};
+  }
+  // 3. Changement d'accordage à venir
+  if(idx<n-1){
+    const cur=_tuning(songs[idx]),nxt=_tuning(songs[idx+1]);
+    if(cur&&nxt&&cur!==nxt)return{type:'info',ico:'🎸',msg:`Prochain : ${nxt} — prépare l'accordage`};
+  }
+  // 4. Pas d'interaction depuis longtemps
+  let lastTalk=-1;
+  for(let i=0;i<=idx;i++){if((songs[i].public||'').trim())lastTalk=i;}
+  if(idx-lastTalk>=5&&idx>=5)return{type:'warn',ico:'🎤',msg:`${idx-lastTalk} morceaux sans parler au public`};
+  // 5. Morceau fragile à venir
+  if(idx<n-1){
+    const r=_rodageScore(songs[idx+1].title);
+    if(r&&r.score<25)return{type:'warn',ico:'⚠️',msg:`"${songs[idx+1].title}" peu rodé — concentre-toi`};
+  }
+  return null;
+}
+
+function updateAssistant(){
+  if(_abDismissed)return;
+  const alert=_computeAssistantAlert(current);
+  const bar=document.getElementById('assistant-bar');
+  if(!bar)return;
+  if(!alert){bar.className='assistant-bar';return;}
+  bar.className=`assistant-bar visible ab-${alert.type}`;
+  const ico=document.getElementById('ab-ico');if(ico)ico.textContent=alert.ico;
+  const msg=document.getElementById('ab-msg');if(msg)msg.textContent=alert.msg;
+}
+
+function _dismissAssistant(){
+  _abDismissed=true;
+  const bar=document.getElementById('assistant-bar');if(bar)bar.className='assistant-bar';
+  // Re-enable after 2 songs
+  setTimeout(()=>{_abDismissed=false;updateAssistant();},1);
+}
+
+/* ══════════════════════════════════════════════════
+   RATING EN LIVE (dans carte de transition)
+══════════════════════════════════════════════════ */
+let _liveRatingFrom=null;
+
+function saveLiveRating(val,btn){
+  if(_liveRatingFrom===null)return;
+  if(!state.liveSession)state.liveSession={ratings:{},started:Date.now()};
+  state.liveSession.ratings[_liveRatingFrom]=val;
+  persist();
+  // Visual feedback
+  ['tcr-fire','tcr-ok','tcr-meh'].forEach(id=>{
+    const b=document.getElementById(id);if(b)b.classList.remove('rated');
+  });
+  if(btn)btn.classList.add('rated');
+  if(navigator.vibrate)navigator.vibrate(30);
+}
+
+/* ══════════════════════════════════════════════════
+   HEATMAP DU SET
+══════════════════════════════════════════════════ */
+const _HM_COLORS=[
+  [14,20,24],    // 0 — très froid (dark background)
+  [10,61,98],    // 1
+  [14,90,136],   // 2
+  [24,120,160],  // 3
+  [52,140,160],  // 4
+  [80,160,120],  // 5 — neutre
+  [120,180,60],  // 6
+  [180,200,30],  // 7
+  [230,160,20],  // 8
+  [220,90,20],   // 9
+  [200,40,20],   // 10 — très chaud
+];
+
+function _hmColor(v){
+  const i=Math.max(0,Math.min(10,Math.round(v)));
+  const [r,g,b]=_HM_COLORS[i];
+  return`rgb(${r},${g},${b})`;
+}
+
+function renderHeatmap(){
+  const songs=aSongs();
+  const cont=document.getElementById('heatmap-container');
+  if(!cont)return;
+  if(!songs.length){cont.innerHTML='<div class="arc-empty">Set vide.</div>';return;}
+
+  const dims=[
+    {lbl:'🟦 Intro',fn:(s)=>_getIntroE(s)},
+    {lbl:'⚡ Énergie',fn:(s)=>_inferEnergy(s)},
+    {lbl:'🟧 Fin',fn:(s)=>_getFinE(s)},
+    {lbl:'🔥 Rodage',fn:(s)=>{const r=_rodageScore(s.title);return r?Math.round(r.score/10):5;}},
+  ];
+  // Add live ratings if available
+  const lr=state.liveSession?.ratings||{};
+  const hasLR=Object.keys(lr).length>0;
+  if(hasLR)dims.push({lbl:'👥 Public',fn:(s,i)=>{const r=lr[i];return r==='fire'?9:r==='ok'?5:r==='meh'?2:0;}});
+
+  let table=`<div style="font-size:11px;font-weight:800;color:var(--mut);margin-bottom:8px">Chaque case = un morceau · Bleu froid → Rouge chaud</div>`;
+  table+=`<div class="heatmap-wrap"><table class="heatmap-table"><tbody>`;
+
+  // Column headers (song numbers)
+  table+=`<tr><td class="heatmap-row-lbl"></td>${songs.map((_,i)=>`<td class="hm-col-lbl">${pad(i+1)}</td>`).join('')}</tr>`;
+
+  dims.forEach(d=>{
+    table+=`<tr><td class="heatmap-row-lbl">${d.lbl}</td>`;
+    songs.forEach((s,i)=>{
+      const v=d.fn(s,i);
+      const col=_hmColor(v);
+      const title=`${s.title||'?'}: ${v}/10`;
+      table+=`<td><div class="hm-cell" style="background:${col}" onclick="openDrawer(${i})" title="${esc(title)}"></div></td>`;
+    });
+    table+=`</tr>`;
+  });
+
+  // Song title row
+  table+=`<tr><td class="heatmap-row-lbl" style="font-size:8px">Titre</td>${songs.map((s,i)=>`<td class="hm-col-lbl" onclick="openDrawer(${i})" style="cursor:pointer;color:var(--mut);font-size:7.5px">${esc((s.title||'').slice(0,6))}</td>`).join('')}</tr>`;
+
+  table+=`</tbody></table></div>`;
+
+  // Legend
+  table+=`<div class="hm-legend"><span>Froid</span><div class="hm-legend-bar">${_HM_COLORS.map(([r,g,b])=>`<div style="flex:1;background:rgb(${r},${g},${b})"></div>`).join('')}</div><span>Chaud</span></div>`;
+
+  if(hasLR)table+=`<p class="fhint" style="margin-top:8px">La ligne "Public" vient de tes ratings live. Elle s'enrichit à chaque concert.</p>`;
+
+  cont.innerHTML=table;
+}
+
+/* ══════════════════════════════════════════════════
+   SIGNATURE LIVE GREEN MOUSE
+══════════════════════════════════════════════════ */
+function renderSignature(){
+  const cont=document.getElementById('signature-content');
+  if(!cont)return;
+  const concerts=state.concerts||[];
+  if(concerts.length<3){
+    cont.innerHTML=`<div class="sig-empty">🎭 La signature se construit à partir de <b>3 concerts minimum</b>.<br>Tu en as ${concerts.length} pour l'instant. Continue !<br><br>Chaque concert noté affine l'analyse.</div>`;
+    return;
+  }
+
+  // ─ Agrégation par titre
+  const byTitle={};
+  concerts.forEach(c=>{
+    const fillMult={'full':1,'medium':0.75,'empty':0.5}[c.fill||'full'];
+    (c.songs||[]).forEach((s,i)=>{
+      const t=(s.title||'').trim();if(!t)return;
+      if(!byTitle[t])byTitle[t]={fire:0,ok:0,meh:0,total:0,wsum:0};
+      const r=(c.ratings||{})[i];
+      if(r&&r.pub){
+        const w=(r.pub==='fire'?3:r.pub==='ok'?2:1)*fillMult;
+        byTitle[t].wsum+=w;byTitle[t].total++;
+        if(r.pub==='fire')byTitle[t].fire++;
+        else if(r.pub==='ok')byTitle[t].ok++;
+        else byTitle[t].meh++;
+      }
+    });
+  });
+
+  const rated=Object.entries(byTitle).filter(([,d])=>d.total>=2)
+    .map(([t,d])=>({title:t,avg:d.wsum/d.total,fire:d.fire,ok:d.ok,meh:d.meh,total:d.total}))
+    .sort((a,b)=>b.avg-a.avg);
+
+  // ─ Analyse par position
+  const byPos={};
+  concerts.forEach(c=>{
+    (c.songs||[]).forEach((s,i)=>{
+      const r=(c.ratings||{})[i];
+      if(!r||!r.pub)return;
+      const pos=i<3?'debut':i>=c.songs.length-3?'fin':'milieu';
+      if(!byPos[pos])byPos[pos]={wsum:0,total:0};
+      const fillM={'full':1,'medium':0.75,'empty':0.5}[c.fill||'full'];
+      byPos[pos].wsum+=(r.pub==='fire'?3:r.pub==='ok'?2:1)*fillM;
+      byPos[pos].total++;
+    });
+  });
+  const avgDebut=byPos.debut?(byPos.debut.wsum/byPos.debut.total).toFixed(1):'—';
+  const avgMilieu=byPos.milieu?(byPos.milieu.wsum/byPos.milieu.total).toFixed(1):'—';
+  const avgFin=byPos.fin?(byPos.fin.wsum/byPos.fin.total).toFixed(1):'—';
+
+  // ─ Corrélation état / score
+  const etats={};
+  concerts.filter(c=>c.debrief?.etat).forEach(c=>{
+    const sc=c.debrief&&c.ratings?Object.values(c.ratings).filter(r=>r.pub).reduce((a,r)=>a+(r.pub==='fire'?3:r.pub==='ok'?2:1),0)/(Object.values(c.ratings).filter(r=>r.pub).length||1):null;
+    if(sc){
+      if(!etats[c.debrief.etat])etats[c.debrief.etat]={sum:0,count:0};
+      etats[c.debrief.etat].sum+=sc;etats[c.debrief.etat].count++;
+    }
+  });
+  const bestEtat=Object.entries(etats).filter(([,d])=>d.count>=2)
+    .sort((a,b)=>(b[1].sum/b[1].count)-(a[1].sum/a[1].count))[0];
+  const etatMap={anxieux:'😰 Anxieux',doute:'😟 Incertain',ok:'😐 Ok',bien:'😊 Bien',feu:'🔥 En feu'};
+
+  // ─ Titre "signature" (tes 3 meilleurs live)
+  const top3=rated.slice(0,3);
+  const bottom3=rated.slice(-3).reverse().filter(s=>s.meh>s.fire);
+
+  let html='';
+
+  // Arc typique
+  if(byPos.debut){
+    const debutN=parseFloat(avgDebut),milieuN=parseFloat(avgMilieu),finN=parseFloat(avgFin);
+    let arcMsg='',arcIco='';
+    if(debutN>2.2&&finN>2.2&&milieuN<Math.min(debutN,finN)-0.3){arcMsg=`Fort au départ (${avgDebut}), creux au milieu (${avgMilieu}), final solide (${avgFin}) — ton arc typique laisse le public souffler puis repart. C'est une structure efficace si la respiration est contrôlée.`;arcIco='〰️';}
+    else if(finN>debutN+0.3){arcMsg=`Tu montes en puissance (début ${avgDebut} → fin ${avgFin}). Le public sort sur un pic — c'est ta marque de fabrique.`;arcIco='📈';}
+    else if(debutN>=2.2&&milieuN>=2&&finN>=2.2){arcMsg=`Set équilibré et tenu de bout en bout (début ${avgDebut}, milieu ${avgMilieu}, fin ${avgFin}). Pas de surprise mais une fiabilité que le public ressent.`;arcIco='📊';}
+    else{arcMsg=`Début solide (${avgDebut}) mais la fin peut être renforcée (${avgFin}). Pense à garder un shot d'énergie pour le final.`;arcIco='⚠️';}
+    html+=`<div class="sig-card"><div class="sig-card-title">Ton arc typique</div>
+      <div class="sig-insight"><span class="sig-ico">${arcIco}</span><div class="sig-txt">${arcMsg}</div></div></div>`;
+  }
+
+  // Top titres
+  if(top3.length){
+    html+=`<div class="sig-card"><div class="sig-card-title">Tes titres phares live</div>`;
+    top3.forEach((s,i)=>{
+      html+=`<div class="sig-insight">
+        <span class="sig-ico">${['🥇','🥈','🥉'][i]}</span>
+        <div class="sig-txt"><b>${esc(s.title)}</b>
+          <div class="sig-sub">🔥${s.fire} · 👍${s.ok} · 😐${s.meh} sur ${s.total} concerts · Score ${s.avg.toFixed(2)}/3</div>
+        </div></div>`;
+    });
+    html+=`</div>`;
+  }
+
+  // Titres à surveiller
+  if(bottom3.length){
+    html+=`<div class="sig-card"><div class="sig-card-title">Titres à reconsidérer</div>`;
+    bottom3.forEach(s=>{
+      html+=`<div class="sig-insight">
+        <span class="sig-ico">⚠️</span>
+        <div class="sig-txt">${esc(s.title)} — plus de réactions mitigées (😐${s.meh}) que positives sur ${s.total} concerts.
+          <div class="sig-sub">Placement ou préparation à revoir ?</div>
+        </div></div>`;
+    });
+    html+=`</div>`;
+  }
+
+  // Corrélation état
+  if(bestEtat){
+    const [etat,data]=bestEtat;
+    html+=`<div class="sig-card"><div class="sig-card-title">Ton état idéal</div>
+      <div class="sig-insight"><span class="sig-ico">🧠</span>
+        <div class="sig-txt">Tu performes mieux quand tu montes sur scène en état <b>${etatMap[etat]||etat}</b>.
+          Score moyen dans cet état : ${(data.sum/data.count).toFixed(2)}/3.
+          <div class="sig-sub">Basé sur ${data.count} concerts avec debriefing.</div>
+        </div></div></div>`;
+  }
+
+  html+=`<p class="fhint" style="margin-top:4px">Basé sur ${concerts.length} concerts · ${rated.length} titres analysés · données 100% locales</p>`;
+  cont.innerHTML=html;
+}
+
+/* ══════════════════════════════════════════════════
+   CHRONO RÉEL PAR MORCEAU EN RÉPÈTE
+══════════════════════════════════════════════════ */
+let _rhChronoRunning=null,_rhChronoStart=0,_rhChronoInt=null;
+
+function startRhChrono(key,btn){
+  // Stop any running chrono
+  if(_rhChronoRunning&&_rhChronoRunning!==key){stopRhChrono(false);}
+  if(_rhChronoRunning===key){stopRhChrono(true);return;}
+  _rhChronoRunning=key;_rhChronoStart=Date.now();
+  if(btn){btn.textContent='⏹ Stop';btn.classList.add('running');}
+  _rhChronoInt=setInterval(()=>{
+    const el=document.getElementById('rhc-'+key);
+    if(el)el.textContent=fmtDur(Math.floor((Date.now()-_rhChronoStart)/1000));
+  },1000);
+  if(navigator.vibrate)navigator.vibrate(30);
+}
+
+function stopRhChrono(save){
+  if(!_rhChronoRunning)return;
+  const key=_rhChronoRunning;
+  const dur=Math.floor((Date.now()-_rhChronoStart)/1000);
+  clearInterval(_rhChronoInt);_rhChronoRunning=null;
+  if(save&&dur>10){
+    if(!state.rehearsals[key])state.rehearsals[key]={count:0,last:'',dates:[],durations:[]};
+    const r=state.rehearsals[key];
+    if(!r.durations)r.durations=[];
+    r.durations.push(dur);if(r.durations.length>10)r.durations.shift();
+    persist();
+  }
+  renderRehearsals();
+}
+
+/* ══════════════════════════════════════════════════
+   EXTENSIONS EXISTANTES
+══════════════════════════════════════════════════ */
+
+// Patch showJournalSection for new tabs
+const _origShowJournalSection=showJournalSection;
+function showJournalSection(s){
+  const secs=['concerts','rehear','stats-section','check','carnet','signature','analyseplus','planning','venues'];
+  secs.forEach(id=>{const el=document.getElementById('journal-'+id);if(el)el.style.display='none';});
+  const el=document.getElementById('journal-'+(s==='stats'?'stats-section':s));if(el)el.style.display='block';
+  const btns={concerts:'jbtn-c',rehear:'jbtn-r',stats:'jbtn-s',check:'jbtn-ch',carnet:'jbtn-ca',signature:'jbtn-sig',analyseplus:'jbtn-ap',planning:'jbtn-pl',venues:'jbtn-v'};
+  Object.values(btns).forEach(id=>{const b=document.getElementById(id);if(b)b.className='btn ghost';});
+  const active=document.getElementById(btns[s]);if(active)active.className='btn green';
+  const fab=document.getElementById('fab-note');if(fab)fab.hidden=s!=='carnet';
+  _jSection=s;
+  if(s==='rehear')renderRehearsals();
+  if(s==='stats')renderStats();
+  if(s==='check')renderChecklist();
+  if(s==='carnet')renderCarnet();
+  if(s==='signature')renderSignature();
+  if(s==='analyseplus')renderAnalysePlus();
+  if(s==='planning')renderPlanning();
+  if(s==='venues')renderVenues();
+}
+
+// Patch switchSetSection for heatmap
+const _origSwitchSetSection=switchSetSection;
+function switchSetSection(s,btn){
+  _setSection=s;
+  document.querySelectorAll('.ssn-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  document.querySelectorAll('.set-section').forEach(el=>el.classList.remove('active'));
+  const sec=document.getElementById('sset-'+s);if(sec)sec.classList.add('active');
+  if(s==='arc'){_renderSetArc();renderTimeline();}
+  if(s==='ordre'){_renderSetOrdre();}
+  if(s==='analyse'){runAnalysisInline(document.getElementById('set-ana-slot')?.value||0);}
+  if(s==='generate'){_runGeneratorInline();}
+  if(s==='heatmap'){renderHeatmap();}
+}
+
+// Patch renderLive → update assistant
+const _origRenderLive=renderLive;
+const _patchedRenderLive=renderLive;
+
+
+/* ══════════════════════════════════════════════════════════
+   ANALYSE+ — Analyse longitudinale des concerts
+══════════════════════════════════════════════════════════ */
+
+/* ── Helpers ── */
+function _concertWeightedScore(c){
+  const fillM={'full':1,'medium':0.75,'empty':0.5}[c.fill||'full'];
+  const rats=Object.values(c.ratings||{}).filter(r=>r.pub);
+  if(!rats.length)return null;
+  return Math.round(rats.reduce((a,r)=>a+(r.pub==='fire'?3:r.pub==='ok'?2:1)*fillM,0)/rats.length*100)/100;
+}
+
+function _concertDateStr(c){
+  return c.date?new Date(c.date+'T12:00:00').toLocaleDateString('fr-FR',{day:'numeric',month:'short'}):'';
+}
+
+/* ── 1. Trajectoire de progression ── */
+function _buildProgressChart(concerts){
+  const pts=concerts.map((c,i)=>({i,sc:_concertWeightedScore(c),d:_concertDateStr(c)})).filter(p=>p.sc!==null);
+  if(pts.length<2)return'<div class="ana-empty">2 concerts notés minimum.</div>';
+  const W=360,H=100,PX=16,PY=10;
+  const n=pts.length;
+  const xs=pts.map((_,i)=>PX+(i/(n-1||1))*(W-2*PX));
+  const ys=pts.map(p=>PY+((3-p.sc)/3)*(H-2*PY));
+  // Trend line
+  const trend=_linearTrend(pts.map((p,i)=>({x:i,y:p.sc})));
+  const ty0=PY+((3-trend.y(0))/3)*(H-2*PY);
+  const ty1=PY+((3-trend.y(n-1))/3)*(H-2*PY);
+  const tCol=trend.slope>0.05?'#34b531':trend.slope<-0.05?'#ff5b5b':'#ffb347';
+  // Bezier path
+  let path=`M ${xs[0].toFixed(1)} ${ys[0].toFixed(1)}`;
+  for(let i=1;i<n;i++){const cpx=((xs[i-1]+xs[i])/2).toFixed(1);path+=` C ${cpx} ${ys[i-1].toFixed(1)} ${cpx} ${ys[i].toFixed(1)} ${xs[i].toFixed(1)} ${ys[i].toFixed(1)}`;}
+  const area=path+` L ${xs[n-1].toFixed(1)} ${H+2} L ${xs[0].toFixed(1)} ${H+2} Z`;
+  // Level lines 1/2/3
+  const lvls=[1,2,3].map(v=>{
+    const y=(PY+((3-v)/3)*(H-2*PY)).toFixed(1);
+    return`<line x1="${PX}" y1="${y}" x2="${W-PX}" y2="${y}" stroke="#1e2d38" stroke-width="1" stroke-dasharray="3,3"/>
+    <text x="${PX-2}" y="${parseFloat(y)+3}" font-size="7.5" fill="#2a3a45" text-anchor="end">${v}</text>`;
+  }).join('');
+  const dots=pts.map((p,i)=>{
+    const col=p.sc>=2.5?'#34b531':p.sc>=1.8?'#ffb347':'#ff5b5b';
+    return`<circle cx="${xs[i].toFixed(1)}" cy="${ys[i].toFixed(1)}" r="5" fill="${col}" stroke="#0e1418" stroke-width="2"/>
+    <text x="${xs[i].toFixed(1)}" y="${H+16}" text-anchor="middle" font-size="8" fill="#6e818c">${p.d}</text>`;
+  }).join('');
+  const last=pts[n-1];const first=pts[0];
+  const delta=(last.sc-first.sc).toFixed(2);
+  const deltaColor=delta>0?'#34b531':delta<0?'#ff5b5b':'#ffb347';
+  const deltaSign=delta>0?'+':'';
+  return`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <span style="font-size:22px;font-weight:900;color:${tCol}">${trend.slope>0.05?'📈 En progression':trend.slope<-0.05?'📉 En recul':'〰️ Stable'}</span>
+      <span style="font-size:13px;font-weight:800;color:${deltaColor}">${deltaSign}${delta} pts sur ${n} concerts</span>
+    </div>
+    <div class="ap-chart-wrap"><svg viewBox="-22 -4 ${W+28} ${H+24}" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${tCol}" stop-opacity="0.25"/><stop offset="100%" stop-color="${tCol}" stop-opacity="0.02"/></linearGradient></defs>
+      ${lvls}
+      <path d="${area}" fill="url(#pg)"/>
+      <line x1="${xs[0].toFixed(1)}" y1="${ty0.toFixed(1)}" x2="${xs[n-1].toFixed(1)}" y2="${ty1.toFixed(1)}" stroke="${tCol}" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.6"/>
+      <path d="${path}" fill="none" stroke="${tCol}" stroke-width="3" stroke-linecap="round"/>
+      ${dots}
+    </svg></div>`;
+}
+
+function _linearTrend(pts){
+  const n=pts.length,sx=pts.reduce((a,p)=>a+p.x,0),sy=pts.reduce((a,p)=>a+p.y,0);
+  const sxy=pts.reduce((a,p)=>a+p.x*p.y,0),sxx=pts.reduce((a,p)=>a+p.x*p.x,0);
+  const slope=(n*sxy-sx*sy)/(n*sxx-sx*sx||1);
+  const intercept=(sy-slope*sx)/n;
+  return{slope,intercept,y:x=>slope*x+intercept};
+}
+
+/* ── 2. Carte des positions critiques ── */
+function _buildPositionHeatmap(concerts){
+  const rated=concerts.filter(c=>Object.keys(c.ratings||{}).length>0);
+  if(!rated.length)return'<div class="ana-empty">Aucun concert noté.</div>';
+  const maxPos=Math.max(...rated.map(c=>(c.songs||[]).length));
+  if(maxPos===0)return'<div class="ana-empty">Aucune donnée de position.</div>';
+  const colFn=(v)=>v===null?'#1a2830':v==='fire'?'#34b531':v==='ok'?'#ffb347':v==='meh'?'#ff5b5b':'#1e2d38';
+  // Avg per position
+  const posStats=Array.from({length:maxPos},(_,i)=>{
+    const rs=rated.flatMap(c=>{const r=(c.ratings||{})[i];return r&&r.pub?[r.pub]:[];});
+    if(!rs.length)return null;
+    const w=rs.reduce((a,r)=>a+(r==='fire'?3:r==='ok'?2:1),0)/rs.length;
+    return{w,r:rs.filter(x=>x==='fire').length,count:rs.length};
+  });
+  let html='<div class="ap-chart-wrap"><div class="pos-hm-grid">';
+  // Concert headers
+  html+='<div class="pos-hm-concert-hdr">';
+  html+=rated.map((c,i)=>`<div class="pos-hm-concert-num">${i+1}</div>`).join('');
+  html+='</div>';
+  // Rows
+  for(let pos=0;pos<maxPos;pos++){
+    const st=posStats[pos];
+    const avgCol=st?st.w>=2.5?'#34b531':st.w>=1.8?'#ffb347':'#ff5b5b':'var(--mut2)';
+    html+=`<div class="pos-hm-row"><div class="pos-hm-lbl">${pad(pos+1)}</div>`;
+    rated.forEach((c,ci)=>{
+      const r=(c.ratings||{})[pos];
+      const song=(c.songs||[])[pos];
+      const col=r&&r.pub?colFn(r.pub):song?'#1e2d38':'transparent';
+      const title=song?song.title+' : '+(r&&r.pub?r.pub:'non noté'):'—';
+      html+=`<div class="pos-hm-cell" style="background:${col}" title="${esc(title)}"></div>`;
+    });
+    html+=`<div class="pos-hm-avg" style="color:${avgCol}">${st?st.w.toFixed(1):'—'}</div></div>`;
+  }
+  html+='</div></div>';
+  html+='<div style="display:flex;gap:10px;margin-top:6px;font-size:10px;font-weight:800"><span style="color:#34b531">■ 🔥</span><span style="color:#ffb347">■ 👍</span><span style="color:#ff5b5b">■ 😐</span><span style="color:#2a3a45">■ non noté</span></div>';
+  return html;
+}
+
+/* ── 3. Titres en croissance / déclin ── */
+function _buildTitleTrends(concerts){
+  const byTitle={};
+  concerts.forEach((c,ci)=>{
+    const fillM={'full':1,'medium':0.75,'empty':0.5}[c.fill||'full'];
+    (c.songs||[]).forEach((s,i)=>{
+      const t=(s.title||'').trim();if(!t)return;
+      if(!byTitle[t])byTitle[t]=[];
+      const r=(c.ratings||{})[i];
+      if(r&&r.pub)byTitle[t].push({ci,v:(r.pub==='fire'?3:r.pub==='ok'?2:1)*fillM});
+    });
+  });
+  const trends=Object.entries(byTitle)
+    .filter(([,pts])=>pts.length>=3)
+    .map(([title,pts])=>{
+      const half=Math.floor(pts.length/2);
+      const first=pts.slice(0,half);const last=pts.slice(-half);
+      const avg1=first.reduce((a,p)=>a+p.v,0)/first.length;
+      const avg2=last.reduce((a,p)=>a+p.v,0)/last.length;
+      const delta=avg2-avg1;
+      return{title,delta,avg:pts.reduce((a,p)=>a+p.v,0)/pts.length,count:pts.length};
+    })
+    .sort((a,b)=>b.delta-a.delta);
+  if(!trends.length)return'<div class="ana-empty">3 concerts par titre minimum.</div>';
+  const up=trends.filter(t=>t.delta>0.15);
+  const down=trends.filter(t=>t.delta<-0.15);
+  const flat=trends.filter(t=>Math.abs(t.delta)<=0.15);
+  let html='<div class="trend-list">';
+  if(up.length){html+=`<div style="font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin:4px 0 6px">📈 En progression</div>`;
+    up.forEach(t=>{html+=`<div class="trend-item" style="border-color:#34b531"><span class="trend-title">${esc(t.title)}</span><span class="trend-arrow">📈</span><span class="trend-detail">+${t.delta.toFixed(2)} · ${t.count} concerts</span></div>`;});}
+  if(down.length){html+=`<div style="font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#ff5b5b;margin:10px 0 6px">📉 En recul</div>`;
+    down.forEach(t=>{html+=`<div class="trend-item" style="border-color:#ff5b5b"><span class="trend-title">${esc(t.title)}</span><span class="trend-arrow">📉</span><span class="trend-detail">${t.delta.toFixed(2)} · ${t.count} concerts</span></div>`;});}
+  if(flat.length){html+=`<div style="font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin:10px 0 6px">〰️ Stables</div>`;
+    flat.slice(0,4).forEach(t=>{html+=`<div class="trend-item" style="border-color:var(--line2)"><span class="trend-title">${esc(t.title)}</span><span class="trend-arrow" style="color:var(--mut)">〰️</span><span class="trend-detail">score ${t.avg.toFixed(2)}</span></div>`;});}
+  html+='</div>';
+  return html;
+}
+
+/* ── 4. Indicateur Waouh ── */
+function _buildWaouhSection(concerts){
+  const rated=concerts.filter(c=>Object.keys(c.ratings||{}).length>3);
+  if(!rated.length)return'<div class="ana-empty">Pas assez de données.</div>';
+  const waouhConcerts=rated.filter(c=>{
+    const rats=Object.values(c.ratings||{}).map(r=>r.pub).filter(Boolean);
+    // 3 🔥 consécutifs
+    let streak=0,max=0;
+    rats.forEach(r=>{if(r==='fire'){streak++;max=Math.max(max,streak);}else streak=0;});
+    const avg=rats.reduce((a,r)=>a+(r==='fire'?3:r==='ok'?2:1),0)/rats.length;
+    return max>=3&&avg>=2.3;
+  });
+  const rate=Math.round(waouhConcerts.length/rated.length*100);
+  const rateCol=rate>=50?'#34b531':rate>=30?'#ffb347':'#ff5b5b';
+  let html=`<div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">
+    <div><div class="waouh-rate" style="color:${rateCol}">${rate}%</div><div class="waouh-sub">des concerts "waouh"</div></div>
+    <div style="flex:1;font-size:13px;font-weight:700;color:var(--mut);line-height:1.5">${rate>=50?'Vous envoyez régulièrement. Le public sort sur un pic.':rate>=30?'Vous avez de bons soirs mais c\'est encore irrégulier. Cherchez ce qui déclenche le waouh.':'Peu de moments waouh pour l\'instant. Analysez vos meilleurs concerts pour identifier le pattern.'}</div>
+  </div>`;
+  if(waouhConcerts.length){html+='<div class="waouh-list">';
+    waouhConcerts.slice(0,5).forEach(c=>{
+      const d=_concertDateStr(c);const fill={'full':'🏟','medium':'👥','empty':'🌵'}[c.fill||'full'];
+      html+=`<div class="waouh-item">⭐<span><b>${esc(c.venue||'Concert')}</b>${d?' · '+d:''}${c.city?' · '+c.city:''}</span><span>${fill}</span></div>`;
+    });
+    html+='</div>';}
+  return html;
+}
+
+/* ── 5. Corrélation répètes → scène ── */
+function _buildRepeteCorrelation(concerts){
+  const byTitle={};
+  concerts.forEach(c=>{
+    (c.songs||[]).forEach((s,i)=>{
+      const t=(s.title||'').trim();if(!t)return;
+      const r=(c.ratings||{})[i];if(!r||!r.pub)return;
+      if(!byTitle[t])byTitle[t]={ratingSum:0,count:0,rehearses:0};
+      byTitle[t].ratingSum+=(r.pub==='fire'?3:r.pub==='ok'?2:1);
+      byTitle[t].count++;
+    });
+  });
+  // Add rehearsal counts
+  Object.keys(byTitle).forEach(title=>{
+    let total=0;
+    (state.sets||[]).forEach(set=>{
+      (set.songs||[]).forEach((ss,i)=>{
+        if((ss.title||'').trim()===title){
+          const k=set.id+'_'+i;
+          const r=(state.rehearsals||{})[k];
+          if(r)total+=r.count||0;
+        }
+      });
+    });
+    byTitle[title].rehearses=total;
+  });
+  const items=Object.entries(byTitle)
+    .filter(([,d])=>d.count>=2)
+    .map(([title,d])=>({title,avg:d.ratingSum/d.count,rehearses:d.rehearses,count:d.count}));
+  if(!items.length)return'<div class="ana-empty">Pas assez de données.</div>';
+  // Buckets: 0-4, 5-9, 10+
+  const buckets=[
+    {lbl:'0–4 répètes',min:0,max:4},
+    {lbl:'5–9 répètes',min:5,max:9},
+    {lbl:'10+ répètes',min:10,max:999}
+  ].map(b=>{
+    const group=items.filter(x=>x.rehearses>=b.min&&x.rehearses<=b.max);
+    const avg=group.length?group.reduce((a,x)=>a+x.avg,0)/group.length:null;
+    return{...b,avg,n:group.length};
+  }).filter(b=>b.n>0);
+  if(buckets.length<2)return'<div class="ana-empty">Répètes plus de titres pour cette analyse.</div>';
+  const maxAvg=Math.max(...buckets.map(b=>b.avg));
+  const corr=buckets.length>=2&&buckets[buckets.length-1].avg>buckets[0].avg;
+  let html=`<div style="font-size:13px;font-weight:800;color:${corr?'#34b531':'#ffb347'};margin-bottom:12px">${corr?'✅ Les titres plus répétés performent mieux en concert.':'⚠️ Peu de corrélation entre les répètes et la performance. Ta méthode de répète est peut-être à revoir.'}</div>`;
+  html+=buckets.map(b=>{
+    const pct=b.avg?Math.round((b.avg/3)*100):0;
+    const col=b.avg>=2.5?'#34b531':b.avg>=1.8?'#ffb347':'#ff5b5b';
+    return`<div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:800;margin-bottom:4px">
+        <span>${b.lbl} <span style="color:var(--mut)">(${b.n} titre${b.n>1?'s':''})</span></span>
+        <span style="color:${col}">${b.avg?b.avg.toFixed(2)+'/3':'—'}</span>
+      </div>
+      <div style="height:8px;background:var(--panel2);border-radius:4px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${col};border-radius:4px;transition:.4s"></div>
+      </div></div>`;
+  }).join('');
+  return html;
+}
+
+/* ── 6. Rapport mensuel ── */
+function _generateMonthlyReport(concerts){
+  const now=new Date();
+  const thisMonth=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+  const lastMonth=new Date(now.getFullYear(),now.getMonth()-1,1);
+  const lastMonthStr=lastMonth.getFullYear()+'-'+String(lastMonth.getMonth()+1).padStart(2,'0');
+  const monthFn=d=>d?d.slice(0,7):'';
+  const thisMC=concerts.filter(c=>monthFn(c.date)===thisMonth);
+  const lastMC=concerts.filter(c=>monthFn(c.date)===lastMonthStr);
+  const monthName=now.toLocaleDateString('fr-FR',{month:'long',year:'numeric'});
+  if(!thisMC.length&&!lastMC.length){
+    return`RAPPORT — ${monthName.toUpperCase()}\nAucun concert ce mois-ci.`;
+  }
+  const scoreM=c=>_concertWeightedScore(c);
+  const avg=cs=>{const s=cs.map(scoreM).filter(Boolean);return s.length?s.reduce((a,b)=>a+b,0)/s.length:null;};
+  const thisAvg=avg(thisMC);const lastAvg=avg(lastMC);
+  const delta=thisAvg&&lastAvg?thisAvg-lastAvg:null;
+  // Title trends this month
+  const byT={};
+  thisMC.forEach(c=>(c.songs||[]).forEach((s,i)=>{
+    const t=(s.title||'').trim();if(!t)return;
+    const r=(c.ratings||{})[i];if(!r||!r.pub)return;
+    if(!byT[t])byT[t]=[];byT[t].push(r.pub==='fire'?3:r.pub==='ok'?2:1);
+  }));
+  const topTitle=Object.entries(byT).filter(([,v])=>v.length>0)
+    .map(([t,v])=>({t,avg:v.reduce((a,b)=>a+b,0)/v.length}))
+    .sort((a,b)=>b.avg-a.avg)[0];
+  const waouhN=thisMC.filter(c=>{const r=Object.values(c.ratings||{}).map(x=>x.pub).filter(Boolean);let s=0,m=0;r.forEach(x=>{if(x==='fire'){s++;m=Math.max(m,s);}else s=0;});return m>=3;}).length;
+  let report=`📋 RAPPORT GREEN MOUSE — ${monthName.toUpperCase()}\n`;
+  report+=`${'─'.repeat(40)}\n`;
+  report+=`Concerts ce mois  : ${thisMC.length}\n`;
+  if(thisAvg)report+=`Score moyen       : ${thisAvg.toFixed(2)}/3`;
+  if(delta)report+=` (${delta>0?'+':''}${delta.toFixed(2)} vs mois dernier)\n`;
+  else report+='\n';
+  if(waouhN)report+=`Concerts waouh    : ${waouhN}/${thisMC.length} (${Math.round(waouhN/thisMC.length*100)}%)\n`;
+  if(topTitle)report+=`Meilleur titre    : ${topTitle.t} (${topTitle.avg.toFixed(2)}/3)\n`;
+  report+=`${'─'.repeat(40)}\n`;
+  if(delta>0.2)report+=`✅ Vous progressez clairement. Continuez sur cette lancée.\n`;
+  else if(delta<-0.2)report+=`⚠️ Recul ce mois — identifiez ce qui a changé.\n`;
+  else report+=`〰️ Niveau stable. Cherchez comment passer au niveau supérieur.\n`;
+  report+=`\nGénéré par l'app Green Mouse — ${new Date().toLocaleDateString('fr-FR')}`;
+  return report;
+}
+
+/* ── Main render ── */
+function renderAnalysePlus(){
+  const cont=document.getElementById('analyseplus-content');if(!cont)return;
+  const concerts=state.concerts||[];
+  const rated=concerts.filter(c=>Object.keys(c.ratings||{}).length>0);
+  if(rated.length<2){
+    cont.innerHTML=`<div class="sig-empty">🔬 L'analyse approfondie nécessite <b>2 concerts notés minimum</b>.<br>Tu en as ${rated.length} pour l'instant.<br><br>Note tes morceaux après chaque concert (via la carte de transition ou le Journal).</div>`;
+    return;
+  }
+  const report=_generateMonthlyReport(concerts);
+  cont.innerHTML=`
+  <div class="ap-section">
+    <div class="ap-title"><span class="ap-title-ico">📈</span>Trajectoire de progression</div>
+    ${_buildProgressChart(rated)}
+  </div>
+  <div class="ap-section">
+    <div class="ap-title"><span class="ap-title-ico">🗺️</span>Carte des positions critiques</div>
+    <div style="font-size:11px;color:var(--mut);margin-bottom:8px">Chaque colonne = un concert · Chaque ligne = une position dans le set</div>
+    ${_buildPositionHeatmap(rated)}
+  </div>
+  <div class="ap-section">
+    <div class="ap-title"><span class="ap-title-ico">📊</span>Titres en croissance / déclin</div>
+    ${_buildTitleTrends(rated)}
+  </div>
+  <div class="ap-section">
+    <div class="ap-title"><span class="ap-title-ico">⭐</span>Indicateur Waouh</div>
+    ${_buildWaouhSection(rated)}
+  </div>
+  <div class="ap-section">
+    <div class="ap-title"><span class="ap-title-ico">🔬</span>Répètes → Scène : ça sert ?</div>
+    ${_buildRepeteCorrelation(rated)}
+  </div>
+  <div class="ap-section">
+    <div class="ap-title"><span class="ap-title-ico">📋</span>Rapport mensuel</div>
+    <div class="monthly-report-box" id="monthly-report-text">${esc(report)}</div>
+    <button class="monthly-copy-btn" onclick="_copyMonthlyReport()">📋 Copier</button>
+  </div>`;
+}
+
+function _copyMonthlyReport(){
+  const t=document.getElementById('monthly-report-text')?.textContent||'';
+  navigator.clipboard?.writeText(t).then(()=>{
+    const b=document.querySelector('.monthly-copy-btn');
+    if(b){const o=b.textContent;b.textContent='✅ Copié !';setTimeout(()=>b.textContent=o,1500);}
+  });
+}
+
+
+/* ══════════════════════════════════════════════════════
+   PWA — icon + manifest + hint
+══════════════════════════════════════════════════════ */
+function initPWA(){
+  // Dynamic touch icon from LOGO
+  const icon=document.getElementById('pwa-icon');
+  if(icon&&LOGO){icon.href=LOGO;}
+  // Manifest blob for Android
+  try{
+    const m={name:'Green Mouse Setlist',short_name:'Green Mouse',
+      background_color:'#0e1418',theme_color:'#34b531',display:'standalone',
+      orientation:'portrait-primary',
+      icons:[{src:LOGO,sizes:'192x192',type:'image/png'},{src:LOGO,sizes:'512x512',type:'image/png'}]};
+    const blob=new Blob([JSON.stringify(m)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement('link');link.rel='manifest';link.href=url;
+    document.head.appendChild(link);
+  }catch(e){}
+  // Show PWA hint if not standalone and not dismissed
+  const isStandalone=window.navigator.standalone||window.matchMedia('(display-mode: standalone)').matches;
+  if(!isStandalone&&!localStorage.getItem('pwa-dismissed')){
+    setTimeout(()=>{
+      const b=document.getElementById('pwa-banner');if(b)b.hidden=false;
+    },3000);
+  }
+}
+function dismissPWAHint(){
+  const b=document.getElementById('pwa-banner');if(b)b.hidden=true;
+  localStorage.setItem('pwa-dismissed','1');
+}
+
+/* ══════════════════════════════════════════════════════
+   TITRES D'URGENCE
+══════════════════════════════════════════════════════ */
+function openEmergency(){
+  const lib=state.library||[];
+  const emg=lib.filter(s=>s.emergency);
+  const el=document.getElementById('emg-list');
+  if(!el)return;
+  if(!emg.length){
+    el.innerHTML='<div class="emg-empty">Aucun titre de réserve.<br>Marque des titres ⚡ dans la Biblio pour les retrouver ici rapidement.</div>';
+  } else {
+    el.innerHTML=emg.map(s=>{
+      const rod=_rodageScore(s.title);
+      const mood=s.caractere&&MOODS[s.caractere]?MOODS[s.caractere]:{emoji:'🎵'};
+      return`<div class="emg-song-row">
+        <span style="font-size:18px">${mood.emoji}</span>
+        <span class="emg-song-title">${esc(s.title||'—')}</span>
+        <span class="emg-meta">${s.duree||''}</span>
+        ${rod?`<span class="emg-meta" style="color:${rod.score>=75?'#34b531':rod.score>=50?'#ffb347':'#ff5b5b'}">${rod.score}%</span>`:''}
+        <button class="emg-use-btn" onclick="insertEmergency('${s.id}')">Jouer après</button>
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('emg-modal').hidden=false;
+}
+function closeEmergency(){document.getElementById('emg-modal').hidden=true;}
+function insertEmergency(libId){
+  const s=(state.library||[]).find(x=>x.id===libId);if(!s)return;
+  const ns={...s,libId:s.id,rappel:false,parole:''};delete ns.status;delete ns.notes;
+  const songs=as().songs;
+  songs.splice(current+1,0,ns);
+  persist();renderLive();renderSetView();closeEmergency();
+  if(navigator.vibrate)navigator.vibrate([30,20,80]);
+}
+
+/* ══════════════════════════════════════════════════════
+   SNAPSHOTS DE SET
+══════════════════════════════════════════════════════ */
+function saveSnapshot(){
+  const name=window.prompt('Nom du snapshot ?','Set '+(new Date().toLocaleDateString('fr-FR')));
+  if(!name||!name.trim())return;
+  if(!as().snapshots)as().snapshots=[];
+  as().snapshots.unshift({id:uid(),name:name.trim(),date:new Date().toISOString().slice(0,10),
+    songs:JSON.parse(JSON.stringify(as().songs)),count:as().songs.length});
+  if(as().snapshots.length>20)as().snapshots=as().snapshots.slice(0,20);
+  persist();_renderSetOrdre();
+  if(navigator.vibrate)navigator.vibrate([30,20,60]);
+}
+function restoreSnapshot(snapId){
+  const snap=(as().snapshots||[]).find(s=>s.id===snapId);if(!snap)return;
+  if(!window.confirm('Restaurer "'+snap.name+'" ? Le set actuel sera remplacé.'))return;
+  as().songs=JSON.parse(JSON.stringify(snap.songs));
+  persist();current=0;renderLive();renderSetView();
+}
+function deleteSnapshot(snapId){
+  as().snapshots=(as().snapshots||[]).filter(s=>s.id!==snapId);
+  persist();_renderSetOrdre();
+}
+function _renderSnapshots(){
+  const snaps=as().snapshots||[];
+  const cont=document.getElementById('snapshot-list');if(!cont)return;
+  if(!snaps.length){cont.innerHTML='<p class="fhint" style="margin:0 0 12px">Aucun snapshot · Tap "📸 Snapshot" pour sauvegarder l\'ordre actuel.</p>';return;}
+  cont.innerHTML=`<p style="font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-bottom:7px">Snapshots sauvegardés</p>`+snaps.map(s=>`<div class="snap-item">
+    <span class="snap-name">${esc(s.name)}</span>
+    <span class="snap-date">${s.count||0} titres · ${s.date||''}</span>
+    <button class="snap-restore" onclick="restoreSnapshot('${s.id}')">↩ Restaurer</button>
+    <button class="snap-del" onclick="deleteSnapshot('${s.id}')">✕</button>
+  </div>`).join('');
+}
+
+/* ══════════════════════════════════════════════════════
+   CARNET DE SALLES
+══════════════════════════════════════════════════════ */
+let _venueEditId=null;
+const _VENUE_TYPE_LBL={'bar':'🍺 Bar/Club','salle':'🎭 Salle','festival':'🎪 Festival','studio':'🎙️ Studio','plein-air':'🌳 Plein air'};
+
+function ensureVenues(){if(!state.venues)state.venues=[];}
+
+function renderVenues(){
+  ensureVenues();
+  const cont=document.getElementById('venue-list');if(!cont)return;
+  if(!state.venues.length){
+    cont.innerHTML='<div class="ana-empty">Aucune salle enregistrée.<br>Appuie sur ＋ pour commencer ton carnet de salles.</div>';
+    return;
+  }
+  const concertsByVenue={};
+  (state.concerts||[]).forEach(c=>{if(c.venueId)concertsByVenue[c.venueId]=(concertsByVenue[c.venueId]||0)+1;});
+  cont.innerHTML=state.venues.map(v=>{
+    const nb=concertsByVenue[v.id]||0;
+    return`<div class="venue-card">
+      <div class="venue-card-header">
+        <div style="flex:1;min-width:0">
+          <div class="venue-name">${esc(v.name||'—')}</div>
+          <div class="venue-city">${v.city?'📍 '+esc(v.city):''}${nb?' · 🎸 '+nb+' concert'+(nb>1?'s':''):''}</div>
+        </div>
+        <span class="venue-type-badge">${_VENUE_TYPE_LBL[v.type||'bar']||v.type||'—'}</span>
+      </div>
+      ${v.soundman?`<div class="venue-meta"><span>👤 ${esc(v.soundman)}</span></div>`:''}
+      ${v.soundNotes?`<div class="venue-notes">🔊 ${esc(v.soundNotes)}</div>`:''}
+      ${v.logistics?`<div class="venue-notes" style="color:var(--mut)">🅿️ ${esc(v.logistics)}</div>`:''}
+      <div class="venue-actions">
+        <button class="btn ghost" style="font-size:11px;padding:6px 12px" onclick="openVenueModal('${v.id}')">✏️ Modifier</button>
+        <button class="btn ghost" style="font-size:11px;padding:6px 12px" onclick="openPlanModal(null,'${v.id}')">📅 Planifier</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openVenueModal(id){
+  ensureVenues();
+  _venueEditId=id;
+  const v=id?state.venues.find(x=>x.id===id):null;
+  document.getElementById('venue-modal-title').textContent=v?v.name||'Modifier':'Nouvelle salle';
+  document.getElementById('vm-name').value=v?v.name||'':'';
+  document.getElementById('vm-city').value=v?v.city||'':'';
+  document.getElementById('vm-type').value=v?v.type||'bar':'bar';
+  document.getElementById('vm-soundman').value=v?v.soundman||'':'';
+  document.getElementById('vm-sound').value=v?v.soundNotes||'':'';
+  document.getElementById('vm-stage').value=v?v.stageNotes||'':'';
+  document.getElementById('vm-logistics').value=v?v.logistics||'':'';
+  const del=document.getElementById('venue-delete-btn');if(del)del.style.display=v?'':'none';
+  document.getElementById('venue-modal').hidden=false;
+}
+function closeVenueModal(){document.getElementById('venue-modal').hidden=true;}
+function saveVenue(){
+  const name=document.getElementById('vm-name').value.trim();if(!name)return;
+  ensureVenues();
+  if(_venueEditId){
+    const v=state.venues.find(x=>x.id===_venueEditId);
+    if(v){v.name=name;v.city=document.getElementById('vm-city').value.trim();
+      v.type=document.getElementById('vm-type').value;v.soundman=document.getElementById('vm-soundman').value.trim();
+      v.soundNotes=document.getElementById('vm-sound').value.trim();v.stageNotes=document.getElementById('vm-stage').value.trim();
+      v.logistics=document.getElementById('vm-logistics').value.trim();}
+  } else {
+    state.venues.push({id:uid(),name,city:document.getElementById('vm-city').value.trim(),
+      type:document.getElementById('vm-type').value,soundman:document.getElementById('vm-soundman').value.trim(),
+      soundNotes:document.getElementById('vm-sound').value.trim(),stageNotes:document.getElementById('vm-stage').value.trim(),
+      logistics:document.getElementById('vm-logistics').value.trim()});
+  }
+  persist();closeVenueModal();renderVenues();
+}
+function deleteVenue(){
+  if(!_venueEditId)return;
+  if(!window.confirm('Supprimer cette salle ?'))return;
+  state.venues=state.venues.filter(x=>x.id!==_venueEditId);
+  persist();closeVenueModal();renderVenues();
+}
+
+/* ══════════════════════════════════════════════════════
+   PLANNING DES CONCERTS
+══════════════════════════════════════════════════════ */
+let _planEditId=null;
+function ensurePlanning(){if(!state.upcoming)state.upcoming=[];}
+
+function renderPlanning(){
+  ensurePlanning();
+  const cont=document.getElementById('plan-list');if(!cont)return;
+  const today=new Date();today.setHours(0,0,0,0);
+  const sorted=[...state.upcoming]
+    .sort((a,b)=>new Date(a.date)-new Date(b.date))
+    .filter(p=>new Date(p.date+'T23:59:59')>=today);
+  const past=state.upcoming.filter(p=>new Date(p.date+'T23:59:59')<today);
+  if(!sorted.length&&!past.length){
+    cont.innerHTML='<div class="ana-empty">Aucun concert planifié.<br>Appuie sur ＋ pour planifier.</div>';
+    return;
+  }
+  const renderCard=(p)=>{
+    const d=new Date(p.date+'T12:00:00');
+    const diffDays=Math.round((d-today)/864e5);
+    const isPast=diffDays<0;
+    const venue=(state.venues||[]).find(v=>v.id===p.venueId);
+    const set=state.sets?.find(s=>s.id===p.setId);
+    const dateStr=d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+    // Readiness
+    let readinessHTML='';
+    if(set){
+      const songs=set.songs||[];
+      if(songs.length){
+        const rodScores=songs.map(s=>_rodageScore(s.title)?.score||0);
+        const avg=rodScores.reduce((a,b)=>a+b,0)/rodScores.length;
+        const col=avg>=75?'#34b531':avg>=50?'#ffb347':'#ff5b5b';
+        readinessHTML=`<div style="display:flex;align-items:center;gap:8px;padding:8px 16px 0;font-size:11px;font-weight:800;color:var(--mut)">Préparation :
+          <div style="flex:1;height:4px;background:var(--line);border-radius:2px;overflow:hidden">
+            <div style="height:100%;width:${avg}%;background:${col}"></div>
+          </div>
+          <span style="color:${col}">${Math.round(avg)}%</span></div>`;
+      }
+    }
+    const dayCol=isPast?'var(--mut)':diffDays===0?'#34b531':diffDays<=7?'#ffb347':'var(--blue)';
+    return`<div class="plan-card">
+      <div class="plan-card-header" onclick="_togglePlan('pd-${p.id}')">
+        <div class="plan-days-badge" style="background:rgba(${dayCol.startsWith('#')?_hex2rgba(dayCol,.2).slice(5,-1):'52,181,49'});border:1px solid ${dayCol}">
+          <div class="plan-days-num" style="color:${dayCol}">${isPast?'✓':diffDays===0?'Auj.':diffDays+'j'}</div>
+          <div class="plan-days-lbl" style="color:${dayCol}">${isPast?'passé':diffDays===0?'':'restants'}</div>
+        </div>
+        <div class="plan-info">
+          <div class="plan-venue">${esc(p.venue||(venue?.name||'Concert'))}</div>
+          <div class="plan-date">${dateStr}${p.creneauMin?' · '+p.creneauMin+'min':''}${venue?.city?' · 📍'+venue.city:''}</div>
+          ${set?`<div style="font-size:11px;font-weight:700;color:var(--green)">🎸 ${esc(set.name)}</div>`:''}
+        </div>
+      </div>
+      ${readinessHTML}
+      <div class="plan-detail" id="pd-${p.id}">
+        ${p.notes?`<div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.5">${esc(p.notes)}</div>`:''}
+        ${venue?.soundman?`<div style="font-size:12px;font-weight:700;color:var(--mut);margin-bottom:6px">👤 Soundman : ${esc(venue.soundman)}</div>`:''}
+        ${venue?.logistics?`<div style="font-size:12px;font-weight:700;color:var(--mut);margin-bottom:6px">🅿️ ${esc(venue.logistics)}</div>`:''}
+        <div class="tools" style="margin-top:8px">
+          <button class="btn ghost" style="font-size:11px" onclick="openPlanModal('${p.id}')">✏️ Modifier</button>
+          <button class="btn ghost" style="font-size:11px" onclick="convertPlanToConcert('${p.id}')">💾 Sauvegarder comme concert</button>
+          <button class="btn danger" style="font-size:11px" onclick="deletePlan('${p.id}')">🗑</button>
+        </div>
+      </div>
+    </div>`;
+  };
+  cont.innerHTML=sorted.map(renderCard).join('')+(past.length?`<div style="font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin:14px 0 8px">Passés</div>`+past.slice(0,3).map(renderCard).join(''):'');
+}
+
+function _togglePlan(id){const el=document.getElementById(id);if(el)el.classList.toggle('open');}
+
+function openPlanModal(id,preVenueId){
+  ensurePlanning();ensureVenues();
+  _planEditId=id;
+  const p=id?state.upcoming.find(x=>x.id===id):null;
+  document.getElementById('plan-modal-title').textContent=p?'Modifier':'Planifier un concert';
+  document.getElementById('pm-date').value=p?p.date:'';
+  document.getElementById('pm-creneau').value=p?p.creneauMin||'':'';
+  document.getElementById('pm-notes').value=p?p.notes||'':'';
+  // Populate venue select
+  const vs=document.getElementById('pm-venue');
+  vs.innerHTML='<option value="">— Aucune salle</option>'+(state.venues||[]).map(v=>`<option value="${v.id}">${esc(v.name)}${v.city?' ('+v.city+')':''}</option>`).join('');
+  vs.value=p?p.venueId||'':preVenueId||'';
+  // Populate set select
+  const ss=document.getElementById('pm-set');
+  ss.innerHTML='<option value="">— Aucun set assigné</option>'+(state.sets||[]).map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');
+  ss.value=p?p.setId||'':state.activeId||'';
+  const del=document.getElementById('plan-delete-btn');if(del)del.style.display=p?'':'none';
+  document.getElementById('plan-modal').hidden=false;
+}
+function closePlanModal(){document.getElementById('plan-modal').hidden=true;}
+function savePlan(){
+  const date=document.getElementById('pm-date').value;if(!date)return;
+  ensurePlanning();
+  const venueId=document.getElementById('pm-venue').value;
+  const venue=venueId?(state.venues||[]).find(v=>v.id===venueId):null;
+  const data={date,venueId,venue:venue?.name||'',creneauMin:parseInt(document.getElementById('pm-creneau').value)||0,
+    setId:document.getElementById('pm-set').value,notes:document.getElementById('pm-notes').value.trim()};
+  if(_planEditId){Object.assign(state.upcoming.find(x=>x.id===_planEditId),data);}
+  else{state.upcoming.push({id:uid(),...data});}
+  persist();closePlanModal();renderPlanning();
+}
+function deletePlan(id){
+  const pid=id||_planEditId;if(!pid)return;
+  if(!window.confirm('Supprimer ce concert planifié ?'))return;
+  state.upcoming=state.upcoming.filter(x=>x.id!==pid);
+  persist();closePlanModal();renderPlanning();
+}
+function convertPlanToConcert(id){
+  const p=state.upcoming.find(x=>x.id===id);if(!p)return;
+  const venue=(state.venues||[]).find(v=>v.id===p.venueId);
+  // Pre-fill the save concert form
+  document.getElementById('c-date').value=p.date||'';
+  document.getElementById('c-venue').value=p.venue||venue?.name||'';
+  document.getElementById('c-city').value=venue?.city||'';
+  document.getElementById('c-duration').value='';
+  document.getElementById('c-notes').value=p.notes||'';
+  showJournalSection('concerts');
+  document.getElementById('save-concert-panel').style.display='block';
+  if(navigator.vibrate)navigator.vibrate(20);
+}
+
+/* ══════════════════════════════════════════════════════
+   CONFIANCE EN RÉPÈTE
+══════════════════════════════════════════════════════ */
+function saveConfidence(key,stars){
+  if(!state.rehearsals[key])state.rehearsals[key]={count:0,last:'',dates:[],durations:[],confidence:[]};
+  const today=new Date().toISOString().slice(0,10);
+  const r=state.rehearsals[key];
+  if(!r.confidence)r.confidence=[];
+  r.confidence.push({date:today,stars});
+  if(r.confidence.length>20)r.confidence=r.confidence.slice(-20);
+  persist();renderRehearsals();
+  if(navigator.vibrate)navigator.vibrate([20,10,40]);
+}
+function _avgConfidence(key){
+  const r=(state.rehearsals||{})[key];
+  if(!r?.confidence?.length)return null;
+  const last5=r.confidence.slice(-5);
+  return last5.reduce((a,c)=>a+c.stars,0)/last5.length;
+}
+
+/* ══════════════════════════════════════════════════════
+   Emergency flag in lib modal
+══════════════════════════════════════════════════════ */
+function toggleEmergencyFlag(){
+  if(_libEditId){
+    const s=(state.library||[]).find(x=>x.id===_libEditId);
+    if(s){s.emergency=!s.emergency;persist();renderBiblio();}
+  }
+  if(_drawerIdx!==null){
+    const rs=as().songs[_drawerIdx];
+    const lib=rs?.libId?_libSong(rs.libId):null;
+    if(lib){lib.emergency=!lib.emergency;persist();}
+  }
+}
+
 /* ── boot ── */
 function boot(){
   checkReadOnly();
+  initPWA();
   document.getElementById('logoTop').src=LOGO;
   const link=document.createElement('link');link.rel='apple-touch-icon';link.href=LOGO;document.head.appendChild(link);
   if('wakeLock'in navigator)document.getElementById('wakeBtn').hidden=false;
@@ -4891,6 +6882,9 @@ function boot(){
   renderLive();
   renderSheets();
   updateExportInfo();
+  // Météo live button
+  const meteoBtn=document.getElementById('meteo-live-btn');
+  if(meteoBtn)meteoBtn.style.display='inline-flex';
   // init Set view cache
   // Sync slot from analyse
   const slot=document.getElementById('ana-slot');if(slot&&slot.value)setChrono(slot.value);
@@ -4898,4 +6892,5 @@ function boot(){
 boot();
 </script>
 </body>
-</html>
+</html>id="journal-signature" style="display:none"><div id="signature-content"></div></div>
+  <div 
