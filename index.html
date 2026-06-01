@@ -1206,6 +1206,81 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-radius:5px;
 .conf-star-btn.sel{background:var(--gsof);border-color:var(--green-d)}
 .conf-avg{font-size:11px;font-weight:800;color:var(--amber);white-space:nowrap}
 
+
+/* ══ SET IDÉAL ══ */
+.ideal-set-wrap{margin-top:14px}
+.ideal-set-title{font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--mut2);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.ideal-song-card{
+  border-radius:16px;padding:12px 14px;margin-bottom:8px;
+  border-left:4px solid;position:relative;overflow:hidden;
+  background:var(--panel);border-top:1px solid var(--line);
+  border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+}
+.isc-num{font-size:11px;font-weight:900;color:var(--mut2);letter-spacing:.06em;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.isc-badge{font-size:10px;font-weight:900;padding:1px 8px;border-radius:999px;border:1px solid;white-space:nowrap}
+.isc-title{font-size:15px;font-weight:900;text-transform:uppercase;letter-spacing:.02em;margin-bottom:6px}
+.isc-role{font-size:12px;font-weight:800;color:var(--ink);margin-bottom:4px;line-height:1.4}
+.isc-meta{display:flex;gap:8px;flex-wrap:wrap;font-size:11px;font-weight:700;color:var(--mut);margin-bottom:5px}
+.isc-tip{font-size:12px;font-weight:700;line-height:1.45;padding:7px 10px;border-radius:10px;
+  background:rgba(255,255,255,.04);margin-top:5px;color:var(--mut)}
+.isc-tip b{display:block;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.isc-public{font-size:12px;font-weight:700;color:var(--green);font-style:italic;margin-top:4px;
+  padding:6px 10px;background:rgba(52,181,49,.07);border-radius:8px}
+.isc-enc{font-size:12px;font-weight:800;color:var(--amber);margin-top:4px}
+.ideal-apply-btn{width:100%;margin-top:14px;background:linear-gradient(180deg,#34b531,#268024);
+  color:#fff;border:0;border-radius:14px;padding:14px;font-size:14px;font-weight:900;
+  letter-spacing:.03em;cursor:pointer;-webkit-tap-highlight-color:transparent;
+  box-shadow:0 4px 14px rgba(52,181,49,.35)}
+.ideal-apply-btn:active{transform:scale(.98)}
+.isc-connector{text-align:center;font-size:20px;color:var(--mut2);margin:2px 0;user-select:none}
+
+
+/* ══ PAGE CE SOIR ══ */
+.tonight-hero{background:linear-gradient(135deg,var(--panel),#1a2d20);border:1px solid var(--green-d);border-radius:22px;padding:20px;margin-bottom:14px;text-align:center}
+.readiness-score{font-size:72px;font-weight:900;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.readiness-label{font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;margin-top:4px}
+.readiness-bar{height:8px;background:var(--panel2);border-radius:4px;overflow:hidden;margin:12px 0 6px}
+.readiness-bar-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.readiness-sub{font-size:12px;font-weight:700;color:var(--mut);margin-top:4px}
+.action-list{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+.action-item{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:14px;border:1px solid;font-size:13px;font-weight:700;line-height:1.4}
+.action-item.high{background:rgba(255,91,91,.08);border-color:rgba(255,91,91,.3);color:#ff8080}
+.action-item.medium{background:rgba(255,179,71,.08);border-color:rgba(255,179,71,.3);color:var(--amber)}
+.action-item.good{background:rgba(52,181,49,.08);border-color:rgba(52,181,49,.3);color:var(--green)}
+.action-ico{font-size:18px;flex:0 0 auto;margin-top:1px}
+
+/* Risk per song */
+.risk-song-list{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.risk-row{display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;border-left:4px solid}
+.risk-num{font-size:13px;font-weight:900;min-width:22px}
+.risk-title{flex:1;font-size:13px;font-weight:800;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.risk-badge{font-size:10px;font-weight:900;padding:2px 8px;border-radius:999px;border:1px solid;white-space:nowrap;flex:0 0 auto}
+.risk-detail{font-size:10px;font-weight:700;color:var(--mut2);white-space:nowrap}
+.risk-legend{display:flex;gap:12px;font-size:11px;font-weight:800;color:var(--mut);margin-bottom:8px}
+
+/* Fatigue curve */
+.fatigue-peak{font-size:12px;font-weight:900;padding:6px 12px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;margin-top:8px}
+
+/* Rehearsal plan */
+.plan-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--panel);border:1px solid var(--line);border-radius:13px;margin-bottom:6px}
+.plan-priority{width:28px;height:28px;border-radius:50%;font-size:13px;font-weight:900;display:grid;place-items:center;flex:0 0 auto}
+.plan-song-title{flex:1;font-size:13px;font-weight:800;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.plan-est{font-size:11px;font-weight:700;color:var(--mut2);white-space:nowrap}
+.plan-reason{font-size:11px;font-weight:700;color:var(--mut);white-space:nowrap}
+
+/* Concert diff */
+.diff-row{display:flex;align-items:center;gap:8px;padding:7px 12px;background:var(--bg2);border-radius:10px;margin-bottom:4px;font-size:12px;font-weight:800}
+.diff-played{color:var(--green)}.diff-skipped{color:var(--mut2);text-decoration:line-through;opacity:.6}
+.diff-added{color:var(--amber)}
+
+
+/* ══ RODAGE PICKER ══ */
+.rodage-opt{border:2px solid var(--line2);border-radius:10px;padding:7px 4px;text-align:center;
+  cursor:pointer;background:var(--panel2);transition:.15s;-webkit-tap-highlight-color:transparent}
+.rodage-opt.sel{border-color:var(--rc,var(--green));box-shadow:0 0 0 1px var(--rc,var(--green));}
+.rodage-opt:active{transform:scale(.95)}
+
 </style>
 </head>
 <body>
@@ -1236,6 +1311,7 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-radius:5px;
   <div class="setbar" id="setbar"></div>
   <nav class="tabs">
     <button id="tab-live" class="active" onclick="showTab('live')"><span class="ic">🎚️</span>Scène</button>
+    <button id="tab-tonight" onclick="showTab('tonight')"><span class="ic">🎯</span>Ce soir</button>
     <button id="tab-set" onclick="showTab('set')"><span class="ic">🎯</span>Set</button>
     <button id="tab-biblio" onclick="showTab('biblio')"><span class="ic">📚</span>Biblio</button>
     <button id="tab-sheets" onclick="showTab('sheets')"><span class="ic">🖨️</span>Feuilles<span class="dot" id="backup-dot"></span></button>
@@ -1584,6 +1660,17 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-radius:5px;
       </div>
     </div>
     <label class="chk-row" style="margin-bottom:10px"><input type="checkbox" id="lm-emergency" onchange="toggleEmergencyFlag()"><div class="cl"><b>🆘 Titre de réserve</b><span>Accessible en un tap depuis la Scène en cas d'urgence</span></div></label>
+    <!-- Rodage manuel dans la biblio -->
+    <input type="hidden" id="lm-rodage_manuel">
+    <div style="margin-bottom:10px">
+      <label class="fl" style="margin-bottom:6px">🎯 Niveau de rodage</label>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+        <button class="rodage-opt" data-librl="fragile" onclick="setLibRodage('fragile')" style="--rc:#ff5b5b"><div style="font-size:18px">🔴</div><div style="font-size:9px;font-weight:900;text-transform:uppercase;margin-top:2px">Fragile</div></button>
+        <button class="rodage-opt" data-librl="enrodage" onclick="setLibRodage('enrodage')" style="--rc:#ffb347"><div style="font-size:18px">🟡</div><div style="font-size:9px;font-weight:900;text-transform:uppercase;margin-top:2px">En rodage</div></button>
+        <button class="rodage-opt" data-librl="solide" onclick="setLibRodage('solide')" style="--rc:#34b531"><div style="font-size:18px">🟢</div><div style="font-size:9px;font-weight:900;text-transform:uppercase;margin-top:2px">Solide</div></button>
+        <button class="rodage-opt" data-librl="rode" onclick="setLibRodage('rode')" style="--rc:#ff8c00"><div style="font-size:18px">🔥</div><div style="font-size:9px;font-weight:900;text-transform:uppercase;margin-top:2px">Rodé</div></button>
+      </div>
+    </div>
     <label class="fl">📝 Notes d'arrangement</label>
     <textarea id="lm-notes" oninput="libModalChange()" placeholder="Notes, versions, structure…"></textarea>
     <label class="fl">🎭 Intention / émotion</label>
@@ -1666,10 +1753,17 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-radius:5px;
   <!-- Rehearsals -->
   <div id="journal-rehear" style="display:none">
     <div class="panel">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
         <span style="font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)">Suivi répétitions</span>
-        <button class="mark-all-btn" onclick="markAllRehearsed()">✓ Tout répété aujourd'hui</button>
+        <button class="mark-all-btn" onclick="markAllRehearsed()">✓ Tout répété</button>
       </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <span style="font-size:12px;font-weight:800;color:var(--mut)">⏱ Temps dispo</span>
+        <input id="rh-plan-min" type="number" placeholder="60" min="10" max="240" style="width:70px;background:var(--bg2);border:1px solid var(--line2);border-radius:8px;padding:5px 8px;font-size:13px;color:var(--ink);text-align:center">
+        <span style="font-size:12px;font-weight:700;color:var(--mut)">min</span>
+        <button class="btn ghost" style="font-size:12px;padding:7px 12px" onclick="renderRehearsalPlan()">📋 Plan optimal</button>
+      </div>
+      <div id="rehear-plan" style="display:none;margin-bottom:14px"></div>
       <div id="rehear-list" class="rehears-list"></div>
     </div>
   </div>
@@ -1866,6 +1960,26 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-radius:5px;
           <span class="energie-val" id="d-ef-val" style="color:#ff8c00">Auto</span>
         </div>
       </div>
+      <!-- Rodage manuel -->
+      <input type="hidden" id="d-rodage_manuel">
+      <div style="margin-bottom:10px">
+        <label class="fl" style="margin-bottom:6px">🎯 Niveau de rodage</label>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+          <button class="rodage-opt" data-level="fragile" onclick="setDrawerRodage('fragile')" style="--rc:#ff5b5b">
+            <div style="font-size:18px">🔴</div><div style="font-size:9px;font-weight:900;margin-top:2px;text-transform:uppercase">Fragile</div>
+          </button>
+          <button class="rodage-opt" data-level="enrodage" onclick="setDrawerRodage('enrodage')" style="--rc:#ffb347">
+            <div style="font-size:18px">🟡</div><div style="font-size:9px;font-weight:900;margin-top:2px;text-transform:uppercase">En rodage</div>
+          </button>
+          <button class="rodage-opt" data-level="solide" onclick="setDrawerRodage('solide')" style="--rc:#34b531">
+            <div style="font-size:18px">🟢</div><div style="font-size:9px;font-weight:900;margin-top:2px;text-transform:uppercase">Solide</div>
+          </button>
+          <button class="rodage-opt" data-level="rode" onclick="setDrawerRodage('rode')" style="--rc:#ff8c00">
+            <div style="font-size:18px">🔥</div><div style="font-size:9px;font-weight:900;margin-top:2px;text-transform:uppercase">Rodé</div>
+          </button>
+        </div>
+        <p style="font-size:10px;color:var(--mut2);margin:4px 0 0">Tap pour sélectionner · Tap à nouveau pour effacer · C'est toi qui sais.</p>
+      </div>
       <label class="chk-row" for="d-rappel"><input type="checkbox" id="d-rappel" onchange="saveDrawer()"><div class="cl"><b>🌟 Rappel</b><span>Ce morceau fait partie du rappel</span></div></label>
       <div class="tools" style="margin-top:12px">
         <button class="btn ghost" onclick="drawerMoveSong(-1)">↑ Monter</button>
@@ -1991,6 +2105,7 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-radius:5px;
     <div id="set-ana-stats" class="ana-stats-bar"></div>
     <div id="set-ana-curve-wrap" class="ana-curve-wrap" style="display:none"></div>
     <div id="set-ana-alerts"></div>
+    
   </div>
   <!-- Heatmap -->
   <div class="set-section" id="sset-heatmap">
@@ -2184,6 +2299,30 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-radius:5px;
   <button class="pwa-banner-close" onclick="dismissPWAHint()">×</button>
 </div>
 
+<!-- ══════════ CE SOIR ══════════ -->
+<section id="view-tonight" class="view" hidden>
+  <div id="tonight-data-banner" style="display:none;background:rgba(90,167,255,.1);border:1px solid rgba(90,167,255,.3);border-radius:12px;padding:10px 14px;margin-bottom:10px;font-size:12px;font-weight:800;color:#7ec8ff;line-height:1.4"></div>
+  <div class="tonight-hero">
+    <div style="font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin-bottom:10px">Score de préparation</div>
+    <div class="readiness-score" id="rdy-score">—</div>
+    <div class="readiness-label" id="rdy-label">Calcul en cours…</div>
+    <div class="readiness-bar"><div class="readiness-bar-fill" id="rdy-bar" style="width:0%"></div></div>
+    <div class="readiness-sub" id="rdy-sub"></div>
+  </div>
+  <div id="tonight-actions" class="action-list"></div>
+  <div style="font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--mut2);margin-bottom:8px">Risque par morceau</div>
+  <div class="risk-legend">
+    <span style="color:#34b531">● OK</span>
+    <span style="color:#ffb347">● Attention</span>
+    <span style="color:#ff5b5b">● Risqué</span>
+  </div>
+  <div id="tonight-risk-list" class="risk-song-list"></div>
+  <div class="panel" style="margin-top:4px">
+    <div style="font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--mut2);margin-bottom:10px">Fatigue musicale</div>
+    <div id="tonight-fatigue"></div>
+  </div>
+</section>
+
 <div class="app-credit">Conçu par Clément Laboret · @ByGinette</div>
 </main>
 <div class="kbd-hint" id="kbd-hint">
@@ -2204,7 +2343,7 @@ const LOGO='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAA
 const DEMO=[{"title":"COME ON","depart":"INTRO BASS + BATTERIE","public":"APPROCHEZ, ON A QUELQUE CHOSE À VIVRE ENSEMBLE !","technique":"ACCORDAGE D#","vigilance":"","enchainement":"ENCHAÎNER DIRECT / AUCUNE PAUSE","parole":"","duree":"3:30","bpm":"","rappel":false},{"title":"I DON'T KNOW","depart":"","public":"","technique":"ACCORDAGE D#","vigilance":"","enchainement":"","parole":"","duree":"4:00","bpm":"","rappel":false},{"title":"CEUX QUI PENSENT","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"3:45","bpm":"","rappel":false},{"title":"WAIT (YOUR TURN)","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"4:20","bpm":"","rappel":false},{"title":"XL GLORIA","depart":"","public":"","technique":"DROP D","vigilance":"","enchainement":"","parole":"","duree":"5:00","bpm":"","rappel":false},{"title":"VALIUM","depart":"","public":"","technique":"DROP D","vigilance":"","enchainement":"","parole":"","duree":"3:55","bpm":"","rappel":false},{"title":"À NOS ANGES DÉCHUS","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"4:10","bpm":"","rappel":false},{"title":"STAND ALONE","depart":"","public":"","technique":"ACCORDAGE D#","vigilance":"","enchainement":"","parole":"","duree":"3:40","bpm":"","rappel":false},{"title":"NOBODY","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"3:50","bpm":"","rappel":false},{"title":"REBOOT","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"4:05","bpm":"","rappel":false},{"title":"BLACK OUT","depart":"","public":"","technique":"ACCORDAGE D#","vigilance":"","enchainement":"","parole":"","duree":"3:30","bpm":"","rappel":false},{"title":"BURN IT DOWN","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"3:15","bpm":"","rappel":false},{"title":"NO WAY OUT","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"4:30","bpm":"","rappel":false},{"title":"GOODBYE YESTERDAY","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"4:00","bpm":"","rappel":false},{"title":"RISE AGAIN","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"3:45","bpm":"","rappel":false},{"title":"ALL FOR ONE","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"0:00","bpm":"","rappel":true},{"title":"THE END","depart":"","public":"","technique":"","vigilance":"","enchainement":"","parole":"","duree":"0:00","bpm":"","rappel":true}];
 
 const DEFAULT_MOTTO="REGARDEZ DEVANT, JOUEZ FORT, PRENEZ DU PLAISIR !";
-const TXT_FIELDS=['title','depart','public','technique','chant','vigilance','enchainement','lyrics','duree','bpm','intention','introphrase','emotion','capo','guitarsound','samples','instrumentchanges','lightambiance','caractere','energie','accordage','energie_intro','energie_fin'];
+const TXT_FIELDS=['title','depart','public','technique','chant','vigilance','enchainement','lyrics','duree','bpm','intention','introphrase','emotion','capo','guitarsound','samples','instrumentchanges','lightambiance','caractere','energie','accordage','energie_intro','energie_fin','rodage_manuel'];
 const CUES=[
   {k:'depart',icon:'🥁',lbl:'Batterie',cls:'c-dep'},
   {k:'public',icon:'🎸',lbl:'Basse',cls:'c-pub'},
@@ -2285,7 +2424,7 @@ function ensurePrefs(){
     if(sg.parole){sg.enchainement=(sg.enchainement?sg.enchainement+'\n':'')+sg.parole;sg.parole='';}
     if(sg.duree===undefined)sg.duree='';if(sg.bpm===undefined)sg.bpm='';if(sg.rappel===undefined)sg.rappel=false;
     // New fields
-    ['intention','introphrase','emotion','capo','guitarsound','samples','instrumentchanges','lightambiance','caractere','energie','accordage','energie_intro','energie_fin'].forEach(k=>{if(sg[k]===undefined)sg[k]='';});
+    ['intention','introphrase','emotion','capo','guitarsound','samples','instrumentchanges','lightambiance','caractere','energie','accordage','energie_intro','energie_fin','rodage_manuel'].forEach(k=>{if(sg[k]===undefined)sg[k]='';});
     // Migration: extrait l'accordage de la 1ère ligne de technique
     if(!sg.accordage&&sg.technique){
       const lines=sg.technique.split('\n');
@@ -2312,7 +2451,7 @@ function showTab(t){
   // Redirections: ancien edit/arc/analyse/generator/tools → 'set'
   const redir={'edit':'set','arc':'set','analyse':'set','generator':'set','tools':'set'};
   if(redir[t])t=redir[t];
-  const views=['live','set','sheets','biblio','journal'];
+  const views=['live','tonight','set','sheets','biblio','journal'];
   views.forEach(v=>{
     const el=document.getElementById('view-'+v);if(el)el.hidden=v!==t;
     const bt=document.getElementById('tab-'+v);if(bt)bt.classList.toggle('active',v===t);
@@ -2326,6 +2465,7 @@ function showTab(t){
     if(wakeLock&&!wakeWanted){wakeLock.release().catch(()=>{});wakeLock=null;}
     document.getElementById('wakeBtn')?.classList.remove('on');
   }
+  if(t==='tonight'){renderTonight();}
   if(t==='set'){renderSetView();}
   if(t==='sheets')renderSheets();
   if(t==='biblio')renderBiblio();
@@ -2909,6 +3049,15 @@ function _hex2rgba(hex,a){
   const r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16);
   return`rgba(${r},${g},${b},${a})`;
 }
+
+/* ══ RODAGE NIVEAUX ══ */
+const RODAGE_LEVELS={
+  fragile: {score:15,label:'Fragile',emoji:'🔴',desc:'Peu répété, risqué live'},
+  enrodage:{score:45,label:'En rodage',emoji:'🟡',desc:'En cours d\'apprentissage'},
+  solide:  {score:75,label:'Solide',emoji:'🟢',desc:'Bien connu, fiable'},
+  rode:    {score:100,label:'Rodé',emoji:'🔥',desc:'Joué depuis longtemps'}
+};
+
 const MOODS={
   baffe:      {emoji:'💥',label:'Baffe',     color:'#ff5b5b', desc:'Ça claque, ça percute'},
   groovy:     {emoji:'⚡',label:'Groovy',    color:'#34b531', desc:'Fait bouger la tête'},
@@ -3448,7 +3597,8 @@ function renderBiblio(){
           ${s.duree?`<span>⏱ ${esc(s.duree)}</span>`:''}
           ${tuning?`<span>🎸 ${esc(tuning)}</span>`:''}
           ${s.bpm?`<span>♩ ${esc(s.bpm)}</span>`:''}
-          ${s.caractere&&MOODS[s.caractere]?`<span class="lib-mood-badge" style="color:${MOODS[s.caractere].color};border-color:${MOODS[s.caractere].color};background:${_hex2rgba(MOODS[s.caractere].color,.10)}">${MOODS[s.caractere].emoji} ${MOODS[s.caractere].label}</span>`:''}
+          ${s.caractere&&MOODS[s.caractere]?`<span class="lib-mood-badge" style="color:${MOODS[s.caractere].color};border-color:${MOODS[s.caractere].color}">${MOODS[s.caractere].emoji} ${MOODS[s.caractere].label}</span>`:''}
+          ${s.rodage_manuel&&RODAGE_LEVELS[s.rodage_manuel]?`<span class="lib-mood-badge" style="color:${{ 'fragile':'#ff5b5b','enrodage':'#ffb347','solide':'#34b531','rode':'#ff8c00'}[s.rodage_manuel]};border-color:${{ 'fragile':'#ff5b5b','enrodage':'#ffb347','solide':'#34b531','rode':'#ff8c00'}[s.rodage_manuel]}">${RODAGE_LEVELS[s.rodage_manuel].emoji} ${RODAGE_LEVELS[s.rodage_manuel].label}</span>`:''}
         </div>
         ${s.notes?`<div class="lib-song-notes">${esc(s.notes)}</div>`:''}
         ${_rodageHTML(s.title)}
@@ -3475,6 +3625,7 @@ function openLibModal(id){
   document.getElementById('lm-lyrics').value=s?s.lyrics||'':'';
   document.getElementById('lm-caractere').value=s?s.caractere||'':'';
   const emgCb=document.getElementById('lm-emergency');if(emgCb)emgCb.checked=!!(s&&s.emergency);
+  _syncLibRodage(s?s.rodage_manuel||'':'');
   _syncLibMoodUI(s?s.caractere||'':'');
   document.getElementById('libDeleteBtn').style.display=s?'':'none';
   document.getElementById('libAddedMsg').style.display='none';
@@ -3513,7 +3664,7 @@ function saveLibSong(){
       bpm:document.getElementById('lm-bpm').value,technique:document.getElementById('lm-technique').value,
       status:document.getElementById('lm-status').value,notes:document.getElementById('lm-notes').value,
       intention:document.getElementById('lm-intention').value,lyrics:document.getElementById('lm-lyrics').value,
-      caractere:document.getElementById('lm-caractere').value,energie:'',
+      caractere:document.getElementById('lm-caractere').value,energie:'',rodage_manuel:document.getElementById('lm-rodage_manuel')?.value||'',
       depart:'',public:'',chant:'',vigilance:'',enchainement:'',capo:'',guitarsound:'',
       samples:'',instrumentchanges:'',lightambiance:'',introphrase:'',emotion:''};
     state.library.push(ns);persist();
@@ -3835,7 +3986,9 @@ function renderJournal(){
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
           <button class="rapport-btn" onclick="generateConcertReport('${c.id}')">📝 Rapport</button>
           <button class="rapport-btn" onclick="openDebrief('${c.id}')" style="background:rgba(184,136,236,.1);border-color:var(--purple);color:var(--purple)">🎙️ Débriefing</button>
+          <button class="rapport-btn" onclick="openDiffModal('${c.id}')" style="background:rgba(90,167,255,.1);border-color:var(--blue);color:var(--blue)">↔️ Prévu/Joué</button>
         </div>
+        ${c.played?_renderDiffInConcert('${c.id}'):''}
         ${c.debrief?_renderDebriefSummary(c.debrief):''}
         <button class="btn danger" onclick="window._askDeleteConcert(this,'${c.id}')" style="font-size:12px;padding:8px;margin-top:8px;transition:.2s">🗑 Supprimer ce concert</button>
       </div>
@@ -4580,6 +4733,81 @@ body{margin:0;padding:0;background:#0e1418;color:#eef4f0;font-family:ui-sans-ser
 .conf-star-btn.sel{background:var(--gsof);border-color:var(--green-d)}
 .conf-avg{font-size:11px;font-weight:800;color:var(--amber);white-space:nowrap}
 
+
+/* ══ SET IDÉAL ══ */
+.ideal-set-wrap{margin-top:14px}
+.ideal-set-title{font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--mut2);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.ideal-song-card{
+  border-radius:16px;padding:12px 14px;margin-bottom:8px;
+  border-left:4px solid;position:relative;overflow:hidden;
+  background:var(--panel);border-top:1px solid var(--line);
+  border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+}
+.isc-num{font-size:11px;font-weight:900;color:var(--mut2);letter-spacing:.06em;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.isc-badge{font-size:10px;font-weight:900;padding:1px 8px;border-radius:999px;border:1px solid;white-space:nowrap}
+.isc-title{font-size:15px;font-weight:900;text-transform:uppercase;letter-spacing:.02em;margin-bottom:6px}
+.isc-role{font-size:12px;font-weight:800;color:var(--ink);margin-bottom:4px;line-height:1.4}
+.isc-meta{display:flex;gap:8px;flex-wrap:wrap;font-size:11px;font-weight:700;color:var(--mut);margin-bottom:5px}
+.isc-tip{font-size:12px;font-weight:700;line-height:1.45;padding:7px 10px;border-radius:10px;
+  background:rgba(255,255,255,.04);margin-top:5px;color:var(--mut)}
+.isc-tip b{display:block;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.isc-public{font-size:12px;font-weight:700;color:var(--green);font-style:italic;margin-top:4px;
+  padding:6px 10px;background:rgba(52,181,49,.07);border-radius:8px}
+.isc-enc{font-size:12px;font-weight:800;color:var(--amber);margin-top:4px}
+.ideal-apply-btn{width:100%;margin-top:14px;background:linear-gradient(180deg,#34b531,#268024);
+  color:#fff;border:0;border-radius:14px;padding:14px;font-size:14px;font-weight:900;
+  letter-spacing:.03em;cursor:pointer;-webkit-tap-highlight-color:transparent;
+  box-shadow:0 4px 14px rgba(52,181,49,.35)}
+.ideal-apply-btn:active{transform:scale(.98)}
+.isc-connector{text-align:center;font-size:20px;color:var(--mut2);margin:2px 0;user-select:none}
+
+
+/* ══ PAGE CE SOIR ══ */
+.tonight-hero{background:linear-gradient(135deg,var(--panel),#1a2d20);border:1px solid var(--green-d);border-radius:22px;padding:20px;margin-bottom:14px;text-align:center}
+.readiness-score{font-size:72px;font-weight:900;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.readiness-label{font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;margin-top:4px}
+.readiness-bar{height:8px;background:var(--panel2);border-radius:4px;overflow:hidden;margin:12px 0 6px}
+.readiness-bar-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.readiness-sub{font-size:12px;font-weight:700;color:var(--mut);margin-top:4px}
+.action-list{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+.action-item{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:14px;border:1px solid;font-size:13px;font-weight:700;line-height:1.4}
+.action-item.high{background:rgba(255,91,91,.08);border-color:rgba(255,91,91,.3);color:#ff8080}
+.action-item.medium{background:rgba(255,179,71,.08);border-color:rgba(255,179,71,.3);color:var(--amber)}
+.action-item.good{background:rgba(52,181,49,.08);border-color:rgba(52,181,49,.3);color:var(--green)}
+.action-ico{font-size:18px;flex:0 0 auto;margin-top:1px}
+
+/* Risk per song */
+.risk-song-list{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.risk-row{display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;border-left:4px solid}
+.risk-num{font-size:13px;font-weight:900;min-width:22px}
+.risk-title{flex:1;font-size:13px;font-weight:800;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.risk-badge{font-size:10px;font-weight:900;padding:2px 8px;border-radius:999px;border:1px solid;white-space:nowrap;flex:0 0 auto}
+.risk-detail{font-size:10px;font-weight:700;color:var(--mut2);white-space:nowrap}
+.risk-legend{display:flex;gap:12px;font-size:11px;font-weight:800;color:var(--mut);margin-bottom:8px}
+
+/* Fatigue curve */
+.fatigue-peak{font-size:12px;font-weight:900;padding:6px 12px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;margin-top:8px}
+
+/* Rehearsal plan */
+.plan-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--panel);border:1px solid var(--line);border-radius:13px;margin-bottom:6px}
+.plan-priority{width:28px;height:28px;border-radius:50%;font-size:13px;font-weight:900;display:grid;place-items:center;flex:0 0 auto}
+.plan-song-title{flex:1;font-size:13px;font-weight:800;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.plan-est{font-size:11px;font-weight:700;color:var(--mut2);white-space:nowrap}
+.plan-reason{font-size:11px;font-weight:700;color:var(--mut);white-space:nowrap}
+
+/* Concert diff */
+.diff-row{display:flex;align-items:center;gap:8px;padding:7px 12px;background:var(--bg2);border-radius:10px;margin-bottom:4px;font-size:12px;font-weight:800}
+.diff-played{color:var(--green)}.diff-skipped{color:var(--mut2);text-decoration:line-through;opacity:.6}
+.diff-added{color:var(--amber)}
+
+
+/* ══ RODAGE PICKER ══ */
+.rodage-opt{border:2px solid var(--line2);border-radius:10px;padding:7px 4px;text-align:center;
+  cursor:pointer;background:var(--panel2);transition:.15s;-webkit-tap-highlight-color:transparent}
+.rodage-opt.sel{border-color:var(--rc,var(--green));box-shadow:0 0 0 1px var(--rc,var(--green));}
+.rodage-opt:active{transform:scale(.95)}
+
 </style></head><body>
 <div class="header"><img class="logo" src="${LOGO}" alt="Green Mouse"><div><div class="hname">GREEN MOUSE</div><div class="hset">${name} · ${new Date().toLocaleDateString('fr-FR')}</div></div></div>
 <div class="ro-badge">👁 Lecture seule · Partagé depuis l'app Green Mouse</div>
@@ -4657,37 +4885,59 @@ function _onDragEnd(){
   document.querySelectorAll('.sort-item').forEach(x=>x.classList.remove('dragging','drag-over'));
   _dragSrcIdx=null;_dragOverIdx=null;}
 function _doReorder(from,to){
-  const s=aSongs();const item=s.splice(from,1)[0];s.splice(to,0,item);
-  persist();rebuildSelect(String(to));renderLive();renderSheets();renderSortable();
+  const s=as().songs;if(!s||from<0||to<0||from>=s.length||to>=s.length)return;
+  const item=s.splice(from,1)[0];s.splice(to,0,item);
+  current=Math.max(0,Math.min(aSongs().length-1,current));
+  persist();
+  try{rebuildSelect(String(to));}catch(e){}
+  renderLive();renderTimeline();
+  if(document.getElementById('set-sortable'))_renderSetOrdre();
+  if(document.getElementById('sortable-list'))renderSortable();
 }
 
 // Touch drag implementation
 function _addTouchDrag(el){
-  let startY=0,startIdx=0,_lt=null;
+  let _startIdx=0,_lt=null,_didDrag=false;
   el.addEventListener('touchstart',e=>{
+    _didDrag=false;
     _lt=setTimeout(()=>{
-      startY=e.touches[0].clientY;startIdx=parseInt(el.dataset.idx);
-      el.classList.add('dragging');if(navigator.vibrate)navigator.vibrate(30);
-    },400);
+      _startIdx=parseInt(el.dataset.idx||el.dataset.idx||'0');
+      el.classList.add('dragging');
+      if(navigator.vibrate)navigator.vibrate(40);
+      _didDrag=false; // will become true on move
+    },350);
   },{passive:true});
   el.addEventListener('touchmove',e=>{
-    if(!el.classList.contains('dragging')){clearTimeout(_lt);return;}
+    if(!el.classList.contains('dragging')){clearTimeout(_lt);_lt=null;return;}
     e.preventDefault();
+    _didDrag=true;
     const curY=e.touches[0].clientY;
-    const items=el.parentElement.querySelectorAll('.sort-item:not(.dragging)');
+    // Match both ssl-row and sort-item
+    const items=el.parentElement.querySelectorAll('.ssl-row:not(.dragging),.sort-item:not(.dragging)');
     let target=null;
     items.forEach(it=>{const r=it.getBoundingClientRect();if(curY>r.top&&curY<r.bottom)target=it;});
-    items.forEach(it=>it.classList.remove('drag-over'));
+    el.parentElement.querySelectorAll('.ssl-row,.sort-item').forEach(it=>it.classList.remove('drag-over'));
     if(target)target.classList.add('drag-over');
   },{passive:false});
   el.addEventListener('touchend',e=>{
-    clearTimeout(_lt);
+    clearTimeout(_lt);_lt=null;
     if(!el.classList.contains('dragging'))return;
+    e.preventDefault(); // prevent click from firing
+    e.stopPropagation();
     el.classList.remove('dragging');
-    const target=el.parentElement.querySelector('.sort-item.drag-over');
-    if(target){const toIdx=parseInt(target.dataset.idx);target.classList.remove('drag-over');_doReorder(startIdx,toIdx);}
+    const target=el.parentElement.querySelector('.drag-over');
+    el.parentElement.querySelectorAll('.drag-over').forEach(x=>x.classList.remove('drag-over'));
+    if(target&&_didDrag){
+      const toIdx=parseInt(target.dataset.idx||'0');
+      _doReorder(_startIdx,toIdx);
+    }
+    _didDrag=false;
+  },{passive:false});
+  el.addEventListener('touchcancel',()=>{
+    clearTimeout(_lt);_lt=null;_didDrag=false;
+    el.classList.remove('dragging');
+    el.parentElement&&el.parentElement.querySelectorAll('.drag-over').forEach(x=>x.classList.remove('drag-over'));
   },{passive:true});
-  el.addEventListener('touchcancel',()=>{clearTimeout(_lt);el.classList.remove('dragging');});
 }
 
 
@@ -5163,6 +5413,25 @@ function importVariant(vi){
   showTab('live');
 }
 
+function setLibRodage(level){
+  const cur=document.getElementById('lm-rodage_manuel')?.value||'';
+  const nv=cur===level?'':level;
+  const el=document.getElementById('lm-rodage_manuel');if(el)el.value=nv;
+  document.querySelectorAll('[data-librl]').forEach(b=>{
+    const sel=b.dataset.librl===nv;
+    b.classList.toggle('sel',sel);
+    const rc={'fragile':'#ff5b5b','enrodage':'#ffb347','solide':'#34b531','rode':'#ff8c00'}[b.dataset.librl]||'var(--green)';
+    b.style.setProperty('--rc',rc);
+  });
+}
+function _syncLibRodage(level){
+  document.querySelectorAll('[data-librl]').forEach(b=>{
+    b.classList.toggle('sel',b.dataset.librl===level);
+    const rc={'fragile':'#ff5b5b','enrodage':'#ffb347','solide':'#34b531','rode':'#ff8c00'}[b.dataset.librl]||'var(--green)';
+    b.style.setProperty('--rc',rc);
+  });
+  const el=document.getElementById('lm-rodage_manuel');if(el)el.value=level||'';
+}
 function _syncLibMoodUI(car){
   document.querySelectorAll('[data-lmmood]').forEach(b=>{
     const sel=b.dataset.lmmood===car;
@@ -5356,7 +5625,7 @@ function _renderSetOrdre(){
     const acc=_tuning(s);
     return`<div class="ssl-row" style="--lc:${lc};cursor:default" draggable="true"
       data-idx="${i}"
-      ondragstart="event.dataTransfer.setData('text/plain','${i}');event.currentTarget.classList.add('dragging')"
+      ondragstart="event.dataTransfer.setData('text/plain','${i}');event.currentTarget.classList.add('dragging');event.stopPropagation()"
       ondragover="event.preventDefault();_sslDragOver(event,${i})"
       ondragleave="event.currentTarget.classList.remove('drag-over')"
       ondrop="event.preventDefault();_sslDrop(event,${i})"
@@ -5409,6 +5678,7 @@ function runAnalysisInline(slotMin){
   } else if(curveEl){curveEl.style.display='none';}
   const alertsEl=document.getElementById('set-ana-alerts');
   if(alertsEl)alertsEl.innerHTML=alerts.length?alerts.map(a=>`<div class="ana-alert ${a.type}"><span class="aico">${a.emoji}</span><div class="atxt"><span class="abadge">${a.badge||''}</span>${a.msg}</div></div>`).join(''):'<div class="ana-empty">✅ Tout semble OK !</div>';
+
 }
 
 // Générer inline
@@ -5511,6 +5781,7 @@ function openDrawer(idx){
   document.getElementById('d-rappel').checked=!!(rawSet.rappel);
   // Sync mood UI in drawer
   _syncDrawerMoodUI(s.caractere||'',parseInt(s.energie)||0,parseInt(s.energie_intro)||0,parseInt(s.energie_fin)||0);
+  _syncDrawerRodage(s.rodage_manuel||'');
   // Lib badge
   const badge=document.getElementById('drawer-lib-badge');
   if(badge){
@@ -5742,7 +6013,11 @@ function saveEditor(){saveDrawer();}
 /* ══════════════════════════════════════════════════
    THERMOMÈTRE DE RODAGE
 ══════════════════════════════════════════════════ */
-function _rodageScore(title){
+function _rodageScore(title, songObj){
+  // Niveau manuel = priorité absolue
+  if(songObj&&songObj.rodage_manuel&&RODAGE_LEVELS[songObj.rodage_manuel]){
+    return{score:RODAGE_LEVELS[songObj.rodage_manuel].score,manual:true};
+  }
   const t=(title||'').trim().toLowerCase();
   if(!t)return null;
   // Répètes : cherche dans tous les sets
@@ -5781,8 +6056,8 @@ function _rodageLabel(score){
   return{cls:'rodage-rode',icon:'🔥',label:'Rodé'};
 }
 
-function _rodageHTML(title){
-  const r=_rodageScore(title);
+function _rodageHTML(title,songObj){
+  const r=_rodageScore(title,songObj);
   if(!r)return'';
   const l=_rodageLabel(r.score);
   const barColor=r.score<25?'#ff5b5b':r.score<50?'#ffb347':r.score<75?'#5aa7ff':'#34b531';
@@ -6948,6 +7223,24 @@ function convertPlanToConcert(id){
 
 function _onMarkRehearsed(btn){markRehearsed(btn.getAttribute('data-rhkey'));}
 function _onRhChrono(btn){startRhChrono(btn.getAttribute('data-rhkey'),btn);}
+
+function _syncDrawerRodage(level){
+  document.querySelectorAll('.rodage-opt').forEach(b=>{
+    const sel=b.dataset.level===level;
+    b.classList.toggle('sel',sel);
+    const rc={'fragile':'#ff5b5b','enrodage':'#ffb347','solide':'#34b531','rode':'#ff8c00'}[b.dataset.level]||'var(--green)';
+    b.style.setProperty('--rc',rc);
+  });
+  const el=document.getElementById('d-rodage_manuel');if(el)el.value=level;
+}
+
+function setDrawerRodage(level){
+  const cur=document.getElementById('d-rodage_manuel')?.value||'';
+  const nv=cur===level?'':level; // toggle
+  _syncDrawerRodage(nv);
+  saveDrawer();
+}
+
 function _onConfStar(btn){var k=btn.getAttribute("data-rhkey");var s=parseInt(btn.getAttribute("data-stars"));if(k&&s)saveConfidence(k,s);}
 
 function saveConfidence(key,stars){
@@ -7031,6 +7324,621 @@ function applyGeneratedSet(){
   if(navigator.vibrate)navigator.vibrate([50,30,80]);
 }
 
+
+/* ══════════════════════════════════════════════════════
+   SET IDÉAL — Suggestion concrète et narrative
+══════════════════════════════════════════════════════ */
+
+function _buildIdealSet(songs, targetMin){
+  const n=songs.length;
+  if(!n)return null;
+
+  // ── 1. Copie de travail avec données enrichies
+  const pool=songs.map((s,i)=>({
+    ...s,
+    _origIdx:i,
+    _e:_inferEnergy(s),
+    _intro:_getIntroE(s),
+    _fin:_getFinE(s),
+    _perc:_getPerceivedE(s),
+    _rod:_rodageScore(s.title)?.score||50,
+    _tuning:_tuning(s)||'Standard',
+    _hasSpeech:!!(s.public&&s.public.trim()),
+    _isBreath:s.caractere==='respiration'||s.caractere==='intime',
+    _isHigh:['baffe','explosif','hymne'].includes(s.caractere)||_inferEnergy(s)>=7,
+    _isProgressive:s.caractere==='progressif'||s.caractere==='tension',
+  }));
+
+  const rappels=pool.filter(s=>s.rappel);
+  const main=pool.filter(s=>!s.rappel);
+  const targetSec=targetMin>0?targetMin*60:null;
+
+  // ── 2. Algorithme de construction d'arc narratif optimal
+  // Structure cible: Ouverture → Build → Respiration → Climax → Descente → Final
+
+  // Tri par énergie perçue
+  const byEnergy=[...main].sort((a,b)=>b._perc-a._perc);
+  const byRod=[...main].sort((a,b)=>b._rod-a._rod);
+
+  // Sélection selon créneau
+  let selected=[...main];
+  if(targetSec){
+    let total=0;
+    selected=[];
+    for(const s of byRod){ // priorité aux mieux rodés
+      const dur=parseSec(s.duree)||200;
+      if(total+dur<=targetSec+120){selected.push(s);total+=dur;}
+    }
+  }
+
+  const ns=selected.length;
+  if(!ns)return null;
+
+  // ── 3. Construction de l'ordre optimal
+  const ordered=new Array(ns);
+  const used=new Set();
+
+  // Position 0 : meilleur titre fort + bien rodé (pas respiration)
+  const opener=selected.filter(s=>!s._isBreath).sort((a,b)=>(b._rod/100*0.4+b._intro/10*0.6)-(a._rod/100*0.4+a._intro/10*0.6))[0]||selected[0];
+  if(opener){ordered[0]=opener;used.add(opener._origIdx);}
+
+  // Dernière position : titre qui finit fort
+  const closer=selected.filter(s=>!used.has(s._origIdx)&&!s._isBreath).sort((a,b)=>b._fin-a._fin)[0];
+  if(closer){ordered[ns-1]=closer;used.add(closer._origIdx);}
+
+  // Position 1-2 : maintenir l'élan, énergie haute, bien rodé
+  const second=selected.filter(s=>!used.has(s._origIdx)).sort((a,b)=>(b._e+b._rod/50)-(a._e+a._rod/50))[0];
+  if(second&&ns>2){ordered[1]=second;used.add(second._origIdx);}
+
+  // Position ~1/3 : première respiration ou titre doux
+  const breath1Pos=Math.floor(ns/3);
+  const breath1=selected.filter(s=>!used.has(s._origIdx)&&(s._isBreath||s._perc<=5)).sort((a,b)=>a._e-b._e)[0];
+  if(breath1&&breath1Pos>=2&&breath1Pos<ns-1){ordered[breath1Pos]=breath1;used.add(breath1._origIdx);}
+
+  // Position ~2/3 : remontée, titre progressif ou groovy pour relancer
+  const relaunchPos=Math.floor(2*ns/3);
+  const relaunch=selected.filter(s=>!used.has(s._origIdx)&&(s._isProgressive||s._e>=6)).sort((a,b)=>b._perc-a._perc)[0];
+  if(relaunch&&relaunchPos>=2&&relaunchPos<ns-1){ordered[relaunchPos]=relaunch;used.add(relaunch._origIdx);}
+
+  // Position avant-dernière : énergie très haute pour préparer le final
+  if(ns>3){
+    const preCloser=selected.filter(s=>!used.has(s._origIdx)).sort((a,b)=>b._e-a._e)[0];
+    if(preCloser&&!ordered[ns-2]){ordered[ns-2]=preCloser;used.add(preCloser._origIdx);}
+  }
+
+  // Remplir les trous avec ce qui reste, par énergie décroissante puis remontante
+  const remaining=[...selected.filter(s=>!used.has(s._origIdx))].sort((a,b)=>b._perc-a._perc);
+  let ri=0;
+  for(let i=0;i<ns;i++){
+    if(!ordered[i]&&ri<remaining.length){ordered[i]=remaining[ri++];}
+  }
+
+  // ── 4. Construire les suggestions narratives pour chaque position
+  const result=ordered.filter(Boolean);
+  const rm=result.length;
+  const tuningGroups={}; // track accordage changes for notes
+  let lastTuning=null;
+  let speechCount=0;
+  let lastSpeechIdx=-5;
+
+  return result.map((s,i)=>{
+    const mood=_getMoodData(s,i,rm,s._e);
+    const isOpener=i===0;
+    const isFinal=i===rm-1;
+    const isPreFinal=i===rm-2;
+    const isBreath=s._isBreath;
+    const isProgressive=s._isProgressive;
+    const tuningChange=lastTuning&&s._tuning!==lastTuning;
+    lastTuning=s._tuning;
+
+    // Rôle narratif
+    let role='';
+    if(isOpener)role='Ouverture — installe l\'énergie, capte l\'attention immédiatement.';
+    else if(isFinal)role='Final — le moment dont le public se souviendra en sortant.';
+    else if(isPreFinal)role='Avant le final — maintiens la tension haute, prépare l\'explosion.';
+    else if(isBreath)role='Respiration — donne de l\'air au public et aux musiciens. Les moments calmes rendent les moments forts encore plus forts.';
+    else if(isProgressive)role='Build-up — commence calme, monte progressivement. Crée de l\'anticipation.';
+    else if(s._e>=8)role='Baffe — envoie direct, pas d\'hésitation. Ce morceau doit faire mal (dans le bon sens).';
+    else if(s._e>=6)role='Groove — maintient l\'énergie, fait bouger. Laisse le public s\'installer dans le rythme.';
+    else if(s._e<=4)role='Douceur — moment intime. Connexion émotionnelle directe.';
+
+    // Suggestion d'interaction public
+    let publicSuggestion='';
+    const sinceLastSpeech=i-lastSpeechIdx;
+    if(s._hasSpeech){
+      speechCount++;lastSpeechIdx=i;
+      const existingLine=s.public.split('\n')[0].trim();
+      publicSuggestion=existingLine;
+    } else if(sinceLastSpeech>=4&&i>1&&i<rm-2&&speechCount<3){
+      lastSpeechIdx=i;speechCount++;
+      if(isBreath)publicSuggestion='🎤 Idéal ici pour parler au public — le calme crée l\'espace. Quelques mots sur le morceau suivant ou une demande d\'énergie.';
+      else if(i===2)publicSuggestion='🎤 Position idéale pour briser la glace — tu as prouvé que vous étiez là. Quelques mots simples suffisent.';
+      else publicSuggestion='🎤 Il n\'y a pas eu d\'interaction depuis '+sinceLastSpeech+' morceaux. Une phrase suffit pour maintenir le lien.';
+    }
+
+    // Suggestion d'enchaînement
+    let enc='';
+    const next=result[i+1];
+    if(next){
+      const nextTuning=_tuning(next)||'Standard';
+      const isTuningChange=s._tuning!==nextTuning;
+      const gap=s._fin-next._intro;
+      if(isTuningChange)enc=`🎸 Changement d'accordage → ${nextTuning}. Prévois ${nextTuning.includes('Drop')?'15':'10'}s. ${next._rod<40?'Note : "'+next.title+'" peu rodé — démarrage prudent.':''}`;
+      else if(gap>3)enc='Enchaîner direct — énergie en chute, coupe nette, pas de silence.';
+      else if(gap<-2)enc='Laisser 2-3s de silence avant "'+next.title+'" — ça montera encore plus fort.';
+      else if(isBreath&&next._e>=7)enc='Boucle finale du morceau × 2, puis attaque directe sur "'+next.title+'".';
+      else if(s._e>=7&&next._isBreath)enc='Finir sur le dernier accord tenu, ne pas couper brutalement.';
+      else enc=s.enchainement?s.enchainement.split('\n')[0]:next._e>s._e?'Enchaîner sans silence — l\'énergie monte.':'Laisser respirer 1-2s.';
+    }
+
+    // Conseil de composition si titre manquant de ce type dans le set
+    let compositionTip='';
+    if(isBreath&&!s._hasSpeech&&rm>=6&&i>0){
+      compositionTip='Si ce morceau n\'est pas encore totalement calme, envisage de composer un titre spécifiquement pour ce slot : 3:00-3:30, BPM ~70, caractère Intime ou Respiration. Ce "moment de souffre" manque souvent dans les sets Green Mouse.';
+    }
+
+    return{song:s,idx:i,mood,role,publicSuggestion,enc,compositionTip,tuningChange,
+      isFinal,isOpener,isBreath,isProgressive};
+  });
+}
+
+function _renderIdealSet(suggestions, songs){
+  if(!suggestions||!suggestions.length)return;
+  const wrap=document.getElementById('set-ideal-wrap');if(!wrap)return;
+  wrap.style.display='';
+
+  const ROLE_COLORS={
+    ouverture:'#ffb347',final:'#ff5b5b','avant le final':'#ff8c00',
+    respiration:'#7ec8ff','build-up':'#5aa7ff',baffe:'#ff5b5b',
+    groove:'#34b531',douceur:'#b888ec',
+  };
+
+  const totalDur=suggestions.reduce((a,{song:s})=>a+parseSec(s.duree),0);
+  const tuningChanges=suggestions.filter(d=>d.tuningChange).length;
+
+  let html=`<div class="ideal-set-title">✨ Set idéal suggéré — ${suggestions.length} titres${totalDur?' · '+fmtDur(totalDur):''}${tuningChanges?' · '+tuningChanges+' changement(s) accord.':''}</div>`;
+
+  suggestions.forEach(({song:s,idx,mood,role,publicSuggestion,enc,compositionTip,tuningChange,isOpener,isFinal,isBreath},i)=>{
+    const roleKey=role.split(' —')[0].toLowerCase();
+    const lc=ROLE_COLORS[roleKey]||mood.color||'var(--green)';
+    const rodData=_rodageScore(s.title);
+    const rodColor=rodData?(rodData.score>=75?'#34b531':rodData.score>=50?'#ffb347':'#ff5b5b'):'var(--mut)';
+
+    html+=`<div class="ideal-song-card" style="border-left-color:${lc}">
+      <div class="isc-num">
+        <span style="font-size:16px;font-weight:900;color:${lc}">${pad(idx+1)}</span>
+        <span class="isc-badge" style="color:${mood.color||lc};border-color:${mood.color||lc}">${mood.emoji} ${mood.label}</span>
+        ${s._tuning&&s._tuning!=='Standard'?`<span class="isc-badge" style="color:${tuningChange?'#ffb347':'var(--mut)'};border-color:${tuningChange?'#ffb347':'var(--line2)'}">${tuningChange?'🔄 ':'🎸 '}${s._tuning}</span>`:''}
+        ${rodData?`<span class="isc-badge" style="color:${rodColor};border-color:${rodColor}">${rodData.score}%</span>`:''}
+      </div>
+      <div class="isc-title">${esc(s.title||'Sans titre')}</div>
+      <div class="isc-meta">
+        ${s.duree?`<span>⏱ ${s.duree}</span>`:''}
+        ${s.bpm?`<span>♩ ${s.bpm}</span>`:''}
+        <span>⚡ ${s._e}/10</span>
+        <span>🟦${s._intro} → 🟧${s._fin}</span>
+      </div>
+      <div class="isc-role">${role}</div>
+      ${publicSuggestion?`<div class="isc-public">💬 ${esc(publicSuggestion)}</div>`:''}
+      ${compositionTip?`<div class="isc-tip"><b>💡 Conseil de composition</b>${esc(compositionTip)}</div>`:''}
+    </div>`;
+
+    // Connecteur entre morceaux
+    if(enc&&i<suggestions.length-1){
+      html+=`<div class="isc-connector" title="${esc(enc)}">↓</div>`;
+      html+=`<div class="isc-enc" style="text-align:center;font-size:11.5px;font-weight:800;color:var(--amber);margin:-2px 0 6px;padding:0 8px">➡ ${esc(enc)}</div>`;
+    }
+  });
+
+  // Bouton appliquer
+  html+=`<button class="ideal-apply-btn" onclick="_applyIdealSet()">✅ Appliquer ce set</button>`;
+  html+=`<p class="fhint" style="margin-top:8px">Ce set est une suggestion basée sur tes données. Utilise-le comme point de départ — tu restes le décideur.</p>`;
+
+  wrap.innerHTML=html;
+}
+
+let _idealResult=null;
+function _applyIdealSet(){
+  if(!_idealResult||!_idealResult.length)return;
+  as().songs=_idealResult.map(d=>({
+    title:d.song.title||'',depart:d.song.depart||'',public:d.song.public||'',
+    technique:d.song.technique||'',chant:d.song.chant||'',vigilance:d.song.vigilance||'',
+    enchainement:d.enc&&!d.song.enchainement?d.enc:d.song.enchainement||'',
+    parole:'',lyrics:d.song.lyrics||'',duree:d.song.duree||'',bpm:d.song.bpm||'',
+    rappel:d.song.rappel||false,accordage:d.song.accordage||'',
+    caractere:d.song.caractere||'',energie:d.song.energie||'',
+    energie_intro:d.song.energie_intro||'',energie_fin:d.song.energie_fin||'',
+    libId:d.song.libId||'',
+    intention:d.song.intention||'',introphrase:d.song.introphrase||'',
+    emotion:d.song.emotion||'',capo:d.song.capo||'',guitarsound:d.song.guitarsound||'',
+    samples:d.song.samples||'',instrumentchanges:d.song.instrumentchanges||'',
+    lightambiance:d.song.lightambiance||''
+  }));
+  current=0;persist();
+  renderLive();renderSetView();
+  switchSetSection('arc',document.getElementById('ssn-arc'));
+  if(navigator.vibrate)navigator.vibrate([40,20,80]);
+}
+
+
+/* ══════════════════════════════════════════════════════
+   SCORE DE PRÉPARATION + RISQUE PAR MORCEAU
+══════════════════════════════════════════════════════ */
+
+function _computeSongRisk(s, idx, songs){
+  const rod=_rodageScore(s.title,s)?.score||(s.rodage_manuel?RODAGE_LEVELS[s.rodage_manuel]?.score:50)||50;
+  const key=state.activeId+'_'+idx;
+  const r=(state.rehearsals||{})[key]||{};
+  const today=new Date().toISOString().slice(0,10);
+  const days=r.last?Math.floor((new Date(today)-new Date(r.last))/(864e5)):999;
+  const conf=(r.confidence||[]).slice(-3);
+  const avgConf=conf.length?conf.reduce((a,c)=>a+c.stars,0)/conf.length:3;
+  const vigN=(s.vigilance||'').split('\n').filter(l=>l.trim()).length;
+  const hasDepart=!!(s.depart&&s.depart.trim());
+  const nextS=songs[idx+1];
+  const tuningChange=nextS&&_tuning(s)&&_tuning(nextS)&&_tuning(s)!==_tuning(nextS);
+
+  let risk=0;
+  const reasons=[];
+
+  if(rod<25){risk+=3;reasons.push('peu rodé');}
+  else if(rod<50){risk+=2;reasons.push('rodage moyen');}
+  if(days>14){risk+=2;reasons.push(days+'j sans répète');}
+  else if(days>7){risk+=1;reasons.push(days+'j sans répète');}
+  if(avgConf<2){risk+=2;reasons.push('confiance faible');}
+  else if(avgConf<2.5){risk+=1;}
+  if(vigN>=3){risk+=2;reasons.push(vigN+' vigilances');}
+  else if(vigN>=2){risk+=1;}
+  if(idx<3&&!hasDepart){risk+=2;reasons.push('pas de départ noté');}
+  if(tuningChange){risk+=1;reasons.push('accord. change après');}
+
+  const label=risk>=6?'Risqué':risk>=3?'Attention':'OK';
+  const color=risk>=6?'#ff5b5b':risk>=3?'#ffb347':'#34b531';
+  return{risk,label,color,rod,days,avgConf,reasons};
+}
+
+function _computeReadinessScore(songs){
+  if(!songs.length)return{score:0,label:'Set vide',color:'var(--mut)',actions:[],sub:''};
+  const today=new Date().toISOString().slice(0,10);
+
+  let score=100;
+  const actions=[];
+
+  // 1. Rodage moyen (30 pts) — priorité au niveau manuel
+  const rods=songs.map(s=>_rodageScore(s.title,s)?.score||0);
+  const manualCount=songs.filter(s=>s.rodage_manuel&&RODAGE_LEVELS[s.rodage_manuel]).length;
+  const avgRod=rods.reduce((a,b)=>a+b,0)/rods.length;
+  const rodPenalty=Math.round((1-avgRod/100)*30);
+  score-=rodPenalty;
+  if(avgRod<50)actions.push({p:'high',ico:'⚠️',txt:`Rodage moyen faible (${Math.round(avgRod)}%). Répète en priorité les titres fragiles avant le concert.`});
+
+  // 2. Fragiles en début de set (15 pts)
+  const fragile=songs.slice(0,3).filter(s=>(_rodageScore(s.title,s)?.score||0)<30);
+  if(fragile.length){
+    score-=fragile.length*5;
+    actions.push({p:'high',ico:'🔴',txt:`"${fragile[0].title}" est fragile en position ${songs.indexOf(fragile[0])+1}. Déplace-le après la position 5 ou répète-le aujourd'hui.`});
+  }
+
+  // 3. Signaux de départ (15 pts)
+  const withDepart=songs.filter(s=>s.depart&&s.depart.trim()).length;
+  const departRatio=withDepart/songs.length;
+  if(departRatio<0.7){
+    score-=Math.round((0.7-departRatio)*25);
+    const missing=songs.filter(s=>!s.depart?.trim()).slice(0,2).map(s=>s.title);
+    actions.push({p:'medium',ico:'🥁',txt:`Note les signaux de départ pour : "${missing.join('", "')}". Sans ça, le risque de départ raté est élevé.`});
+  }
+
+  // 4. Répètes récentes (25 pts)
+  let recentN=0;
+  songs.forEach((s,i)=>{
+    const r=(state.rehearsals||{})[state.activeId+'_'+i]||{};
+    if(r.last){const d=Math.floor((new Date(today)-new Date(r.last))/(864e5));if(d<=7)recentN++;}
+  });
+  const recentRatio=recentN/songs.length;
+  if(recentRatio<0.5){
+    score-=Math.round((0.5-recentRatio)*40);
+    actions.push({p:'high',ico:'🎸',txt:`Seulement ${recentN}/${songs.length} titre(s) répété(s) cette semaine. Lance une répète avant le concert.`});
+  }
+
+  // 5. Arc qualité (10 pts)
+  const firstI=_getIntroE(songs[0]);
+  const lastF=_getFinE(songs[songs.length-1]);
+  if(firstI<6)score-=5;
+  if(lastF<7)score-=5;
+
+  // 6. Vigilances critiques (5 pts)
+  const critVig=songs.filter(s=>(s.vigilance||'').split('\n').filter(l=>l.trim()).length>=3).length;
+  if(critVig>2)score-=critVig*2;
+
+  score=Math.max(0,Math.min(100,Math.round(score)));
+
+  const label=score>=80?'Vous êtes prêts 💪':score>=60?'Presque prêts':score>=40?'Encore du travail':'Pas encore prêts';
+  const color=score>=80?'#34b531':score>=60?'#34b531':score>=40?'#ffb347':'#ff5b5b';
+  const sub=`Rodage moyen ${Math.round(avgRod)}% · ${recentN}/${songs.length} répété cette semaine`;
+
+  // Compléter les actions si pas assez
+  if(!actions.length)actions.push({p:'good',ico:'✅',txt:'Vous semblez bien préparés. Faites confiance à votre travail et profitez du moment.'});
+  if(actions.filter(a=>a.p==='good').length===0&&actions.length<3){
+    if(firstI<6)actions.push({p:'medium',ico:'🚀',txt:`"${songs[0].title}" démarre doucement (intro ${firstI}/10). Assurez-vous d'avoir un départ fort collectif.`});
+    if(lastF<7&&actions.length<3)actions.push({p:'medium',ico:'🏁',txt:`Le final "${songs[songs.length-1].title}" finit à ${lastF}/10. Donnez tout sur les dernières mesures.`});
+  }
+
+  return{score,label,color,actions:actions.slice(0,3),sub};
+}
+
+/* ══════════════════════════════════════════════════════
+   COURBE DE FATIGUE MUSICALE
+══════════════════════════════════════════════════════ */
+function _buildFatigueSVG(songs){
+  if(!songs.length)return'';
+  const demands=songs.map(s=>{
+    const bpm=parseInt(s.bpm)||110;
+    const e=_inferEnergy(s);
+    const dur=parseSec(s.duree)/60||3.5;
+    return(bpm/180*0.4+e/10*0.6)*dur;
+  });
+  const total=demands.reduce((a,b)=>a+b,0)||1;
+  let cum=0;
+  const pcts=demands.map(d=>{cum+=d;return Math.min(100,Math.round(cum/total*100));});
+
+  const n=songs.length;
+  const W=380,H=80,PX=12,PY=8;
+  const xs=songs.map((_,i)=>PX+(i/(n-1||1))*(W-2*PX));
+  const ys=pcts.map(p=>PY+((100-p)/100)*(H-2*PY));
+
+  // Find danger zone (>70%)
+  const dangerPts=songs.map((s,i)=>pcts[i]>70&&_inferEnergy(s)>=7?i:-1).filter(x=>x>=0);
+
+  let path=`M ${xs[0].toFixed(1)} ${ys[0].toFixed(1)}`;
+  for(let i=1;i<n;i++){
+    const cpx=((xs[i-1]+xs[i])/2).toFixed(1);
+    path+=` C ${cpx} ${ys[i-1].toFixed(1)} ${cpx} ${ys[i].toFixed(1)} ${xs[i].toFixed(1)} ${ys[i].toFixed(1)}`;
+  }
+  const area=path+` L ${xs[n-1].toFixed(1)} ${H+2} L ${xs[0].toFixed(1)} ${H+2} Z`;
+
+  // 70% line
+  const y70=(PY+(30/100)*(H-2*PY)).toFixed(1);
+
+  const dots=songs.map((s,i)=>{
+    const pct=pcts[i];
+    const col=pct>80?'#ff5b5b':pct>60?'#ffb347':'#34b531';
+    const isDanger=dangerPts.includes(i);
+    return`<circle cx="${xs[i].toFixed(1)}" cy="${ys[i].toFixed(1)}" r="${isDanger?6:4}" fill="${col}" stroke="#0e1418" stroke-width="2"/>
+    ${isDanger?`<text x="${xs[i].toFixed(1)}" y="${(ys[i]-9).toFixed(1)}" text-anchor="middle" font-size="9" fill="${col}" font-weight="700">!</text>`:''}`;
+  }).join('');
+
+  const lblStep=n>10?2:1;
+  const labels=songs.map((s,i)=>{
+    if(i%lblStep!==0&&i!==n-1)return'';
+    const t=(s.title||'').toUpperCase().slice(0,6)+(s.title?.length>6?'':'');
+    return`<text x="${xs[i].toFixed(1)}" y="${H+18}" text-anchor="middle" font-size="7.5" fill="#6e818c">${esc(t)}</text>`;
+  }).join('');
+
+  const peakIdx=pcts.indexOf(Math.max(...pcts));
+  const peakMsg=dangerPts.length?`⚠️ Fatigue max vers position ${dangerPts[0]+1} ("${songs[dangerPts[0]]?.title||''}") — évite un morceau technique ici.`:'Charge bien répartie ✓';
+  const peakCol=dangerPts.length?'#ffb347':'#34b531';
+
+  return`<div class="ap-chart-wrap"><svg viewBox="-4 -4 ${W+24} ${H+24}" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="fgrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff5b5b" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#ff5b5b" stop-opacity="0.03"/>
+    </linearGradient></defs>
+    <line x1="${PX}" y1="${y70}" x2="${W-PX}" y2="${y70}" stroke="#ff5b5b" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
+    <text x="${W-PX+3}" y="${parseFloat(y70)+3}" font-size="8" fill="#ff5b5b" opacity="0.7">70%</text>
+    <path d="${area}" fill="url(#fgrad)"/>
+    <path d="${path}" fill="none" stroke="#ff8c00" stroke-width="2.5" stroke-linecap="round"/>
+    ${dots}${labels}
+  </svg></div>
+  <div class="fatigue-peak" style="background:rgba(255,${dangerPts.length?'140,0':'184,0'},.1);border:1px solid rgba(255,${dangerPts.length?'140,0':'184,0'},.3);color:${peakCol}">${peakMsg}</div>`;
+}
+
+/* ══════════════════════════════════════════════════════
+   PLANNING DE RÉPÉTITION OPTIMAL
+══════════════════════════════════════════════════════ */
+function _buildRehearsalPlan(songs, availMin){
+  const today=new Date().toISOString().slice(0,10);
+  const items=songs.map((s,i)=>{
+    const key=state.activeId+'_'+i;
+    const r=(state.rehearsals||{})[key]||{};
+    const days=r.last?Math.floor((new Date(today)-new Date(r.last))/(864e5)):999;
+    const rod=_rodageScore(s.title)?.score||50;
+    const conf=(r.confidence||[]).slice(-3);
+    const avgConf=conf.length?conf.reduce((a,c)=>a+c.stars,0)/conf.length:3;
+    const vigN=(s.vigilance||'').split('\n').filter(l=>l.trim()).length;
+
+    let priority=0;
+    const reasons=[];
+    if(rod<25){priority+=10;reasons.push('très peu rodé');}
+    else if(rod<50){priority+=6;reasons.push('rodage insuffisant');}
+    else if(rod<75){priority+=3;}
+    if(days>14){priority+=8;reasons.push(days+'j sans répète');}
+    else if(days>7){priority+=4;reasons.push(days+'j sans répète');}
+    else if(days>3){priority+=2;}
+    if(avgConf<2){priority+=6;reasons.push('confiance faible');}
+    else if(avgConf<2.5){priority+=3;}
+    if(vigN>=3){priority+=4;reasons.push('vigilances critiques');}
+
+    const estMin=Math.max(3,Math.round((parseSec(s.duree)/60||3.5)*1.5+0.5));
+    return{song:s,idx:i,priority,days,rod,avgConf,reasons,estMin,key};
+  }).filter(x=>x.priority>0).sort((a,b)=>b.priority-a.priority);
+
+  if(!items.length)return[];
+  let rem=availMin||60;
+  const plan=[];
+  for(const item of items){
+    if(rem<=0)break;
+    plan.push(item);
+    rem-=item.estMin;
+  }
+  return plan;
+}
+
+function renderRehearsalPlan(){
+  const availMin=parseInt(document.getElementById('rh-plan-min')?.value)||60;
+  const songs=aSongs();
+  const plan=_buildRehearsalPlan(songs,availMin);
+  const cont=document.getElementById('rehear-plan');if(!cont)return;
+  cont.style.display='';
+
+  if(!plan.length){
+    cont.innerHTML='<div class="ana-empty">Tous les titres semblent bien rodés 🎉</div>';
+    return;
+  }
+
+  let totalEst=plan.reduce((a,x)=>a+x.estMin,0);
+  const colors=['#ff5b5b','#ff8c00','#ffb347','#ffb347','#34b531'];
+
+  let h=`<div style="font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-bottom:8px">
+    Plan optimal · ${plan.length} titres · ~${totalEst}min estimé</div>`;
+  plan.forEach((item,idx)=>{
+    const col=colors[Math.min(idx,colors.length-1)];
+    h+=`<div class="plan-item">
+      <div class="plan-priority" style="background:${col}22;border:2px solid ${col};color:${col}">${idx+1}</div>
+      <span class="plan-song-title">${esc(item.song.title||'—')}</span>
+      <span class="plan-reason" style="color:${col}">${item.reasons[0]||''}</span>
+      <span class="plan-est">~${item.estMin}min</span>
+    </div>`;
+  });
+  if(totalEst>availMin){
+    h+=`<p class="fhint" style="color:var(--amber)">Estimation ${totalEst}min > ${availMin}min dispo — priorise les 3 premiers.</p>`;
+  }
+  cont.innerHTML=h;
+}
+
+/* ══════════════════════════════════════════════════════
+   PAGE CE SOIR — Render principal
+══════════════════════════════════════════════════════ */
+function renderTonight(){
+  const songs=aSongs();
+  if(!songs.length){
+    document.getElementById('rdy-score').textContent='?';
+    document.getElementById('rdy-label').textContent='Set vide';
+    document.getElementById('tonight-actions').innerHTML='<div class="ana-empty">Ajoute des titres dans le set d\'abord.</div>';
+    document.getElementById('tonight-risk-list').innerHTML='';
+    document.getElementById('tonight-fatigue').innerHTML='';
+    return;
+  }
+
+  // Info banner si peu de rodages manuels
+  const manualRodN=songs.filter(s=>s.rodage_manuel&&RODAGE_LEVELS[s.rodage_manuel]).length;
+  const dataBanner=document.getElementById('tonight-data-banner');
+  if(dataBanner){
+    if(manualRodN<songs.length*0.5){
+      dataBanner.style.display='block';
+      dataBanner.textContent=manualRodN===0
+        ?'💡 Définis le niveau de rodage de chaque titre dans leur fiche (tiroir ✏️) pour un score de préparation fiable.'
+        :`💡 ${songs.length-manualRodN} titre(s) sans niveau de rodage défini. Complète les fiches pour un score plus précis.`;
+    } else {
+      dataBanner.style.display='none';
+    }
+  }
+  // Readiness score
+  const rdy=_computeReadinessScore(songs);
+  const sc=document.getElementById('rdy-score');
+  if(sc){sc.textContent=rdy.score;sc.style.color=rdy.color;}
+  const lb=document.getElementById('rdy-label');if(lb){lb.textContent=rdy.label;lb.style.color=rdy.color;}
+  const bar=document.getElementById('rdy-bar');if(bar){bar.style.width=rdy.score+'%';bar.style.background=rdy.color;}
+  const sub=document.getElementById('rdy-sub');if(sub)sub.textContent=rdy.sub;
+
+  // Actions
+  const actEl=document.getElementById('tonight-actions');
+  if(actEl)actEl.innerHTML=rdy.actions.map(a=>`
+    <div class="action-item ${a.p}"><span class="action-ico">${a.ico}</span><span>${esc(a.txt)}</span></div>
+  `).join('');
+
+  // Risk per song
+  const riskEl=document.getElementById('tonight-risk-list');
+  if(riskEl)riskEl.innerHTML=songs.map((s,i)=>{
+    const risk=_computeSongRisk(s,i,songs);
+    const mood=_getMoodData(s,i,songs.filter(x=>!x.rappel).length,_inferEnergy(s));
+    return`<div class="risk-row" style="border-left-color:${risk.color}" onclick="openDrawer(${i})">
+      <span class="risk-num" style="color:${risk.color}">${pad(i+1)}</span>
+      <span class="risk-title">${esc(s.title||'—')}</span>
+      <span style="font-size:14px">${mood.emoji}</span>
+      ${risk.reasons.length?`<span class="risk-detail">${esc(risk.reasons[0])}</span>`:''}
+      <span class="risk-badge" style="color:${risk.color};border-color:${risk.color};background:${risk.color}22">${risk.label}</span>
+    </div>`;
+  }).join('');
+
+  // Fatigue curve
+  const fatEl=document.getElementById('tonight-fatigue');
+  if(fatEl)fatEl.innerHTML=_buildFatigueSVG(songs);
+}
+
+/* ══════════════════════════════════════════════════════
+   COMPARAISON PRÉVU vs JOUÉ (dans concert detail)
+══════════════════════════════════════════════════════ */
+function openDiffModal(cid){
+  const c=(state.concerts||[]).find(x=>x.id===cid);if(!c)return;
+  const planned=c.songs||[];
+  const played=c.played||null;
+
+  if(!played){
+    // First time: pre-fill with all songs as played
+    const modal=document.createElement('div');
+    modal.style.cssText='position:fixed;inset:0;z-index:500;background:rgba(6,11,15,.9);display:flex;align-items:flex-end;justify-content:center;padding:env(safe-area-inset-top) 0 0';
+    const inner=document.createElement('div');
+    inner.style.cssText='background:var(--panel);border-top-left-radius:24px;border-top-right-radius:24px;width:100%;max-width:560px;max-height:85vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:18px 16px calc(16px + env(safe-area-inset-bottom))';
+    inner.innerHTML=`<div style="width:40px;height:4px;background:var(--line2);border-radius:2px;margin:0 auto 14px"></div>
+      <div style="font-size:16px;font-weight:900;text-transform:uppercase;margin-bottom:14px">↔️ Prévu vs joué</div>
+      <p style="font-size:13px;color:var(--mut);margin:0 0 12px;line-height:1.5">Coche les titres réellement joués, décoche ceux que tu as sautés.</p>
+      <div id="diff-checklist">${planned.map((s,i)=>`
+        <label style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--bg2);border-radius:10px;margin-bottom:5px;cursor:pointer">
+          <input type="checkbox" data-idx="${i}" checked style="width:20px;height:20px;accent-color:var(--green);flex:0 0 auto">
+          <span style="font-size:13px;font-weight:800;text-transform:uppercase">${esc(s.title||'—')}</span>
+        </label>`).join('')}
+      </div>
+      <div style="margin-top:10px">
+        <div style="font-size:12px;font-weight:800;color:var(--mut);margin-bottom:6px">Titres ajoutés non prévus</div>
+        <input id="diff-added-input" type="text" placeholder='Ex: "GHOST, SURPRISE COVER"' style="width:100%;background:var(--bg2);border:1px solid var(--line2);border-radius:10px;padding:9px 12px;font-size:13px;color:var(--ink)">
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button onclick="saveDiff('${cid}',this.closest('[style*=fixed]'))" style="flex:1;background:linear-gradient(180deg,var(--green),var(--green-d));color:#06160a;border:0;border-radius:12px;padding:12px;font-size:14px;font-weight:900;cursor:pointer">✅ Enregistrer</button>
+        <button onclick="this.closest('[style*=fixed]').remove()" style="background:var(--panel2);border:1px solid var(--line2);color:var(--mut);border-radius:12px;padding:12px 16px;font-size:14px;font-weight:800;cursor:pointer">Annuler</button>
+      </div>`;
+    modal.appendChild(inner);
+    document.body.appendChild(modal);
+  } else {
+    // Already have diff - show it
+    _renderDiffInConcert(cid);
+  }
+}
+
+function saveDiff(cid,modalEl){
+  const c=(state.concerts||[]).find(x=>x.id===cid);if(!c)return;
+  const checks=modalEl.querySelectorAll('#diff-checklist input[type=checkbox]');
+  const playedIdxs=[];
+  checks.forEach((cb,i)=>{if(cb.checked)playedIdxs.push(i);});
+  const addedRaw=(document.getElementById('diff-added-input')?.value||'').trim();
+  const added=addedRaw?addedRaw.split(',').map(s=>s.trim()).filter(Boolean):[];
+  c.played={idxs:playedIdxs,added,date:new Date().toISOString()};
+  persist();
+  modalEl.remove();
+  renderJournal();
+}
+
+function _renderDiffInConcert(cid){
+  const c=(state.concerts||[]).find(x=>x.id===cid);if(!c||!c.played)return'';
+  const planned=c.songs||[];
+  const {idxs,added}=c.played;
+  let h='<div style="margin-top:10px"><div style="font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-bottom:7px">↔️ Prévu vs joué</div>';
+  planned.forEach((s,i)=>{
+    const played=idxs.includes(i);
+    h+=`<div class="diff-row ${played?'diff-played':'diff-skipped'}">
+      <span style="font-size:14px">${played?'✓':'—'}</span>
+      <span>${esc(s.title||'—')}</span>
+    </div>`;
+  });
+  if(added&&added.length){
+    h+=`<div style="font-size:10px;font-weight:900;color:var(--amber);margin:8px 0 4px">Ajoutés non prévus</div>`;
+    added.forEach(t=>h+=`<div class="diff-row diff-added">+ <span>${esc(t)}</span></div>`);
+  }
+  const skipped=planned.filter((_,i)=>!idxs.includes(i)).length;
+  if(skipped)h+=`<p style="font-size:11px;color:var(--mut);margin-top:6px">${skipped} titre(s) sauté(s) · ${added?.length||0} ajouté(s)</p>`;
+  h+='</div>';
+  return h;
+}
+
 /* ── boot ── */
 function boot(){
   checkReadOnly();
@@ -7052,6 +7960,8 @@ function boot(){
   // init Set view cache
   // Sync slot from analyse
   const slot=document.getElementById('ana-slot');if(slot&&slot.value)setChrono(slot.value);
+  // Garantir que l'app démarre sur Scène
+  showTab('live');
 }
 boot();
 </script>
