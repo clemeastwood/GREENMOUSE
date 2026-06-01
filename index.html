@@ -3016,6 +3016,7 @@ function _analyzeSet(songs, targetMin){
   const finE=songs.map(_getFinE);
   const percE=songs.map(_getPerceivedE);
   const tunings=songs.map(s=>_tuning(s)||'—');
+  const chars=songs.map(s=>s.caractere||'');
 
   // ─ 1. Accordages groupés
   let maxStreak=1,curStreak=1,streakTune=tunings[0];
@@ -3026,166 +3027,223 @@ function _analyzeSet(songs, targetMin){
   if(curStreak>maxStreak){maxStreak=curStreak;streakTune=tunings[n-1];}
   if(maxStreak>=3&&streakTune!=='—'){
     alerts.push({type:'good',emoji:'🎸',badge:'Accordage',
-      msg:`${maxStreak} morceaux consécutifs en ${streakTune} — bon bloc guitare, zéro interruption.`});
+      msg:`${maxStreak} morceaux consécutifs en ${streakTune} — bon bloc guitare.`});
   }
 
   // ─ 2. Changements d'accordage rapprochés
-  let rapidChanges=0;
-  for(let i=2;i<n;i++){if(tunings[i]!==tunings[i-1]&&tunings[i-1]!==tunings[i-2])rapidChanges++;}
+  let rapidChanges=0,rapidPos=[];
+  for(let i=2;i<n;i++){if(tunings[i]!==tunings[i-1]&&tunings[i-1]!==tunings[i-2]){rapidChanges++;rapidPos.push(i+1);}}
   if(rapidChanges>=2){
     alerts.push({type:'warn',emoji:'🔄',badge:'Accordage',
-      msg:`${rapidChanges} changements d'accordage rapprochés — pense aux transitions ou à réorganiser.`});
+      msg:`${rapidChanges} changements d'accordage rapprochés (positions ${rapidPos.join(', ')}). Pense à regrouper les morceaux par accordage, ou prévoir une guitare déjà accordée.`});
   }
 
-  // ─ 3. ANALYSE DES TRANSITIONS (FIN→INTRO)
-  const badDrops=[],goodJumps=[],awkward=[];
+  // ─ 3. Transitions brusques
+  const badDrops=[];
   for(let i=0;i<n-1;i++){
     const impact=_transitionImpact(songs[i],songs[i+1]);
-    const f=finE[i],intro=introE[i+1];
-    // Chute brutale non intentionnelle : fin haute + intro très basse sans respiration marquée
-    if(f>=7&&intro<=3&&songs[i+1].caractere!=='respiration'&&songs[i+1].caractere!=='intime'){
-      badDrops.push({i,f,intro,title:songs[i+1].title});
-    }
-    // Bon contraste intentionnel : fin haute → respiration → repart
-    if(f>=6&&(songs[i+1].caractere==='respiration'||songs[i+1].caractere==='intime')){
-      goodJumps.push({i,title:songs[i+1].title});
-    }
-    // Deux progressifs consécutifs → double build-up, peut épuiser le public
-    if(songs[i].caractere==='progressif'&&songs[i+1].caractere==='progressif'){
-      awkward.push({i,msg:`"${songs[i].title}" et "${songs[i+1].title}" sont deux progressifs consécutifs — le public risque de s'essouffler avant le pic du second.`});
+    if(finE[i]>=7&&introE[i+1]<=3&&songs[i+1].caractere!=='respiration'&&songs[i+1].caractere!=='intime'){
+      badDrops.push({pos:i+1,from:songs[i].title,to:songs[i+1].title,f:finE[i],intro:introE[i+1]});
     }
   }
   if(badDrops.length){
     badDrops.forEach(d=>{
       alerts.push({type:'warn',emoji:'📉',badge:'Transition',
-        msg:`Après "${songs[d.i].title}" (finit à ${d.f}/10), "${d.title}" démarre à ${d.intro}/10 — chute brutale non intentionnelle. Ajoute une respiration entre les deux ou change l'ordre.`});
+        msg:`Position ${d.pos}→${d.pos+1} : "${d.from}" finit à ${d.f}/10 mais "${d.to}" démarre à ${d.intro}/10 — chute brutale. `+
+        `Soit insère un morceau de respiration entre les deux, soit change le caractère de "${d.to}" en 🌊 Respiration pour assumer la transition.`});
     });
   }
-  if(goodJumps.length){
-    alerts.push({type:'good',emoji:'💨',badge:'Transitions',
-      msg:`${goodJumps.length} moment(s) de respiration bien placé(s) après des morceaux intenses — architecture narrative solide.`});
-  }
-  awkward.forEach(a=>{
-    alerts.push({type:'warn',emoji:'⚠️',badge:'Structure',msg:a.msg});
-  });
 
-  // ─ 4. ARC GLOBAL — basé sur l'énergie perçue (intro+milieu+fin)
+  // ─ 4. Deux progressifs consécutifs
+  for(let i=0;i<n-1;i++){
+    if(chars[i]==='progressif'&&chars[i+1]==='progressif'){
+      alerts.push({type:'warn',emoji:'⚠️',badge:'Structure',
+        msg:`Positions ${i+1} et ${i+2} : deux morceaux Progressifs consécutifs ("${songs[i].title}" + "${songs[i+1].title}"). `+
+        `Le public risque de s'essouffler avant le pic du second. Insère un autre caractère entre les deux, ou décale l'un d'eux.`});
+    }
+  }
+
+  // ─ 5. ARC GLOBAL avec suggestions précises
   const rappelIdx=songs.findIndex(s=>s.rappel);
   const mainE=rappelIdx>0?percE.slice(0,rappelIdx):percE;
+  const mainSongs=rappelIdx>0?songs.slice(0,rappelIdx):songs;
   const mn=mainE.length;
   if(mn>=4){
     const t1=Math.floor(mn/3),t2=Math.floor(2*mn/3);
     const e1=_avg(mainE.slice(0,t1)),e2=_avg(mainE.slice(t1,t2)),e3=_avg(mainE.slice(t2));
-    // Faux plateau : énergie générale stable mais pic/creux internes
     const rawAvg1=_avg(energies.slice(0,t1)),rawAvg2=_avg(energies.slice(t1,t2));
     const percDiff=Math.abs(rawAvg1-e1)+Math.abs(rawAvg2-e2);
-    if(percDiff>3){
-      alerts.push({type:'info',emoji:'🎭',badge:'Arc réel',
-        msg:`L'énergie apparente est stable mais l'arc perçu est très différent grâce aux morceaux progressifs et à leur dynamique interne — c'est exactement ce qui crée du relief dramatique. 👏`});
-    } else if(Math.abs(e1-e2)<1&&Math.abs(e2-e3)<1){
-      alerts.push({type:'warn',emoji:'〰️',badge:'Arc plat',
-        msg:`Le set manque de relief dramatique — même niveau perçu du début à la fin. Pense à varier davantage les structures internes (progressifs, tensions).`});
+
+    // Manque de relief dramatique
+    if(Math.abs(e1-e2)<1.2&&Math.abs(e2-e3)<1.2&&percDiff<=2.5){
+      // Trouver le meilleur endroit pour insérer un moment dramatique
+      const flatSection=mainE.slice(t1,t2);
+      const minIdx=t1+flatSection.indexOf(Math.min(...flatSection));
+      const suggestChar=e2<5?'explosif':'tension';
+      const charLabel=suggestChar==='explosif'?'🔥 Explosif':'🎯 Tension';
+      alerts.push({type:'warn',emoji:'🎭',badge:'Relief dramatique',
+        msg:`Le set manque de relief : l'énergie perçue reste entre ${e1.toFixed(1)} et ${e3.toFixed(1)}/10 sans vraie rupture. `+
+        `Le creux est autour de la position ${minIdx+1} ("${mainSongs[minIdx]?.title||''}"). `+
+        `Suggestion : compose ou insère un titre ${charLabel} à cette position — un morceau qui démarre bas et explose, ou qui crée de la tension avant une libération.`});
     }
+
+    // Creux au milieu
     if(e1>6.5&&e2<e1-2){
-      alerts.push({type:'warn',emoji:'📉',badge:'Énergie',
-        msg:`Forte ouverture (${e1.toFixed(1)}/10 perçu) mais creux au milieu (${e2.toFixed(1)}/10). Remonte un morceau punch ou un progressif dans le tiers central.`});
+      const minMidIdx=t1+mainE.slice(t1,t2).indexOf(Math.min(...mainE.slice(t1,t2)));
+      alerts.push({type:'warn',emoji:'📉',badge:'Creux central',
+        msg:`Fort début (${e1.toFixed(1)}/10) puis creux au milieu (${e2.toFixed(1)}/10). `+
+        `Le point le plus bas est position ${minMidIdx+1} ("${mainSongs[minMidIdx]?.title||''}"). `+
+        `Options : (1) remonte un morceau ⚡ Groovy ou 💥 Baffe à la position ${minMidIdx+1}, `+
+        `(2) ajoute un morceau 📈 Progressif avant pour relancer progressivement, `+
+        `(3) compose un titre "pont" pour sortir du creux avec intention.`});
     }
+
+    // Montée finale — bon
     if(e3>e1+1){
       alerts.push({type:'good',emoji:'🚀',badge:'Build-up',
-        msg:`Le set monte en puissance vers la fin — excellent arc dramatique. Le public sera à son pic au moment du final.`});
+        msg:`Le set monte en puissance vers la fin (début ${e1.toFixed(1)} → fin ${e3.toFixed(1)}/10). Arc dramatique solide.`});
     }
+
+    // Tout fort, pas de respiration
     if(e1>7&&e2>6.5&&e3>7.5){
-      alerts.push({type:'good',emoji:'🔥',badge:'Énergie',
-        msg:`Arc énergétique solide : ouverture forte, tiers central tenu, final puissant. Set pro.`});
+      // Check if there's any respiration
+      const hasBreath=mainSongs.some(s=>s.caractere==='respiration'||s.caractere==='intime');
+      if(!hasBreath){
+        alerts.push({type:'info',emoji:'💨',badge:'Respiration',
+          msg:`Set très intense de bout en bout — aucun moment de respiration. `+
+          `Même 1 titre 🌊 Respiration ou 🌙 Intime au milieu (vers position ${Math.round(mn/2)}) `+
+          `rendrait les moments forts encore plus percutants par contraste. `+
+          `Un 4:00 calme entre deux baffes, ça se souvient.`});
+      } else {
+        alerts.push({type:'good',emoji:'🔥',badge:'Énergie',msg:`Arc énergétique solide : fort, tenu, avec des respirations bien placées. Set pro.`});
+      }
+    }
+
+    // Manque de diversité de caractères
+    const usedChars=new Set(mainSongs.map(s=>s.caractere).filter(Boolean));
+    if(usedChars.size<=2&&mn>=6){
+      const missing=Object.keys(MOODS).filter(k=>!usedChars.has(k));
+      const suggestions=missing.slice(0,3).map(k=>`${MOODS[k].emoji} ${MOODS[k].label}`).join(', ');
+      alerts.push({type:'info',emoji:'🎨',badge:'Diversité',
+        msg:`Seulement ${usedChars.size} caractère(s) différent(s) sur ${mn} morceaux. `+
+        `Pour plus de variété émotionnelle, envisage : ${suggestions}. `+
+        `Un set qui raconte plusieurs histoires est plus mémorable.`});
     }
   }
 
-  // ─ 5. Ouverture : est-ce que ça démarre fort ?
+  // ─ 6. Ouverture
   if(n>0){
     const firstIntro=introE[0];
-    if(firstIntro<5&&songs[0].caractere!=='progressif'&&songs[0].caractere!=='tension'){
+    if(firstIntro<5&&chars[0]!=='progressif'&&chars[0]!=='tension'){
       alerts.push({type:'warn',emoji:'🚀',badge:'Ouverture',
-        msg:`Le premier morceau démarre doucement (intro ${firstIntro}/10). Le public a besoin d'être accroché dès les premières secondes — pense à un morceau qui part fort en intro, ou étiquette-le "Progressif".`});
+        msg:`"${songs[0].title}" démarre à ${firstIntro}/10 — trop doux pour une ouverture. `+
+        `Soit le permute avec un titre qui démarre plus fort, soit change son caractère en 🚀 Ouverture `+
+        `et augmente son énergie intro (slider 🟦) à 7+.`});
     } else if(firstIntro>=7){
       alerts.push({type:'good',emoji:'🚀',badge:'Ouverture',
-        msg:`Ouverture efficace — le premier morceau démarre à ${firstIntro}/10. Le public est pris immédiatement.`});
+        msg:`"${songs[0].title}" ouvre fort (intro ${firstIntro}/10). Le public est pris immédiatement.`});
     }
   }
 
-  // ─ 6. Final : est-ce que ça finit fort ?
+  // ─ 7. Final
   const lastMain=rappelIdx>0?songs[rappelIdx-1]:songs[n-1];
   if(lastMain){
     const lastFin=_getFinE(lastMain);
     if(lastFin<6){
       alerts.push({type:'warn',emoji:'🏁',badge:'Final',
-        msg:`Le dernier morceau du set principal finit à ${lastFin}/10 — c'est mou pour un final. Le public doit sortir sur une montée, pas une descente.`});
+        msg:`"${lastMain.title}" finit à ${lastFin}/10 — trop mou pour un final. `+
+        `Soit c'est un dernier morceau qui monte (change caractère → 📈 Progressif, monte le slider 🟧 Fin à 8+), `+
+        `soit permute-le avec un titre qui termine plus fort.`});
     } else if(lastFin>=8){
       alerts.push({type:'good',emoji:'🏁',badge:'Final',
-        msg:`Final à ${lastFin}/10 — ça finit haut. Le public va partir dans un pic d'adrénaline.`});
+        msg:`"${lastMain.title}" termine à ${lastFin}/10 — le public part sur un pic.`});
     }
   }
 
-  // ─ 7. Prises de parole
+  // ─ 8. Prises de parole
   const speechSongs=songs.filter(s=>s.public&&s.public.trim());
+  const speechPositions=songs.map((s,i)=>s.public&&s.public.trim()?i+1:null).filter(Boolean);
   if(speechSongs.length===0){
-    alerts.push({type:'warn',emoji:'🎤',badge:'Interaction',msg:`Aucune prise de parole renseignée — les interactions créent un lien fort, même courtes.`});
+    alerts.push({type:'warn',emoji:'🎤',badge:'Interaction',
+      msg:`Aucune prise de parole renseignée. `+
+      `Suggère : note au moins une phrase courte sur le 2ème morceau (briser la glace), `+
+      `une au milieu (relancer), une avant le final (préparer la montée).`});
   } else if(speechSongs.length>=3&&speechSongs.length<=6){
-    alerts.push({type:'good',emoji:'🎤',badge:'Interaction',msg:`${speechSongs.length} prises de parole au public : équilibré.`});
-  } else if(speechSongs.length>6){
-    alerts.push({type:'info',emoji:'🎤',badge:'Interaction',msg:`${speechSongs.length} prises de parole — beaucoup. Attention à ne pas trop casser le rythme.`});
+    alerts.push({type:'good',emoji:'🎤',badge:'Interaction',
+      msg:`${speechSongs.length} prises de parole aux positions ${speechPositions.join(', ')} — équilibré.`});
   }
 
-  // ─ 8. Durée
+  // ─ 9. Durée
   const totalSec=songs.reduce((a,s)=>a+parseSec(s.duree),0);
   if(totalSec>0&&targetMin>0){
     const diff=totalSec-targetMin*60;
     const diffM=Math.floor(Math.abs(diff)/60),diffS=Math.abs(diff)%60;
     const ds=diffM>0?`${diffM}min${diffS>0?' '+diffS+'s':''}`:diffS+'s';
-    if(diff>180)alerts.push({type:'danger',emoji:'⏱',badge:'Durée',msg:`Tu dépasses le créneau de ${ds} ! Retire ou raccourcis.`});
-    else if(diff<-300)alerts.push({type:'info',emoji:'⏱',badge:'Durée',msg:`Il reste ${ds} — tu peux rallonger.`});
-    else alerts.push({type:'good',emoji:'⏱',badge:'Durée',msg:`Durée parfaite (${fmtDur(totalSec)} / ${targetMin}min). ✓`});
+    if(diff>180){
+      // How many songs to remove?
+      const avgDur=totalSec/n;
+      const toRemove=Math.ceil(diff/avgDur);
+      alerts.push({type:'danger',emoji:'⏱',badge:'Durée',
+        msg:`Tu dépasses le créneau de ${ds}. `+
+        `Retire environ ${toRemove} morceau(x) ou raccourcis ${toRemove*2} intros/transitions de ~${Math.round(diff/toRemove/60)}min chacune.`});
+    } else if(diff<-300){
+      const avgDur=totalSec/n;
+      const toAdd=Math.floor(-diff/avgDur);
+      alerts.push({type:'info',emoji:'⏱',badge:'Durée',
+        msg:`Il reste ${ds} de créneau — tu peux ajouter ${toAdd} titre(s) ou rallonger les intros/soli.`});
+    } else {
+      alerts.push({type:'good',emoji:'⏱',badge:'Durée',msg:`Durée parfaite (${fmtDur(totalSec)} / ${targetMin}min). ✓`});
+    }
   } else if(totalSec>0){
-    alerts.push({type:'info',emoji:'⏱',badge:'Durée',msg:`Durée totale : ${fmtDur(totalSec)}. Entre ton créneau pour vérifier.`});
+    alerts.push({type:'info',emoji:'⏱',badge:'Durée',msg:`Durée totale : ${fmtDur(totalSec)}. Entre ton créneau ci-dessus pour vérifier.`});
+  } else {
+    alerts.push({type:'info',emoji:'⏱',badge:'Durée',
+      msg:`Durées non renseignées — entre la durée de chaque titre dans la fiche pour avoir l'estimation du créneau.`});
   }
 
-  // ─ 9. Respiration avant le final
-  if(mainE.length>=3){
-    const last3=songs.slice(rappelIdx>0?rappelIdx-3:n-3,rappelIdx>0?rappelIdx:n);
-    const avgLast3Perc=_avg(last3.map(_getPerceivedE));
-    if(avgLast3Perc>8){
-      alerts.push({type:'warn',emoji:'😤',badge:'Respiration',msg:`Les 3 derniers morceaux sont tous très intenses (${avgLast3Perc.toFixed(1)}/10 perçu). Les musiciens vont tout donner en même temps — prévois une respiration avant le final.`});
+  // ─ 10. Respiration avant le final
+  const last3=mainSongs.slice(-3);
+  if(last3.length>=3){
+    const avgLast3=_avg(last3.map(_getPerceivedE));
+    if(avgLast3>8){
+      alerts.push({type:'warn',emoji:'😤',badge:'Avant le final',
+        msg:`Les 3 derniers morceaux ("${last3.map(s=>s.title).join('", "')}") sont tous très intenses (${avgLast3.toFixed(1)}/10 perçu). `+
+        `Les musiciens vont tout donner en même temps. Envisage de placer un titre 🌊 Respiration ou plus calme en position ${n-3} pour souffler avant l'assaut final.`});
     }
   }
 
-  // ─ 10. Rappel
+  // ─ 11. Rappel
   if(rappelIdx>0){
     const rappelFin=_avg(finE.slice(rappelIdx));
     const prevFin=_avg(finE.slice(Math.max(0,rappelIdx-2),rappelIdx));
     if(rappelFin<prevFin-1){
-      alerts.push({type:'warn',emoji:'🔁',badge:'Rappel',msg:`Le rappel finit moins fort que le set principal (${rappelFin.toFixed(1)} vs ${prevFin.toFixed(1)}/10). Le public pourrait être déçu.`});
+      alerts.push({type:'warn',emoji:'🔁',badge:'Rappel',
+        msg:`Le rappel finit moins fort que le set principal (${rappelFin.toFixed(1)} vs ${prevFin.toFixed(1)}/10). `+
+        `Le public pourrait être déçu. Monte le slider 🟧 Fin du dernier titre rappel à ${Math.round(prevFin)}+, `+
+        `ou permute l'ordre des titres du rappel pour finir sur le plus fort.`});
     } else {
-      alerts.push({type:'good',emoji:'🔁',badge:'Rappel',msg:`Rappel bien calibré énergétiquement.`});
+      alerts.push({type:'good',emoji:'🔁',badge:'Rappel',msg:`Rappel bien calibré — se termine plus haut que le set principal.`});
     }
+  } else {
+    alerts.push({type:'info',emoji:'🌟',badge:'Rappel',msg:`Aucun rappel prévu. Même si tu ne sais pas si tu en joueras un, prépare-en un dans la Biblio (statut ⭐ Rappel only).`});
   }
 
-  // ─ 10b. Rodage des morceaux clés
+  // ─ 12. Rodage
   const fragileKey=songs.slice(0,3).filter(s=>{const r=_rodageScore(s.title);return r&&r.score<25;});
   if(fragileKey.length){
     alerts.push({type:'warn',emoji:'⚠️',badge:'Rodage',
-      msg:`${fragileKey.map(s=>'"'+s.title+'"').join(', ')} ${fragileKey.length>1?'sont':'est'} fragile${fragileKey.length>1?'s':''} (peu répété${fragileKey.length>1?'s':''} et peu joué${fragileKey.length>1?'s':''}). Pas idéal en début de set.`});
+      msg:`${fragileKey.map(s=>'"'+s.title+'"').join(', ')} ${fragileKey.length>1?'sont':'est'} fragile${fragileKey.length>1?'s':''} en début de set (rodage < 25%). `+
+      `Soit répète-${fragileKey.length>1?'les':'le'} davantage avant ce concert, soit déplace-${fragileKey.length>1?'les':'le'} plus loin dans le set où la pression est moindre.`});
   }
 
-  // ─ 11. Vigilance + BPM + Départ
+  // ─ 13. Vigilance + BPM
   const vigN=songs.filter(s=>s.vigilance&&s.vigilance.trim()).length;
-  if(vigN>n*0.6)alerts.push({type:'warn',emoji:'⚠️',badge:'Vigilance',msg:`${vigN}/${n} morceaux avec vigilance — beaucoup. Priorise les plus critiques.`});
-  else if(vigN>0)alerts.push({type:'good',emoji:'⚠️',badge:'Vigilance',msg:`${vigN} point(s) de vigilance anticipés. Bien joué.`});
+  if(vigN>n*0.6)alerts.push({type:'warn',emoji:'⚠️',badge:'Vigilance',msg:`${vigN}/${n} morceaux avec vigilance — beaucoup. Priorise les 3 plus critiques pour ne pas te surcharger mentalement.`});
   const noBpm=songs.filter(s=>!s.bpm||!String(s.bpm).trim()).length;
-  if(noBpm>n*0.7)alerts.push({type:'info',emoji:'♩',badge:'BPM',msg:`${noBpm}/${n} morceaux sans BPM — utile pour l'analyse et le métronome.`});
+  if(noBpm>n*0.7)alerts.push({type:'info',emoji:'♩',badge:'BPM',msg:`${noBpm}/${n} morceaux sans BPM — entre-les pour affiner l'analyse d'énergie et utiliser le métronome.`});
   const firstSong=songs[0];
   if(firstSong&&(!firstSong.depart||!firstSong.depart.trim()))
-    alerts.push({type:'warn',emoji:'🥁',badge:'Départ',msg:`"${firstSong.title}" n'a pas de signal de départ. Note-le pour partir groupé !`});
-  const rappelCount=songs.filter(s=>s.rappel).length;
-  if(rappelCount===0)alerts.push({type:'info',emoji:'🌟',badge:'Rappel',msg:`Aucun rappel prévu — prépares-en un au cas où.`});
+    alerts.push({type:'warn',emoji:'🥁',badge:'Départ',msg:`"${firstSong.title}" n'a pas de signal de départ. Note-le pour partir groupé au premier morceau.`});
 
   return {alerts, energies, introE, finE};
 }
@@ -5289,27 +5347,45 @@ function _renderSetOrdre(){
   const songs=aSongs();
   const cont=document.getElementById('set-sortable');if(!cont)return;
   _renderSnapshots();
+  if(!songs.length){cont.innerHTML='<div class="arc-empty">Set vide — ajoute des titres depuis la Biblio.</div>';return;}
   cont.innerHTML=songs.map((s,i)=>{
     const e=_inferEnergy(s);
     const mood=_getMoodData(s,i,songs.filter(x=>!x.rappel).length,e);
     const lc=mood.color||'var(--line2)';
-    return`<div class="ssl-row" style="--lc:${lc}" draggable="true"
+    const dur=s.duree||'';
+    const acc=_tuning(s);
+    return`<div class="ssl-row" style="--lc:${lc};cursor:default" draggable="true"
       data-idx="${i}"
-      ondragstart="_onDragStart(event,${i})"
-      ondragover="_onDragOver(event,${i})"
-      ondragleave="_onDragLeave(event)"
-      ondrop="_onDrop(event,${i})"
-      ondragend="_onDragEnd()">
-      <span class="drag-hdl">≡</span>
-      <span class="ssl-num">${pad(i+1)}</span>
+      ondragstart="event.dataTransfer.setData('text/plain','${i}');event.currentTarget.classList.add('dragging')"
+      ondragover="event.preventDefault();_sslDragOver(event,${i})"
+      ondragleave="event.currentTarget.classList.remove('drag-over')"
+      ondrop="event.preventDefault();_sslDrop(event,${i})"
+      ondragend="_sslDragEnd()">
+      <span class="drag-hdl" style="cursor:grab;font-size:18px;color:var(--mut2);padding:0 4px;-webkit-tap-highlight-color:transparent">≡</span>
+      <span class="ssl-num" style="color:${lc}">${pad(i+1)}</span>
       <span class="ssl-title">${esc(s.title||'Sans titre')}${s.rappel?' 🔁':''}</span>
       <span class="ssl-mood">${mood.emoji}</span>
-      <span class="ssl-meta">${s.duree||''}</span>
+      <span class="ssl-meta">${dur}${acc?' · '+acc:''}</span>
       <button class="ssl-edit-btn" onclick="event.stopPropagation();openDrawer(${i})">✏️</button>
     </div>`;
-  }).join('')||'<div class="arc-empty">Aucun morceau dans le set.</div>';
+  }).join('');
+  // Touch drag
   cont.querySelectorAll('.ssl-row').forEach(el=>_addTouchDrag(el));
 }
+
+function _sslDragOver(e,toIdx){
+  document.querySelectorAll('.ssl-row').forEach(x=>x.classList.remove('drag-over'));
+  e.currentTarget.classList.add('drag-over');
+}
+function _sslDrop(e,toIdx){
+  const fromIdx=parseInt(e.dataTransfer.getData('text/plain'));
+  if(isNaN(fromIdx)||fromIdx===toIdx)return;
+  _doReorder(fromIdx,toIdx);
+}
+function _sslDragEnd(){
+  document.querySelectorAll('.ssl-row,.sort-item').forEach(x=>x.classList.remove('dragging','drag-over'));
+}
+
 
 // Analyse inline
 function runAnalysisInline(slotMin){
@@ -6905,6 +6981,54 @@ function toggleEmergencyFlag(){
     const lib=rs?.libId?_libSong(rs.libId):null;
     if(lib){lib.emergency=!lib.emergency;persist();}
   }
+}
+
+
+/* ── Générateur : ordre selon arc ── */
+function _applyArcOrder(songs,arc){
+  if(!songs.length)return songs;
+  const n=songs.length;
+  const byE=[...songs].sort((a,b)=>_inferEnergy(b)-_inferEnergy(a));
+  if(arc==='crescendo')return[...byE].reverse();
+  if(arc==='plateau')return byE;
+  if(arc==='forte'){
+    if(n<3)return byE;
+    const r=new Array(n);
+    r[0]=byE[0];r[n-1]=byE[1];
+    if(n>=4)r[n-2]=byE[2];
+    const mid=byE.slice(3);let mi=0;
+    for(let i=1;i<n-2;i++)r[i]=mid[mi++]||byE[0];
+    return r.filter(Boolean);
+  }
+  if(arc==='vague'){
+    const hi=byE.slice(0,Math.ceil(n/2)),lo=byE.slice(Math.ceil(n/2));
+    const res=[];
+    for(let i=0;i<n;i++)res.push(i%2===0?(hi.shift()||lo.shift()):(lo.shift()||hi.shift()));
+    return res.filter(Boolean);
+  }
+  return byE;
+}
+
+function applyGeneratedSet(){
+  if(!_genResult||!_genResult.length)return;
+  as().songs=_genResult.map(s=>({
+    title:s.title||'',depart:s.depart||'',public:s.public||'',
+    technique:s.technique||'',chant:s.chant||'',vigilance:s.vigilance||'',
+    enchainement:s.enchainement||'',parole:'',lyrics:s.lyrics||'',
+    duree:s.duree||'',bpm:s.bpm||'',rappel:s.status==='rappel_only',
+    accordage:s.accordage||'',caractere:s.caractere||'',energie:s.energie||'',
+    energie_intro:s.energie_intro||'',energie_fin:s.energie_fin||'',
+    libId:s.id,
+    intention:s.intention||'',introphrase:s.introphrase||'',emotion:s.emotion||'',
+    capo:s.capo||'',guitarsound:s.guitarsound||'',samples:s.samples||'',
+    instrumentchanges:s.instrumentchanges||'',lightambiance:s.lightambiance||''
+  }));
+  current=0;persist();
+  rebuildSelect&&rebuildSelect();
+  renderLive();renderSetView();
+  // Close generator section
+  switchSetSection('arc',document.getElementById('ssn-arc'));
+  if(navigator.vibrate)navigator.vibrate([50,30,80]);
 }
 
 /* ── boot ── */
