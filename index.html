@@ -3619,17 +3619,7 @@ function _patchTuneTagClick(){
 ══════════════════════════════════════════════════ */
 let _jSection='concerts';
 
-function showJournalSection(s){
-  _jSection=s;
-  document.getElementById('journal-concerts').style.display=s==='concerts'?'block':'none';
-  document.getElementById('journal-rehear').style.display=s==='rehear'?'block':'none';
-  document.getElementById('journal-stats-view').style.display=s==='stats'?'block':'none';
-  document.getElementById('jbtn-c').className='btn '+(s==='concerts'?'green':'ghost');
-  document.getElementById('jbtn-r').className='btn '+(s==='rehear'?'green':'ghost');
-  document.getElementById('jbtn-s').className='btn '+(s==='stats'?'green':'ghost');
-  if(s==='rehear')renderRehearsals();
-  if(s==='stats')renderSongStats();
-}
+/* showJournalSection merged below */
 
 function openSaveConcert(){
   const p=document.getElementById('save-concert-panel');
@@ -3826,37 +3816,44 @@ function renderRehearsals(){
   const today=new Date().toISOString().slice(0,10);
   const rows=songs.map((s,i)=>{
     const key=state.activeId+'_'+i;
-    const r=(state.rehearsals||{})[key]||{count:0,last:'',durations:[]};
+    const r=(state.rehearsals||{})[key]||{count:0,last:'',durations:[],confidence:[]};
     const daysAgo=r.last?Math.floor((new Date(today)-new Date(r.last))/(864e5)):999;
     const dotCls=daysAgo<=7?'rh-fresh':daysAgo<=14?'rh-warn':'rh-stale';
-    const infoStr=r.last?`${r.count}× · il y a ${daysAgo===0?'aujourd\'hui':daysAgo===1?'1j':daysAgo+'j'}`:'jamais répété';
+    const ago=daysAgo===0?'auj.':daysAgo===1?'1j':daysAgo+'j';
+    const infoStr=r.last?r.count+'x · '+ago:'jamais';
     const durs=r.durations||[];
     const avgDur=durs.length?Math.round(durs.reduce((a,b)=>a+b,0)/durs.length):0;
     const estDur=parseSec(s.duree)||0;
     const delta=avgDur&&estDur?avgDur-estDur:0;
-    const deltaStr=delta?` (${delta>0?'+':''}${fmtDur(Math.abs(delta))})`:' ';
-    const isRunning=_rhChronoRunning===key;
-    return`<div class="rehears-row">
-      <span class="rh-dot ${dotCls}"></span>
-      <span class="rh-title">${esc(s.title||'Sans titre')}</span>
-      <span class="rh-info">${infoStr}</span>
-      <div class="rh-chrono-wrap">
-        ${avgDur?`<span class="rh-avg">⏱ ${fmtDur(avgDur)}</span><span class="rh-delta" style="color:${delta>15?'#ff5b5b':delta>0?'#ffb347':'var(--mint)'}">${deltaStr}</span>`:''}
-        <span id="rhc-${key}" style="font-size:10px;color:var(--mut);min-width:28px">${isRunning?fmtDur(Math.floor((Date.now()-_rhChronoStart)/1000)):''}</span>
-        <button class="rh-chrono-btn ${isRunning?'running':''}" onclick="startRhChrono('${key}',this)">${isRunning?'⏹ Stop':'⏱'}</button>
+    const dStr=delta?(delta>0?'+':'')+fmtDur(Math.abs(delta)):'';
+    const isRun=_rhChronoRunning===key;
+    const conf=(r.confidence||[]).slice(-5);
+    const avgC=conf.length?+(conf.reduce((a,c)=>a+c.stars,0)/conf.length).toFixed(1):0;
+    const sc=(n)=>avgC&&Math.round(avgC)===n?'sel':'';
+    return `<div class="rehears-row">
+      <!-- Ligne 1 : titre + dot + info -->
+      <div style="display:flex;align-items:center;gap:8px;min-width:0">
+        <span class="rh-dot ${dotCls}" style="flex:0 0 auto"></span>
+        <span style="flex:1;font-size:14px;font-weight:800;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.title||'Sans titre')}</span>
+        <span style="font-size:11px;font-weight:700;color:var(--mut);white-space:nowrap;flex:0 0 auto">${infoStr}</span>
       </div>
-      <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">
-        <button class="rh-btn" onclick="markRehearsed('${key}')">✓ Répété</button>
-        <div class="conf-star-row">
-          <button class="conf-star-btn ${_avgConfidence('${key}')&&Math.round(_avgConfidence('${key}'))===1?'sel':''}" onclick="saveConfidence('${key}',1)">⭐</button>
-          <button class="conf-star-btn ${_avgConfidence('${key}')&&Math.round(_avgConfidence('${key}'))===2?'sel':''}" onclick="saveConfidence('${key}',2)">⭐⭐</button>
-          <button class="conf-star-btn ${_avgConfidence('${key}')&&Math.round(_avgConfidence('${key}'))===3?'sel':''}" onclick="saveConfidence('${key}',3)">⭐⭐⭐</button>
+      <!-- Ligne 2 : chrono + étoiles + check -->
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <span id="rhc-${key}" style="font-size:11px;color:var(--green);min-width:32px;font-weight:800;font-variant-numeric:tabular-nums">${isRun?fmtDur(Math.floor((Date.now()-_rhChronoStart)/1000)):''}</span>
+        <button class="rh-chrono-btn ${isRun?'running':''}" data-rhkey="${key}" onclick="_onRhChrono(this)" style="flex:0 0 auto">${isRun?'⏹ Stop':'⏱ Timer'}</button>
+        ${avgDur?`<span style="font-size:11px;font-weight:700;color:var(--mint)">⌀ ${fmtDur(avgDur)}${dStr?` <span style="color:${delta>15?'#ff5b5b':'#ffb347'}">(${dStr})</span>`:''}</span>`:''}
+        <div style="flex:1"></div>
+        <div class="conf-star-row" style="margin:0">
+          <button class="conf-star-btn ${sc(1)}" data-rhkey="${key}" data-stars="1" onclick="_onConfStar(this)" title="Fragile">⭐</button>
+          <button class="conf-star-btn ${sc(2)}" data-rhkey="${key}" data-stars="2" onclick="_onConfStar(this)" title="En route">⭐⭐</button>
+          <button class="conf-star-btn ${sc(3)}" data-rhkey="${key}" data-stars="3" onclick="_onConfStar(this)" title="Solide">⭐⭐⭐</button>
         </div>
-        ${_avgConfidence('${key}')?'<span class="conf-avg">'+_avgConfidence('${key}').toFixed(1)+' ⭐</span>':''}
+        ${avgC?`<span class="conf-avg" style="font-size:11px">${avgC}⭐</span>`:''}
+        <button class="rh-btn" data-rhkey="${key}" onclick="_onMarkRehearsed(this)" style="flex:0 0 auto">✓</button>
       </div>
     </div>`;
   }).join('');
-  document.getElementById('rehear-list').innerHTML=rows||'<div style="text-align:center;padding:20px;color:var(--mut)">Aucun morceau dans le set.</div>';
+  document.getElementById('rehear-list').innerHTML=rows||'<div style="padding:20px;text-align:center;color:var(--mut)">Aucun morceau dans le set.</div>';
 }
 
 /* ══════════════════════════════════════════════════
@@ -4953,7 +4950,7 @@ function generateConcertReport(cid){
 /* ══════════════════════════════════════════════════
    STATS DES TITRES
 ══════════════════════════════════════════════════ */
-function renderSongStats(){
+function renderStats(){
   const concerts=state.concerts||[];
   if(!concerts.length){document.getElementById('stats-table').innerHTML='<div class="ana-empty">Aucun concert enregistré pour l\'instant.</div>';return;}
   const statsMap={};
@@ -6872,7 +6869,13 @@ function convertPlanToConcert(id){
 /* ══════════════════════════════════════════════════════
    CONFIANCE EN RÉPÈTE
 ══════════════════════════════════════════════════════ */
+
+function _onMarkRehearsed(btn){markRehearsed(btn.getAttribute('data-rhkey'));}
+function _onRhChrono(btn){startRhChrono(btn.getAttribute('data-rhkey'),btn);}
+function _onConfStar(btn){var k=btn.getAttribute("data-rhkey");var s=parseInt(btn.getAttribute("data-stars"));if(k&&s)saveConfidence(k,s);}
+
 function saveConfidence(key,stars){
+  if(!state.rehearsals)state.rehearsals={};
   if(!state.rehearsals[key])state.rehearsals[key]={count:0,last:'',dates:[],durations:[],confidence:[]};
   const today=new Date().toISOString().slice(0,10);
   const r=state.rehearsals[key];
