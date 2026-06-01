@@ -5772,6 +5772,7 @@ function openDrawer(idx){
   // Fill fields
   const map={'title':'d-title','duree':'d-duree','bpm':'d-bpm','accordage':'d-accordage',
     'caractere':'d-caractere','energie':'d-energie','energie_intro':'d-energie_intro','energie_fin':'d-energie_fin',
+    'rodage_manuel':'d-rodage_manuel',
     'depart':'d-depart','public':'d-public','technique':'d-technique','chant':'d-chant',
     'vigilance':'d-vigilance','enchainement':'d-enchainement',
     'intention':'d-intention','introphrase':'d-introphrase','emotion':'d-emotion','lyrics':'d-lyrics',
@@ -5825,6 +5826,7 @@ function saveDrawer(){
   const target=lib||rawSet;
   const map={'title':'d-title','duree':'d-duree','bpm':'d-bpm','accordage':'d-accordage',
     'caractere':'d-caractere','energie':'d-energie','energie_intro':'d-energie_intro','energie_fin':'d-energie_fin',
+    'rodage_manuel':'d-rodage_manuel',
     'depart':'d-depart','public':'d-public','technique':'d-technique','chant':'d-chant',
     'vigilance':'d-vigilance','enchainement':'d-enchainement',
     'intention':'d-intention','introphrase':'d-introphrase','emotion':'d-emotion','lyrics':'d-lyrics',
@@ -5832,7 +5834,7 @@ function saveDrawer(){
     'instrumentchanges':'d-instrumentchanges','lightambiance':'d-lightambiance'};
   Object.entries(map).forEach(([k,id])=>{const el=document.getElementById(id);if(el)target[k]=el.value||'';});
   rawSet.rappel=document.getElementById('d-rappel').checked;
-  if(lib){['title','duree','bpm','accordage','caractere','energie','energie_intro','energie_fin','lyrics'].forEach(k=>rawSet[k]=lib[k]||'');}
+  if(lib){['title','duree','bpm','accordage','caractere','energie','energie_intro','energie_fin','lyrics','rodage_manuel'].forEach(k=>rawSet[k]=lib[k]||'');}
   persist();
   // Update drawer title
   document.getElementById('drawer-song-title').textContent=target.title||'Sans titre';
