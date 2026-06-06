@@ -74,6 +74,59 @@ textarea{min-height:52px;resize:vertical;line-height:1.4}
 .se-btn.on-calm{background:#0a1f36;color:#5ab0ff;border-color:#1a4a70}
 .se-btn.on-intense{background:#270808;color:#ff4040;border-color:#6a1010}
 .en-bar{display:flex;height:20px;border-radius:6px;overflow:hidden;margin:6px 0}
+.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px}
+@media(min-width:500px){.kpi-grid{grid-template-columns:repeat(3,1fr)}}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+.kpi-val{font-size:26px;font-weight:900;color:var(--G);line-height:1}
+.kpi-lbl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);margin-top:3px}
+.kpi-sub{font-size:12px;font-weight:800;margin-top:3px}
+.t-up{color:var(--G)}.t-dn{color:var(--red)}.t-eq{color:var(--mut2)}
+.al-card{display:flex;gap:10px;padding:11px 12px;border-radius:12px;margin-bottom:7px;border:1.5px solid;align-items:flex-start}
+.al-card.crit{background:#1a0707;border-color:#6a1010}
+.al-card.warn{background:#1a1200;border-color:#6a4a00}
+.al-card.info{background:#071826;border-color:#0a3a60}
+.al-ic{font-size:18px;flex:0 0 auto;margin-top:1px}
+.al-title{font-size:13px;font-weight:900}
+.al-detail{font-size:11.5px;color:var(--mut);margin-top:2px;line-height:1.4}
+.al-tag{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.7;margin-top:3px}
+.matrix-wrap{width:100%;overflow:hidden;border-radius:10px;background:var(--bg2);border:1px solid var(--line);padding:4px}
+.ml{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800}
+.ml-dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+.obj{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:13px;margin-bottom:8px}
+.obj.done{border-color:var(--Gd);opacity:.7}
+.obj-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.obj-name{font-size:13.5px;font-weight:900;text-transform:uppercase;flex:1;line-height:1.2}
+.obj-meta{font-size:11.5px;color:var(--mut);margin-top:4px;display:flex;gap:8px;flex-wrap:wrap}
+.obj-bar-bg{height:8px;border-radius:4px;background:var(--p2);margin:10px 0 3px;overflow:hidden}
+.obj-bar-fill{height:100%;border-radius:4px;transition:width .5s}
+.obj-nums{display:flex;justify-content:space-between;font-size:11px;font-weight:800}
+.obj-nums .cur{color:var(--G)}.obj-nums .tgt{color:var(--mut2)}
+/* quick log FAB */
+.fab{position:fixed;bottom:calc(22px + env(safe-area-inset-bottom));right:18px;z-index:35;width:54px;height:54px;border-radius:50%;background:linear-gradient(170deg,var(--G),var(--Gd));color:#071408;font-size:24px;box-shadow:0 8px 24px rgba(50,181,47,.4);display:grid;place-items:center}
+/* arc viz */
+.arc-svg{width:100%;display:block;overflow:visible}
+.arc-seg{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--line)}
+.arc-seg:last-child{border-bottom:0}
+.arc-dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
+.arc-flag{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+.arc-flag:last-child{border-bottom:0}
+/* position analysis */
+.pos-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+.pos-row:last-child{border-bottom:0}
+.pos-num{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:900;flex:0 0 auto}
+.pos-bar{flex:1;height:8px;border-radius:4px;background:var(--p2);overflow:hidden}
+.pos-bar-fill{height:100%;border-radius:4px}
+/* member */
+.member-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:800;padding:3px 8px;border-radius:999px;border:1px solid var(--l2);background:var(--panel)}
+/* pre-concert brief */
+.brief-section{margin-bottom:14px}
+.brief-section h3{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;color:var(--mut);margin:0 0 8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.brief-row{display:flex;align-items:baseline;gap:8px;padding:5px 0;border-bottom:1px solid var(--line)}
+.brief-row:last-child{border-bottom:0}
+.brief-num{font-size:17px;font-weight:900;color:var(--G);width:28px;flex:0 0 auto;text-align:center}
+.brief-title{font-size:14px;font-weight:900;text-transform:uppercase;flex:1}
+.brief-note{font-size:12px;color:var(--mut);flex:1}
+@media print{.brief-print-area{display:block!important}body{background:#fff}#printBriefContent{color:#000}}
 
 /* ─── set ─── */
 .set-bar{display:flex;align-items:center;gap:7px;margin-bottom:12px}
@@ -282,27 +335,27 @@ textarea{min-height:52px;resize:vertical;line-height:1.4}
 .sh-info b{font-size:9pt;font-weight:900;color:#172027}
 .sh-rows{border:1pt solid #8c969c;border-radius:2mm;overflow:hidden;display:flex;flex-direction:column;flex:1;min-height:0}
 /* Each song row */
-.sh-row{display:grid;grid-template-columns:20mm 1fr 36mm;border-bottom:1pt solid #c0c8cc;flex:1;min-height:0;overflow:hidden}
+.sh-row{display:grid;grid-template-columns:16mm 1fr 42mm;border-bottom:1pt solid #c0c8cc;flex:1;min-height:0;overflow:hidden}
 .sh-row:last-child{border-bottom:0}
 .sh-row.rsp{grid-template-columns:1fr;flex:0 0 5.5mm;background:#fffaf0}
 .sh-row.rsp .rc{display:flex;align-items:center;justify-content:center;gap:2mm;font-size:6.5pt;font-weight:900;letter-spacing:.15em;color:#a07000}
 .sh-row.rsp .rc hr{flex:1;border:0;border-top:.5pt dashed #c8a040}
 /* col 1: number */
-.sh-nb{border-right:1pt solid #c0c8cc;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1mm;padding:1.5mm}
-.sh-nn{font-size:24pt;font-weight:900;color:#268024;line-height:1}
+.sh-nb{border-right:1pt solid #c0c8cc;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1mm;padding:1mm}
+.sh-nn{font-size:16pt;font-weight:900;color:#268024;line-height:1}
 .sh-td{width:5mm;height:2mm;border-radius:.8mm}
 .sh-tc-chg{font-size:5.5pt;font-weight:900;color:#a06010;text-align:center;line-height:1.1}
 /* col 2: title + cues */
 .sh-main{display:flex;flex-direction:column;justify-content:center;padding:.8mm 2mm;overflow:hidden;min-width:0;gap:.3mm}
 .sh-title-row{display:flex;align-items:baseline;gap:2mm;min-width:0;overflow:hidden}
-.sh-title{font-size:22pt;font-weight:900;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
-.sh-bpm{font-size:10pt;font-weight:900;color:#268024;white-space:nowrap;flex:0 0 auto}
-.sh-pub{font-size:7.5pt;font-weight:800;text-transform:uppercase;color:#1050c0;line-height:1.1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.sh-vig{font-size:7.5pt;font-weight:800;text-transform:uppercase;color:#c01010;line-height:1.1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical}
+.sh-title{font-size:13pt;font-weight:900;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
+.sh-bpm{font-size:7.5pt;font-weight:900;color:#268024;white-space:nowrap;flex:0 0 auto}
+.sh-pub{font-size:6.5pt;font-weight:800;text-transform:uppercase;color:#1050c0;line-height:1.1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.sh-vig{font-size:6.5pt;font-weight:800;text-transform:uppercase;color:#c01010;line-height:1.1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical}
 /* col 3: enchaîn + après */
 .sh-side{border-left:1pt solid #c0c8cc;display:flex;flex-direction:column;justify-content:center;padding:.8mm 1.5mm;overflow:hidden;gap:.5mm}
-.sh-enc{font-size:7.5pt;font-weight:800;text-transform:uppercase;color:#172027;line-height:1.1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.sh-par{font-size:7.5pt;font-weight:800;text-transform:uppercase;color:#107040;line-height:1.1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.sh-enc{font-size:6.5pt;font-weight:800;text-transform:uppercase;color:#172027;line-height:1.1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.sh-par{font-size:6.5pt;font-weight:800;text-transform:uppercase;color:#107040;line-height:1.1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 .sh-enc::before{content:"➡️ ";font-size:6pt}
 .sh-par::before{content:"💬 ";font-size:6pt}
 /* footer */
@@ -349,6 +402,7 @@ textarea{min-height:52px;resize:vertical;line-height:1.4}
     <button class="btn sm" onclick="createSet()">＋</button>
     <button class="btn sm ghost" onclick="manageSet()">⚙</button>
     <button class="btn sm g" onclick="openScene()" title="Mode Scène">🎚️</button>
+    <button class="btn sm" onclick="openPreConcert()" title="Fiche pré-concert">🎯</button>
     <button class="btn sm" onclick="openPrint()" title="Imprimer">🖨</button>
   </div>
   <div class="set-stats" id="setStats"></div>
@@ -374,17 +428,33 @@ textarea{min-height:52px;resize:vertical;line-height:1.4}
 
 <div id="v-analyse" class="view">
   <div class="atabs">
-    <button class="atab on" onclick="showATab('chrono')">📋 Chronologie</button>
+    <button class="atab on" onclick="showATab('dash')">📊 Dashboard</button>
+    <button class="atab" onclick="showATab('matrice')">🎯 Matrice R×C</button>
+    <button class="atab" onclick="showATab('alertes')">⚠️ Alertes</button>
+    <button class="atab" onclick="showATab('objectifs')">🏁 Objectifs</button>
+    <button class="atab" onclick="showATab('progression')">📈 Progression</button>
+    <button class="atab" onclick="showATab('chrono')">📋 Chrono</button>
     <button class="atab" onclick="showATab('energie')">⚡ Énergie</button>
     <button class="atab" onclick="showATab('cues')">📌 Points clés</button>
     <button class="atab" onclick="showATab('sante')">💊 Santé</button>
     <button class="atab" onclick="showATab('hist')">🗓 Historique</button>
+    <button class="atab" onclick="showATab('arc')">🎭 Arc narratif</button>
+    <button class="atab" onclick="showATab('positions')">📍 Positions</button>
+    <button class="atab" onclick="showATab('membres')">👥 Membres</button>
   </div>
-  <div id="asc-chrono" class="asec on"></div>
+  <div id="asc-dash" class="asec on"></div>
+  <div id="asc-matrice" class="asec"></div>
+  <div id="asc-alertes" class="asec"></div>
+  <div id="asc-objectifs" class="asec"></div>
+  <div id="asc-progression" class="asec"></div>
+  <div id="asc-chrono" class="asec"></div>
   <div id="asc-energie" class="asec"></div>
   <div id="asc-cues" class="asec"></div>
   <div id="asc-sante" class="asec"></div>
   <div id="asc-hist" class="asec"></div>
+  <div id="asc-arc" class="asec"></div>
+  <div id="asc-positions" class="asec"></div>
+  <div id="asc-membres" class="asec"></div>
 </div>
 </main>
 
@@ -504,7 +574,30 @@ textarea{min-height:52px;resize:vertical;line-height:1.4}
         <div><label class="fl" id="jf-vl">Lieu</label><input id="jf-venue" type="text" placeholder="Salle de répète…"></div>
       </div>
       <div id="jf-setRow" style="display:none"><label class="fl">Set joué</label><select id="jf-set"></select></div>
-      <label class="fl">Morceaux</label>
+      <div id="jf-concertExtra" style="display:none">
+        <div class="row2" style="margin-top:10px">
+          <div><label class="fl">Type de salle</label>
+            <select id="jf-venueType">
+              <option value="">— Choisir</option>
+              <option value="bar">🍺 Bar / Petit club</option>
+              <option value="salle">🎭 Salle de concert</option>
+              <option value="festival">🎪 Festival</option>
+              <option value="pleinair">🌿 Plein air</option>
+              <option value="prive">🏠 Privé</option>
+            </select>
+          </div>
+          <div><label class="fl">Public (nb)</label><input id="jf-audience" type="number" placeholder="150" min="0"></div>
+        </div>
+      </div>
+      <label class="fl" style="margin-top:12px">Qui enregistre ?</label>
+      <select id="jf-member">
+        <option value="all">👥 Tout le groupe</option>
+        <option value="voix">🎤 Voix / Chant</option>
+        <option value="batterie">🥁 Batterie</option>
+        <option value="guitare">🎸 Guitare</option>
+        <option value="basse">🎺 Basse</option>
+      </select>
+      <label class="fl" style="margin-top:12px">Morceaux</label>
       <div id="jf-songs"></div>
       <label class="fl" style="margin-top:12px">Note globale</label>
       <div class="rating-btns">
@@ -595,7 +688,22 @@ const DS={
 const DEMO={songs:DS,
   sets:[{id:'set1',name:'Set principal',motto:'REGARDEZ DEVANT, JOUEZ FORT, PRENEZ DU PLAISIR !',items:mkItems(['s01','s02','s03','s04','s05','s06','s07','s08','s09','s10','s11','s12','s13','s14','s15'])},
         {id:'set2',name:'Set festival (court)',motto:'TOUT DONNER.',items:mkItems(['s01','s05','s08','s11','s12','s15','s16'])}],
-  activeSetId:'set1',journal:[],prefs:{scaleIdx:1}};
+  activeSetId:'set1',
+  journal:[
+    {id:'j1',type:'repete',date:'2025-04-01',venue:'Studio Ménil',setId:null,entries:[{songId:'s01',rating:'good',note:''},{songId:'s02',rating:'good',note:''},{songId:'s05',rating:'ok',note:'Pont à reprendre'},{songId:'s06',rating:'ok',note:''},{songId:'s08',rating:'good',note:''},{songId:'s12',rating:'good',note:''}],globalRating:'good',globalNote:'XL Gloria encore hésitant'},
+    {id:'j2',type:'repete',date:'2025-04-22',venue:'Studio Ménil',setId:null,entries:[{songId:'s01',rating:'good',note:''},{songId:'s05',rating:'ok',note:'Mieux mais pas convaincu'},{songId:'s07',rating:'good',note:''},{songId:'s11',rating:'ok',note:''},{songId:'s12',rating:'good',note:''}],globalRating:'ok',globalNote:''},
+    {id:'j3',type:'concert',date:'2025-04-30',venue:'Le Glazart — Paris',setId:'set1',venueType:'salle',audience:180,member:'all',entries:[{songId:'s01',rating:'good',note:'Ouverture parfaite'},{songId:'s02',rating:'good',note:''},{songId:'s05',rating:'ok',note:'Pont raté mais sauvé'},{songId:'s08',rating:'good',note:''},{songId:'s11',rating:'good',note:'Surprise du concert'},{songId:'s12',rating:'bad',note:'Raté le changement de rythme'}],globalRating:'good',globalNote:'Belle soirée, public bien chaud'},
+    {id:'j4',type:'repete',date:'2025-05-10',venue:'Studio Ménil',setId:null,venueType:'',audience:null,member:'all',entries:[{songId:'s01',rating:'good',note:''},{songId:'s02',rating:'good',note:''},{songId:'s05',rating:'bad',note:'Pont vraiment bloquant'},{songId:'s06',rating:'ok',note:''},{songId:'s08',rating:'good',note:''},{songId:'s12',rating:'good',note:'Bien mieux'}],globalRating:'ok',globalNote:'XL Gloria inquiétant'},
+    {id:'j5',type:'concert',date:'2025-05-15',venue:'Le Trabendo — Paris',setId:'set1',venueType:'salle',audience:250,member:'all',entries:[{songId:'s01',rating:'good',note:''},{songId:'s05',rating:'bad',note:'Pont cassé live'},{songId:'s06',rating:'ok',note:''},{songId:'s08',rating:'good',note:''},{songId:'s11',rating:'good',note:'Public adoré'},{songId:'s12',rating:'bad',note:'Encore raté'}],globalRating:'ok',globalNote:'Son difficile, set correct'},
+    {id:'j6',type:'concert',date:'2025-05-28',venue:'Supersonic — Paris',setId:'set1',venueType:'salle',audience:120,member:'all',entries:[{songId:'s01',rating:'good',note:'Meilleure ouverture'},{songId:'s02',rating:'good',note:''},{songId:'s05',rating:'ok',note:'Enfin mieux'},{songId:'s07',rating:'good',note:''},{songId:'s11',rating:'good',note:'Morceau fétiche du public'},{songId:'s12',rating:'bad',note:'Problème persistant'}],globalRating:'good',globalNote:'Meilleur concert, salle conquise'},
+  ],
+  objectives:[
+    {id:'o1',songId:'s05',metric:'con_avg',target:2.2,deadline:'2025-07-31',label:'Stabiliser XL GLORIA en concert',achieved:false,createdAt:'2025-05-01'},
+    {id:'o2',songId:'s12',metric:'con_avg',target:2.0,deadline:'2025-08-15',label:'Fiabiliser BURN IT DOWN sur scène',achieved:false,createdAt:'2025-05-15'},
+    {id:'o3',songId:'s01',metric:'con_count',target:5,deadline:null,label:'5 concerts avec COME ON en ouverture',achieved:false,createdAt:'2025-04-01'},
+    {id:'o4',songId:null,metric:'band_avg',target:2.7,deadline:'2025-09-01',label:'Atteindre 2.7/3 de moyenne concerts',achieved:false,createdAt:'2025-04-01'},
+  ],
+  prefs:{scaleIdx:1}};
 
 const KEY='gm_v5';
 let state;
@@ -610,6 +718,8 @@ function ensure(){
   if(!state.journal)state.journal=[];
   if(!state.prefs)state.prefs={scaleIdx:1};
   if(state.prefs.scaleIdx===undefined)state.prefs.scaleIdx=1;
+  if(!state.objectives)state.objectives=[];
+  state.journal.forEach(e=>{if(!e.member)e.member='all';if(e.venueType===undefined)e.venueType='';if(e.audience===undefined)e.audience=null;});
   state.sets.forEach(set=>{
     if(!set.items)set.items=[];
     set.items=set.items.filter(it=>state.songs[it.songId]);
@@ -733,8 +843,14 @@ function openJournalForm(type,entry){
   document.getElementById('jf-date').value=entry?entry.date:new Date().toISOString().slice(0,10);
   document.getElementById('jf-venue').value=entry?entry.venue:'';
   document.getElementById('jf-vl').textContent=type==='concert'?'Salle / ville':'Lieu de répète';
+  document.getElementById('jf-member').value=entry?entry.member||'all':'all';
   const sr=document.getElementById('jf-setRow');
-  if(type==='concert'){sr.style.display='block';document.getElementById('jf-set').innerHTML=state.sets.map(s=>`<option value="${s.id}"${entry&&entry.setId===s.id?' selected':''}>${esc(s.name)}</option>`).join('');}else sr.style.display='none';
+  const ex=document.getElementById('jf-concertExtra');
+  if(type==='concert'){sr.style.display='block';ex.style.display='block';
+    document.getElementById('jf-set').innerHTML=state.sets.map(s=>`<option value="${s.id}"${entry&&entry.setId===s.id?' selected':''}>${esc(s.name)}</option>`).join('');
+    document.getElementById('jf-venueType').value=entry?entry.venueType||'':'';
+    document.getElementById('jf-audience').value=entry&&entry.audience?entry.audience:'';
+  }else{sr.style.display='none';ex.style.display='none';}
   document.querySelectorAll('.rating-btns .rb').forEach(b=>b.classList.remove('on'));
   document.querySelector(`.rb[data-v="${_jGR}"]`)?.classList.add('on');
   document.getElementById('jf-note').value=entry?entry.globalNote:'';
@@ -748,7 +864,7 @@ function setGR(v,btn){_jGR=v;document.querySelectorAll('.rating-btns .rb').forEa
 function setSR(id,v,btn){document.querySelectorAll(`[data-sr="${id}"]`).forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.getElementById('chk_'+id).checked=true;}
 function saveJEntry(){
   const entries=[];document.querySelectorAll('#jf-songs .song-check').forEach(sc=>{const chk=sc.querySelector('input');if(!chk.checked)return;const ar=sc.querySelector('[data-sr].on');entries.push({songId:chk.value,rating:ar?ar.dataset.v:'ok',note:''});});
-  const data={id:_editJId||uid(),type:_jType,date:document.getElementById('jf-date').value,venue:document.getElementById('jf-venue').value,setId:_jType==='concert'?document.getElementById('jf-set').value:null,entries,globalRating:_jGR,globalNote:document.getElementById('jf-note').value};
+  const data={id:_editJId||uid(),type:_jType,date:document.getElementById('jf-date').value,venue:document.getElementById('jf-venue').value,setId:_jType==='concert'?document.getElementById('jf-set').value:null,member:document.getElementById('jf-member').value||'all',venueType:_jType==='concert'?document.getElementById('jf-venueType').value:'',audience:_jType==='concert'?parseInt(document.getElementById('jf-audience').value)||null:null,entries,globalRating:_jGR,globalNote:document.getElementById('jf-note').value};
   if(_editJId){const idx=state.journal.findIndex(e=>e.id===_editJId);if(idx>-1)state.journal[idx]=data;else state.journal.unshift(data);}else state.journal.unshift(data);
   persist();closeJForm();renderJournal();
 }
@@ -786,9 +902,9 @@ function songStats(sid){
 function sdot(s){if(s==='good')return`<span class="sdot sd-g">🟢 OK</span>`;if(s==='ok')return`<span class="sdot sd-y">🟡 À travailler</span>`;if(s==='bad')return`<span class="sdot sd-r">🔴 Problème</span>`;return`<span class="sdot sd-x">— Pas de données</span>`;}
 
 /* ── ANALYSE ── */
-let _aTab='chrono';
-function showATab(t){_aTab=t;const tabs=['chrono','energie','cues','sante','hist'];document.querySelectorAll('.atab').forEach((b,i)=>b.classList.toggle('on',tabs[i]===t));document.querySelectorAll('.asec').forEach(s=>s.classList.remove('on'));document.getElementById('asc-'+t).classList.add('on');}
-function renderAnalyse(){renderAchrono();renderAenergie();renderAcues();renderAsante();renderAhist();}
+let _aTab='dash';
+function showATab(t){_aTab=t;const tabs=['dash','matrice','alertes','objectifs','progression','chrono','energie','cues','sante','hist','arc','positions','membres'];document.querySelectorAll('.atab').forEach((b,i)=>b.classList.toggle('on',tabs[i]===t));document.querySelectorAll('.asec').forEach(s=>s.classList.remove('on'));document.getElementById('asc-'+t).classList.add('on');}
+function renderAnalyse(){renderADash();renderAMatrice();renderAAlertes();renderAObjectifs();renderAProgression();renderAchrono();renderAenergie();renderAcues();renderAsante();renderAhist();renderAArc();renderAPositions();renderAMembres();}
 
 function renderAchrono(){
   const items=as().items;if(!items.length){document.getElementById('asc-chrono').innerHTML=`<div class="empty">Set vide</div>`;return;}
@@ -982,7 +1098,7 @@ function buildSheets(){
   for(let p=0;p<pages;p++){
     const chunk=items.slice(p*PAGE,(p+1)*PAGE);const off=p*PAGE;
     const lbl=pages>1?`p.${p+1}/${pages}`:'';const rIdx=chunk.findIndex(it=>it.rappel);
-    const shRow=(it,ci)=>{
+    function shRow(it,ci){
       const s=song(it.songId);const t=(s.tuning||'').trim();const tC=t&&tc[t]?tc[t]:'';
       const prevTune=ci>0?(song(chunk[ci-1].songId).tuning||'').trim():'';const isChg=t&&prevTune&&t!==prevTune;
       const pub=firstLine(it.public);const enc=firstLine(it.enchainement);const par=firstLine(it.parole);const vig=firstLine(it.vigilance);
@@ -998,7 +1114,7 @@ function buildSheets(){
           ${par?`<div class="sh-par">${esc(par)}</div>`:''}
         </div>
       </div>`;
-    };
+    }
     const rows=chunk.map((it,ci)=>(ci===rIdx&&rIdx>0?`<div class="sh-row rsp"><div class="rc"><hr>RAPPEL<hr></div></div>`:'')+shRow(it,ci)).join('');
     const d=new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
     const motto=as().motto||'';
@@ -1011,18 +1127,16 @@ function buildSheets(){
   return html;
 }
 function openPrint(){
-  let html;
-  try{ html=buildSheets(); }catch(err){ alert('Erreur feuille : '+err.message); return; }
+  const html=buildSheets();
   document.getElementById('sheets-area').innerHTML=html;
-  const tmp=document.createElement('div'); tmp.innerHTML=html;
+  // Build preview by parsing the sheets
+  const tmp=document.createElement('div');tmp.innerHTML=html;
   const sheets=tmp.querySelectorAll('.sheet');
-  let prvHtml=''; sheets.forEach(function(sh){ prvHtml+='<div class="prv-box"><div class="sheet">'+sh.innerHTML+'</div></div>'; });
-  const n=sheets.length;
+  let prvHtml='';sheets.forEach(sh=>{prvHtml+=`<div class="prv-box"><div class="sheet">${sh.innerHTML}</div></div>`;});
   const body=document.getElementById('printBody');
-  body.innerHTML='<p style="font-size:13px;color:var(--mut);margin:0 0 8px">'+as().items.length+' morceaux · '+totalDur(as().items)+' · '+n+' feuille'+(n>1?'s':'')+' A4</p><p class="hint">Sur iPhone : <b>Imprimer</b> → écarte deux doigts → <b>Enregistrer en PDF</b></p><div class="prv-wrap" id="prvWrap">'+prvHtml+'</div>';
+  body.innerHTML=`<p style="font-size:13px;color:var(--mut);margin:0 0 8px">${as().items.length} morceaux · ${totalDur(as().items)} · ${sheets.length} feuille${sheets.length>1?'s':''} A4</p><p class="hint">Sur iPhone : <b>Imprimer</b> → écarte deux doigts → <b>Enregistrer en PDF</b></p><div class="prv-wrap" id="prvWrap">${prvHtml}</div>`;
   document.getElementById('printOverlay').hidden=false;
-  function fitPrv(){ var avail=document.getElementById('printBody').clientWidth-20; if(avail<10)return; var shW=210*96/25.4,shH=297*96/25.4,scale=Math.min(1,avail/shW); document.querySelectorAll('#prvWrap .prv-box').forEach(function(box){ var sh=box.querySelector('.sheet'); if(sh){ sh.style.transform='scale('+scale+')'; sh.style.transformOrigin='top left'; box.style.height=(shH*scale)+'px'; box.style.overflow='hidden'; } }); }
-  setTimeout(fitPrv,150); setTimeout(fitPrv,500);
+  setTimeout(()=>{const avail=body.clientWidth-20;const shW=210*96/25.4,shH=297*96/25.4;const scale=Math.min(1,avail/shW);document.querySelectorAll('.prv-box').forEach(box=>{const sh=box.querySelector('.sheet');if(sh){sh.style.transform=`scale(${scale})`;sh.style.transformOrigin='top left';box.style.height=(shH*scale)+'px';box.style.overflow='hidden';}});},100);
 }
 function closePrint(){document.getElementById('printOverlay').hidden=true;}
 
@@ -1036,9 +1150,504 @@ async function exportJSON(){
 }
 function importJSON(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(d.songs&&d.sets){state=d;ensure();persist();boot();alert('✅ Données importées !');}else throw 0;}catch(err){alert('❌ Fichier illisible.');}};r.readAsText(f);e.target.value='';}
 
+
+/* ════════════════ ANALYSE — nouveau moteur ════════════════ */
+
+/* ── helpers ── */
+function getRV(r){return r==='good'?3:r==='bad'?1:2;}
+function repAvg(sid){const e=state.journal.filter(x=>x.type==='repete'&&x.entries.some(y=>y.songId===sid));if(!e.length)return null;const v=e.flatMap(x=>x.entries.filter(y=>y.songId===sid).map(y=>getRV(y.rating)));return v.reduce((a,b)=>a+b,0)/v.length;}
+function conAvg(sid){const e=state.journal.filter(x=>x.type==='concert'&&x.entries.some(y=>y.songId===sid));if(!e.length)return null;const v=e.flatMap(x=>x.entries.filter(y=>y.songId===sid).map(y=>getRV(y.rating)));return v.reduce((a,b)=>a+b,0)/v.length;}
+function repCount(sid){return state.journal.filter(e=>e.type==='repete'&&e.entries.some(x=>x.songId===sid)).length;}
+function conCount(sid){return state.journal.filter(e=>e.type==='concert'&&e.entries.some(x=>x.songId===sid)).length;}
+function recentRatings(sid,n){return state.journal.filter(e=>e.entries.some(x=>x.songId===sid)).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,n).reverse().flatMap(e=>e.entries.filter(x=>x.songId===sid).map(x=>getRV(x.rating)));}
+function bandConAvg(){const c=state.journal.filter(e=>e.type==='concert');if(!c.length)return null;return c.reduce((a,e)=>{const v=e.entries.map(x=>getRV(x.rating));return a+(v.length?v.reduce((a,b)=>a+b,0)/v.length:2);},0)/c.length;}
+function daysSince(dateStr){return Math.floor((Date.now()-new Date(dateStr).getTime())/86400000);}
+
+function getObjProgress(obj){
+  switch(obj.metric){
+    case 'con_avg':{const v=conAvg(obj.songId);return{cur:v,pct:v?Math.min(100,v/obj.target*100):0,label:v?(v.toFixed(2)+'/3'):'—',achieved:v!==null&&v>=obj.target};}
+    case 'rep_avg':{const v=repAvg(obj.songId);return{cur:v,pct:v?Math.min(100,v/obj.target*100):0,label:v?(v.toFixed(2)+'/3'):'—',achieved:v!==null&&v>=obj.target};}
+    case 'con_count':{const v=conCount(obj.songId);return{cur:v,pct:Math.min(100,v/obj.target*100),label:v+'/'+obj.target,achieved:v>=obj.target};}
+    case 'rep_count':{const v=repCount(obj.songId);return{cur:v,pct:Math.min(100,v/obj.target*100),label:v+'/'+obj.target,achieved:v>=obj.target};}
+    case 'band_avg':{const v=bandConAvg();return{cur:v,pct:v?Math.min(100,v/obj.target*100):0,label:v?(v.toFixed(2)+'/3'):'—',achieved:v!==null&&v>=obj.target};}
+    default:return{cur:0,pct:0,label:'—',achieved:false};
+  }
+}
+
+/* ── Alerts engine ── */
+function computeAlerts(){
+  const alerts=[]; const songs=Object.values(state.songs); const now=Date.now();
+  songs.forEach(s=>{
+    const inSet=as().items.some(it=>it.songId===s.id);
+    const ra=repAvg(s.id); const ca=conAvg(s.id); const rc=repCount(s.id); const cc=conCount(s.id);
+    const allEntries=state.journal.filter(e=>e.entries.some(x=>x.songId===s.id)).sort((a,b)=>b.date.localeCompare(a.date));
+    const lastDate=allEntries[0]?.date||null;
+    // Stale in active set
+    if(inSet&&lastDate){const d=daysSince(lastDate);if(d>21)alerts.push({level:d>42?'crit':'warn',ic:'⏰',title:s.title+' — '+d+' jours sans session',detail:'Présent dans le set actuel · Dernière session : '+lastDate,songId:s.id});}
+    // Never in journal + in set
+    if(inSet&&!allEntries.length)alerts.push({level:'info',ic:'📋',title:s.title+' — aucune donnée',detail:'Dans le set mais jamais enregistré dans le journal',songId:s.id});
+    // In set, never played live
+    if(inSet&&rc>0&&cc===0)alerts.push({level:'info',ic:'🎭',title:s.title+' — jamais joué en concert',detail:rc+' répète'+(rc>1?'s':'')+' sans aucun concert',songId:s.id});
+    // Fragile: good rep, bad concert
+    if(ra!==null&&ca!==null&&ra>=2.3&&ca<2.0)alerts.push({level:'crit',ic:'⚡',title:s.title+' — FRAGILE EN CONCERT',detail:'Répètes : '+ra.toFixed(2)+'/3 · Concerts : '+ca.toFixed(2)+'/3 · Écart : '+(ra-ca).toFixed(2),songId:s.id});
+    // Persistent 🔴
+    const recent=recentRatings(s.id,3);if(recent.length>=2&&recent.slice(-2).every(r=>r===1))alerts.push({level:'crit',ic:'🔴',title:s.title+' — problème persistant',detail:'🔴 🔴 lors des dernières sessions consécutives',songId:s.id});
+    // Declining
+    if(recent.length===3&&recent[2]<recent[1]&&recent[1]<recent[0])alerts.push({level:'warn',ic:'📉',title:s.title+' — tendance en baisse',detail:'Sessions : '+recent.reverse().join(' → ')+' (les 3 dernières)',songId:s.id});
+  });
+  // Unplayed songs in active set
+  const unplayed=as().items.filter(it=>conCount(it.songId)===0&&repCount(it.songId)===0);
+  if(unplayed.length)alerts.push({level:'info',ic:'🔇',title:unplayed.length+' morceau'+(unplayed.length>1?'x':'')+' sans journal dans le set actuel',detail:unplayed.map(it=>song(it.songId).title).join(', '),songId:null});
+  // Check objectives
+  state.objectives.filter(o=>!o.achieved).forEach(o=>{const p=getObjProgress(o);if(p.achieved&&!o.achieved){alerts.push({level:'info',ic:'🏆',title:'Objectif atteint : '+o.label,detail:'Félicitations ! Pense à le marquer comme accompli.',songId:o.songId});}});
+  return alerts.sort((a,b)=>(['crit','warn','info'].indexOf(a.level))-(['crit','warn','info'].indexOf(b.level)));
+}
+
+/* ── DASHBOARD ── */
+function renderADash(){
+  const concerts=state.journal.filter(e=>e.type==='concert').sort((a,b)=>b.date.localeCompare(a.date));
+  const repetes=state.journal.filter(e=>e.type==='repete');
+  const thisYear=new Date().getFullYear();
+  const concertsY=concerts.filter(e=>e.date.startsWith(thisYear));
+  const alerts=computeAlerts();const crits=alerts.filter(a=>a.level==='crit');
+  const ca=bandConAvg(); const caStr=ca?ca.toFixed(2)+'/3':'—';
+  // trend: last 3 vs previous 3
+  let trendHtml='';
+  if(concerts.length>=2){const last3=concerts.slice(0,Math.min(3,concerts.length));const prev3=concerts.slice(Math.min(3,concerts.length),Math.min(6,concerts.length));const avgN=arr=>arr.reduce((a,e)=>{const v=e.entries.map(x=>getRV(x.rating));return a+(v.length?v.reduce((a,b)=>a+b,0)/v.length:2);},0)/arr.length;const n=avgN(last3),p=prev3.length?avgN(prev3):n;const d=n-p;trendHtml=d>0.1?`<span class="t-up">▲ +${d.toFixed(2)}</span>`:d<-0.1?`<span class="t-dn">▼ ${d.toFixed(2)}</span>`:`<span class="t-eq">= Stable</span>`;}
+  const lastConcert=concerts[0];
+  const lastGr=lastConcert?(lastConcert.globalRating==='good'?'🟢':lastConcert.globalRating==='bad'?'🔴':'🟡'):'';
+  const objEnCours=state.objectives.filter(o=>!o.achieved).length;
+  const kpis=`<div class="kpi-grid">
+    <div class="kpi"><div class="kpi-val">${concertsY.length}</div><div class="kpi-lbl">🎤 Concerts ${thisYear}</div></div>
+    <div class="kpi"><div class="kpi-val">${repetes.length}</div><div class="kpi-lbl">🥁 Répètes total</div></div>
+    <div class="kpi"><div class="kpi-val">${caStr}</div><div class="kpi-lbl">⭐ Moy. concerts</div><div class="kpi-sub">${trendHtml}</div></div>
+    <div class="kpi"><div class="kpi-val">${crits.length}</div><div class="kpi-lbl">🔴 Alertes critiques</div></div>
+    <div class="kpi"><div class="kpi-val">${objEnCours}</div><div class="kpi-lbl">🏁 Objectifs en cours</div></div>
+    <div class="kpi"><div class="kpi-val">${lastGr||'—'}</div><div class="kpi-lbl">Dernier concert</div><div class="kpi-sub" style="color:var(--mut);font-size:11px">${lastConcert?lastConcert.date+'<br>'+esc(lastConcert.venue||''):''}</div></div>
+  </div>`;
+  const topAlerts=alerts.slice(0,5).map(a=>`<div class="al-card ${a.level}"><div class="al-ic">${a.ic}</div><div><div class="al-title">${esc(a.title)}</div><div class="al-detail">${esc(a.detail)}</div></div></div>`).join('');
+  const alertBox=alerts.length?`<div class="card" style="margin-top:14px"><div class="card-hd"><h2>⚠️ Alertes prioritaires (${alerts.length})</h2></div><div class="card-body" style="padding:12px">${topAlerts}${alerts.length>5?`<div style="font-size:12px;color:var(--mut);text-align:center;padding-top:4px">+ ${alerts.length-5} autres → onglet Alertes</div>`:''}</div></div>`:'<div class="card" style="margin-top:14px"><div class="card-body"><div style="text-align:center;padding:16px;color:var(--G);font-weight:800;font-size:14px">✅ Aucune alerte — tout roule !</div></div></div>';
+  document.getElementById('asc-dash').innerHTML=kpis+alertBox;
+}
+
+/* ── MATRICE R×C ── */
+function renderAMatrice(){
+  const songs=Object.values(state.songs);const W=340,H=260,M=28;const aW=W-M*2,aH=H-M*2;
+  const mapX=v=>(M+(v-1)/2*aW); const mapY=v=>(M+aH-(v-1)/2*aH);
+  const Q_COLORS={solide:'rgba(50,181,47,.1)',fragile:'rgba(255,176,48,.12)',surprise:'rgba(90,174,255,.1)',revoir:'rgba(255,80,80,.1)'};
+  const D_COLORS={solide:'#32b52f',fragile:'#ffb030',surprise:'#5aaeff',revoir:'#ff5050',nodata:'#37505e'};
+  function quadrant(ra,ca){if(ra>=2&&ca>=2)return'solide';if(ra>=2&&ca<2)return'fragile';if(ra<2&&ca>=2)return'surprise';return'revoir';}
+  const mid=mapX(2);const midY=mapY(2);
+  let rects=`<rect x="${M}" y="${M}" width="${mid-M}" height="${midY-M}" fill="${Q_COLORS.surprise}"/>
+    <rect x="${mid}" y="${M}" width="${M+aW-mid}" height="${midY-M}" fill="${Q_COLORS.solide}"/>
+    <rect x="${M}" y="${midY}" width="${mid-M}" height="${M+aH-midY}" fill="${Q_COLORS.revoir}"/>
+    <rect x="${mid}" y="${midY}" width="${M+aW-mid}" height="${M+aH-midY}" fill="${Q_COLORS.fragile}"/>`;
+  // axes
+  let axes=`<line x1="${M}" y1="${M}" x2="${M}" y2="${M+aH}" stroke="var(--line)" stroke-width="1"/>
+    <line x1="${M}" y1="${M+aH}" x2="${M+aW}" y2="${M+aH}" stroke="var(--line)" stroke-width="1"/>
+    <line x1="${mid}" y1="${M}" x2="${mid}" y2="${M+aH}" stroke="var(--line)" stroke-width="1" stroke-dasharray="4,3" opacity=".5"/>
+    <line x1="${M}" y1="${midY}" x2="${M+aW}" y2="${midY}" stroke="var(--line)" stroke-width="1" stroke-dasharray="4,3" opacity=".5"/>`;
+  // axis labels
+  let labels=`<text x="${M+aW/2}" y="${M+aH+18}" text-anchor="middle" style="font-size:9px;fill:var(--mut)">← RÉPÈTES →</text>
+    <text x="${M-16}" y="${M+aH/2}" text-anchor="middle" style="font-size:9px;fill:var(--mut)" transform="rotate(-90,${M-16},${M+aH/2})">← CONCERTS →</text>
+    <text x="${M+3}" y="${M+13}" style="font-size:7.5px;fill:var(--blue);font-weight:800">SURPRISES</text>
+    <text x="${M+aW-2}" y="${M+13}" text-anchor="end" style="font-size:7.5px;fill:var(--G);font-weight:800">SOLIDES</text>
+    <text x="${M+3}" y="${M+aH-3}" style="font-size:7.5px;fill:var(--red);font-weight:800">À REVOIR</text>
+    <text x="${M+aW-2}" y="${M+aH-3}" text-anchor="end" style="font-size:7.5px;fill:var(--amb);font-weight:800">FRAGILES</text>`;
+  let dots=''; const songData=[];
+  songs.forEach(s=>{
+    const ra=repAvg(s.id); const ca=conAvg(s.id);
+    if(ra===null&&ca===null)return;
+    songData.push({s,ra:ra||0,ca:ca||0,hasRep:ra!==null,hasCon:ca!==null});
+  });
+  songData.forEach(({s,ra,ca,hasRep,hasCon})=>{
+    const q=hasRep&&hasCon?quadrant(ra,ca):'nodata';
+    const cx=mapX(hasRep?ra:1.5); const cy=hasCon?mapY(ca):M+aH-8;
+    const col=D_COLORS[q]; const short=s.title.length>9?s.title.slice(0,9)+'…':s.title;
+    const opacity=(!hasRep||!hasCon)?0.5:1;
+    dots+=`<g opacity="${opacity}"><circle cx="${cx}" cy="${cy}" r="6" fill="${col}" stroke="var(--bg)" stroke-width="1.5"/>
+      <text x="${cx}" y="${cy+17}" text-anchor="middle" style="font-size:7px;fill:var(--ink);font-weight:700">${esc(short)}</text></g>`;
+  });
+  const noData=songs.filter(s=>repAvg(s.id)===null&&conAvg(s.id)===null);
+  const nodataHtml=noData.length?`<div style="margin-top:12px;font-size:12px;color:var(--mut2)">Sans données : ${noData.map(s=>esc(s.title)).join(', ')}</div>`:'';
+  const legend=`<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px">
+    <span class="ml"><span class="ml-dot" style="background:#32b52f"></span>Solides</span>
+    <span class="ml"><span class="ml-dot" style="background:#ffb030"></span>Fragiles (bons répète, mauvais live)</span>
+    <span class="ml"><span class="ml-dot" style="background:#5aaeff"></span>Surprises (mauvais répète, bons live)</span>
+    <span class="ml"><span class="ml-dot" style="background:#ff5050"></span>À revoir</span>
+  </div>`;
+  const emptymsg=songData.length===0?'<div class="empty">Pas assez de données — enregistre des répètes et concerts dans le Journal.</div>':'';
+  document.getElementById('asc-matrice').innerHTML=`<div class="card"><div class="card-hd"><h2>🎯 Matrice Répète × Concert</h2></div><div class="card-body">${emptymsg}
+    <div class="matrix-wrap"><svg viewBox="0 0 ${W} ${H+8}" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">${rects}${axes}${labels}${dots}</svg></div>
+    ${legend}${nodataHtml}
+    <p class="hint" style="margin-top:10px">Les <b>Fragiles</b> sont les plus dangereux : solides en répète, ils s'effondrent sur scène. Les <b>Surprises</b> s'ignorent en répète mais brillent live.</p>
+  </div></div>`;
+}
+
+/* ── ALERTES ── */
+function renderAAlertes(){
+  const alerts=computeAlerts();
+  if(!alerts.length){document.getElementById('asc-alertes').innerHTML=`<div class="card"><div class="card-body"><div style="text-align:center;padding:24px;color:var(--G);font-weight:800;font-size:15px">✅ Aucune alerte !<br><span style="font-size:13px;color:var(--mut);font-weight:400">Tout est sous contrôle — beau travail.</span></div></div></div>`;return;}
+  const byLevel={'crit':[],'warn':[],'info':[]};
+  alerts.forEach(a=>byLevel[a.level].push(a));
+  let html='';
+  if(byLevel.crit.length)html+=`<div class="card" style="margin-bottom:12px"><div class="card-hd" style="color:var(--red)"><h2>🔴 Critiques (${byLevel.crit.length})</h2></div><div class="card-body" style="padding:10px 12px">${byLevel.crit.map(a=>`<div class="al-card crit"><div class="al-ic">${a.ic}</div><div><div class="al-title">${esc(a.title)}</div><div class="al-detail">${esc(a.detail)}</div></div></div>`).join('')}</div></div>`;
+  if(byLevel.warn.length)html+=`<div class="card" style="margin-bottom:12px"><div class="card-hd" style="color:var(--amb)"><h2>🟡 Avertissements (${byLevel.warn.length})</h2></div><div class="card-body" style="padding:10px 12px">${byLevel.warn.map(a=>`<div class="al-card warn"><div class="al-ic">${a.ic}</div><div><div class="al-title">${esc(a.title)}</div><div class="al-detail">${esc(a.detail)}</div></div></div>`).join('')}</div></div>`;
+  if(byLevel.info.length)html+=`<div class="card"><div class="card-hd"><h2>🔵 Infos (${byLevel.info.length})</h2></div><div class="card-body" style="padding:10px 12px">${byLevel.info.map(a=>`<div class="al-card info"><div class="al-ic">${a.ic}</div><div><div class="al-title">${esc(a.title)}</div><div class="al-detail">${esc(a.detail)}</div></div></div>`).join('')}</div></div>`;
+  document.getElementById('asc-alertes').innerHTML=html;
+}
+
+/* ── OBJECTIFS ── */
+let _editObjId=null;
+function openObjForm(obj){
+  _editObjId=obj?obj.id:null;
+  document.getElementById('objFTitle').textContent=obj?'Modifier objectif':'Nouvel objectif';
+  document.getElementById('of-song').innerHTML='<option value="">🎵 Groupe entier</option>'+Object.values(state.songs).sort((a,b)=>a.title.localeCompare(b.title)).map(s=>`<option value="${s.id}"${obj&&obj.songId===s.id?' selected':''}>${esc(s.title)}</option>`).join('');
+  document.getElementById('of-metric').value=obj?obj.metric:'con_avg';
+  document.getElementById('of-target').value=obj?obj.target:'';
+  document.getElementById('of-label').value=obj?obj.label:'';
+  document.getElementById('of-deadline').value=obj&&obj.deadline?obj.deadline:'';
+  document.getElementById('ofDelBtn').hidden=!obj;
+  document.getElementById('objOverlay').hidden=false;
+}
+function closeObjForm(){document.getElementById('objOverlay').hidden=true;}
+function updateObjLabel(){const m=document.getElementById('of-metric').value;const t=document.getElementById('of-target').value;const sid=document.getElementById('of-song').value;const sname=sid?song(sid).title:'le groupe';const metricLabels={con_avg:'moyenne concerts',rep_avg:'moyenne répètes',con_count:'concerts joués',rep_count:'répètes réalisées',band_avg:'moyenne globale'};document.getElementById('of-label').value=`${sname} — ${metricLabels[m]||m} ≥ ${t||'?'}`;}
+function saveObj(){const t=parseFloat(document.getElementById('of-target').value);if(isNaN(t)){alert('Valeur cible requise');return;}const obj={id:_editObjId||uid(),songId:document.getElementById('of-song').value||null,metric:document.getElementById('of-metric').value,target:t,label:document.getElementById('of-label').value.trim()||('Objectif #'+(state.objectives.length+1)),deadline:document.getElementById('of-deadline').value||null,achieved:false,createdAt:new Date().toISOString().slice(0,10)};if(_editObjId){const i=state.objectives.findIndex(o=>o.id===_editObjId);if(i>-1)state.objectives[i]=obj;else state.objectives.push(obj);}else state.objectives.push(obj);persist();closeObjForm();renderAObjectifs();renderADash();}
+function deleteObj(){if(!_editObjId)return;if(!confirm('Supprimer cet objectif ?'))return;state.objectives=state.objectives.filter(o=>o.id!==_editObjId);persist();closeObjForm();renderAObjectifs();renderADash();}
+function toggleObjAchieved(id){const o=state.objectives.find(x=>x.id===id);if(!o)return;o.achieved=!o.achieved;persist();renderAObjectifs();renderADash();}
+
+function renderAObjectifs(){
+  const objs=state.objectives;
+  const inProgress=objs.filter(o=>!o.achieved),done=objs.filter(o=>o.achieved);
+  function renderObj(o){
+    const p=getObjProgress(o);const pct=Math.round(p.pct);const barCol=o.achieved?'#1a9a40':pct>66?'var(--G)':pct>33?'var(--amb)':'var(--red)';
+    const deadlineStr=o.deadline?` · Échéance : ${o.deadline}`:'';
+    const songName=o.songId?song(o.songId).title:'Groupe entier';
+    return`<div class="obj${o.achieved?' done':''}">
+      <div class="obj-hd">
+        <div class="obj-name">${o.achieved?'✅ ':''} ${esc(o.label)}</div>
+        <div style="display:flex;gap:5px">
+          <button onclick="toggleObjAchieved('${o.id}')" style="font-size:12px;padding:5px 8px;border:1px solid var(--l2);background:var(--p2);border-radius:7px;font-weight:800;color:var(--mut)">${o.achieved?'↺':'✔'}</button>
+          <button onclick="openObjForm(state.objectives.find(x=>x.id==='${o.id}'))" style="font-size:12px;padding:5px 8px;border:1px solid var(--l2);background:var(--p2);border-radius:7px">✏️</button>
+        </div>
+      </div>
+      <div class="obj-meta"><span>${esc(songName)}</span><span style="color:var(--mut2)">${p.label}${deadlineStr}</span></div>
+      <div class="obj-bar-bg"><div class="obj-bar-fill" style="width:${pct}%;background:${barCol}"></div></div>
+      <div class="obj-nums"><span class="cur">${p.label}</span><span class="tgt">Cible : ${o.target}${o.metric.endsWith('avg')?'/3':''}</span></div>
+    </div>`;
+  }
+  let html=`<div style="text-align:right;margin-bottom:10px"><button class="btn g sm" onclick="openObjForm(null)">＋ Ajouter un objectif</button></div>`;
+  if(!objs.length){html+=`<div class="card"><div class="card-body"><div class="empty">Définis des objectifs pour suivre votre progression !<br><span style="font-size:12px;font-weight:400">Ex : "XL GLORIA ≥ 2.5 en concert d'ici fin juillet"</span></div></div></div>`;document.getElementById('asc-objectifs').innerHTML=html;return;}
+  if(inProgress.length)html+=`<div style="margin-bottom:4px"><span style="font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)">En cours (${inProgress.length})</span></div>${inProgress.map(renderObj).join('')}`;
+  if(done.length)html+=`<div style="margin:12px 0 4px"><span style="font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)">Accomplis (${done.length})</span></div>${done.map(renderObj).join('')}`;
+  document.getElementById('asc-objectifs').innerHTML=html;
+}
+
+/* ── PROGRESSION ── */
+function renderAProgression(){
+  const concerts=state.journal.filter(e=>e.type==='concert').sort((a,b)=>a.date.localeCompare(b.date));
+  if(concerts.length<2){document.getElementById('asc-progression').innerHTML=`<div class="card"><div class="card-body"><div class="empty">Il faut au moins 2 concerts enregistrés pour afficher la progression.</div></div></div>`;return;}
+  const pts=concerts.map((e,i)=>{const v=e.entries.map(x=>getRV(x.rating));const avg=v.length?v.reduce((a,b)=>a+b,0)/v.length:getRV(e.globalRating);return{i,date:e.date,avg,venue:e.venue||'',gr:e.globalRating};});
+  const W=380,H=140,ML=20,MB=28,MR=10,MT=10;const aW=W-ML-MR,aH=H-MT-MB;
+  const minV=1,maxV=3;
+  const px=i=>ML+i/(pts.length-1)*aW;
+  const py=v=>MT+aH-(v-minV)/(maxV-minV)*aH;
+  // linear regression
+  const n=pts.length,sx=pts.reduce((a,p)=>a+p.i,0),sy=pts.reduce((a,p)=>a+p.avg,0);
+  const sxy=pts.reduce((a,p)=>a+p.i*p.avg,0),sx2=pts.reduce((a,p)=>a+p.i*p.i,0);
+  const slope=(n*sxy-sx*sy)/(n*sx2-sx*sx)||0;const intercept=(sy-slope*sx)/n;
+  const trendLine=`<line x1="${px(0)}" y1="${py(intercept)}" x2="${px(n-1)}" y2="${py(slope*(n-1)+intercept)}" stroke="var(--red)" stroke-width="1.5" stroke-dasharray="5,3" opacity=".6"/>`;
+  // gridlines Y=1,2,3
+  let grid='';[1,1.5,2,2.5,3].forEach(v=>{const y=py(v);grid+=`<line x1="${ML}" y1="${y}" x2="${ML+aW}" y2="${y}" stroke="var(--line)" stroke-width="${v%1===0?1:.5}" opacity="${v%1===0?.6:.3}"/><text x="${ML-3}" y="${y+3}" text-anchor="end" style="font-size:8px;fill:var(--mut)">${v===3?'🟢':v===2?'🟡':v===1?'🔴':''}</text>`;});
+  const polyLine='<polyline points="'+pts.map(p=>px(p.i)+','+py(p.avg)).join(' ')+'" fill="none" stroke="var(--G)" stroke-width="2.5" stroke-linejoin="round"/>';
+  const area='<polygon points="'+px(0)+','+py(1)+' '+pts.map(p=>px(p.i)+','+py(p.avg)).join(' ')+' '+px(n-1)+','+py(1)+'" fill="rgba(50,181,47,.08)"/>';
+  const dots=pts.map(p=>{const col=p.gr==='good'?'var(--G)':p.gr==='bad'?'var(--red)':'var(--amb)';return`<circle cx="${px(p.i)}" cy="${py(p.avg)}" r="5" fill="${col}" stroke="var(--bg)" stroke-width="1.5"/><text x="${px(p.i)}" y="${py(1)+MT+MB-2}" text-anchor="middle" style="font-size:7px;fill:var(--mut)">${p.date.slice(5)}</text>`;}).join('');
+  const trendDir=slope>0.05?'📈 Tendance positive':slope<-0.05?'📉 Tendance négative':'➡️ Stable';
+  const trendColor=slope>0.05?'var(--G)':slope<-0.05?'var(--red)':'var(--mut)';
+  // song progression cards
+  const activeSids=[...new Set(as().items.map(it=>it.songId))];
+  const songRows=activeSids.map(sid=>{
+    const s=song(sid); const ra=repAvg(sid); const ca=conAvg(sid); const rc=repCount(sid); const cc=conCount(sid);
+    if(!ra&&!ca)return'';
+    const trend=recentRatings(sid,3);const trendArrow=trend.length>=2?(trend[trend.length-1]>trend[0]?'📈':trend[trend.length-1]<trend[0]?'📉':'='):'';
+    return`<tr><td style="font-weight:900;text-transform:uppercase;font-size:12.5px">${esc(s.title)}</td>
+      <td style="text-align:center;color:var(--blue)">${ra?ra.toFixed(2):'—'} <span style="font-size:10px">(${rc})</span></td>
+      <td style="text-align:center;color:var(--G)">${ca?ca.toFixed(2):'—'} <span style="font-size:10px">(${cc})</span></td>
+      <td style="text-align:center;font-size:15px">${trendArrow}</td></tr>`;}).join('');
+  document.getElementById('asc-progression').innerHTML=`
+    <div class="card">
+      <div class="card-hd"><h2>📈 Progression concerts</h2><span style="font-size:13px;font-weight:800;color:${trendColor}">${trendDir}</span></div>
+      <div class="card-body" style="padding:10px">
+        <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">${grid}${area}${trendLine}${polyLine}${dots}</svg>
+        <p class="hint">Chaque point = 1 concert · Couleur = note globale 🟢🟡🔴 · Droite pointillée = tendance</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px"><div class="card-hd"><h2>📊 Morceaux du set actuel</h2></div>
+      <div style="overflow-x:auto"><table class="health-tbl"><thead><tr><th>Morceau</th><th>🥁 Moy. rép.</th><th>🎤 Moy. con.</th><th>Tendance</th></tr></thead>
+      <tbody>${songRows||'<tr><td colspan="4" style="text-align:center;color:var(--mut2);padding:14px">Aucune donnée</td></tr>'}</tbody></table></div>
+    </div>`;
+}
+
+
+/* ════ QUICK LOG ════ */
+let _qlType='repete',_qlRating='ok';
+function openQuickLog(){
+  _qlType='repete';_qlRating='ok';
+  document.getElementById('ql-date').value=new Date().toISOString().slice(0,10);
+  document.getElementById('ql-venue').value='';
+  document.getElementById('ql-note').value='';
+  document.querySelectorAll('#qlOverlay .rb').forEach(b=>b.classList.remove('on'));
+  document.querySelector('#qlOverlay .rb[data-v="ok"]').classList.add('on');
+  document.getElementById('ql-rep').style.background='var(--panel)';
+  document.getElementById('ql-con').style.background='var(--panel)';
+  document.getElementById('qlOverlay').hidden=false;
+}
+function closeQL(){document.getElementById('qlOverlay').hidden=true;}
+function setQLType(t,btn){_qlType=t;['ql-rep','ql-con'].forEach(id=>document.getElementById(id).style.background='var(--panel)');btn.style.background='var(--Gs)';}
+function setQLRating(v,btn){_qlRating=v;document.querySelectorAll('#qlOverlay .rb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');}
+function saveQL(){
+  const entry={id:uid(),type:_qlType,date:document.getElementById('ql-date').value,venue:document.getElementById('ql-venue').value,setId:null,member:'all',venueType:'',audience:null,entries:[],globalRating:_qlRating,globalNote:document.getElementById('ql-note').value};
+  state.journal.unshift(entry);persist();closeQL();renderJournal();
+  if(document.getElementById('v-analyse').classList.contains('on'))renderAnalyse();
+}
+
+/* ════ PRÉ-CONCERT BRIEF ════ */
+const VTYPES={'bar':'🍺 Bar','salle':'🎭 Salle','festival':'🎪 Festival','pleinair':'🌿 Plein air','prive':'🏠 Privé','':'?'};
+function openPreConcert(){
+  const items=as().items; if(!items.length){alert('Set vide !');return;}
+  const tc=tuneMap(state.songs,items);
+  const alerts=computeAlerts().filter(a=>as().items.some(it=>it.songId===a.songId)||a.songId===null);
+  const fragileSongs=items.filter(it=>{const ra=repAvg(it.songId),ca=conAvg(it.songId);return ra!==null&&ca!==null&&ra>=2.3&&ca<2.0;});
+  const lastConcerts=state.journal.filter(e=>e.type==='concert').sort((a,b)=>b.date.localeCompare(a.date)).slice(0,1);
+  const lastC=lastConcerts[0];
+  // order + accordages
+  const orderRows=items.map((it,i)=>{const s=song(it.songId);const t=(s.tuning||'').trim();const tC=t&&tc[t]?tc[t]:'';const prevTune=i>0?(state.songs[items[i-1].songId]?.tuning||'').trim():'';const tuneChg=t&&prevTune&&t!==prevTune;const hasCues=['vigilance','depart'].some(k=>it[k]);const enLv=s.energyLevel||0;
+    return`<div class="brief-row"><div class="brief-num">${pad(i+1)}</div>
+      <div style="flex:1;min-width:0"><div class="brief-title">${esc(s.title)}${it.rappel?' 🔁':''}${tuneChg?` <span style="color:var(--amb);font-size:11px">↻ ${esc(t)}</span>`:''} ${s.bpm?`<span style="font-size:12px;font-weight:800;color:var(--mut)">♩${s.bpm}</span>`:''}</div>
+      ${it.depart?`<div style="font-size:11.5px;color:var(--blue);margin-top:2px">🥁 ${esc(it.depart.split('\n')[0])}</div>`:''}
+      ${it.vigilance?`<div style="font-size:11.5px;color:var(--red);margin-top:2px">⚠️ ${esc(it.vigilance.split('\n')[0])}</div>`:''}
+      </div>
+      ${tC?`<div class="dot" style="background:${tC};width:10px;height:10px;flex:0 0 auto;margin-top:5px"></div>`:''}
+    </div>`;}).join('');
+  const alertHtml=alerts.length?alerts.slice(0,6).map(a=>`<div class="al-card ${a.level}" style="padding:8px 10px;margin-bottom:5px"><div class="al-ic">${a.ic}</div><div><div class="al-title" style="font-size:12.5px">${esc(a.title)}</div><div class="al-detail">${esc(a.detail)}</div></div></div>`).join(''):'<p style="color:var(--G);font-weight:800;font-size:13px">✅ Aucune alerte</p>';
+  const fragHtml=fragileSongs.length?fragileSongs.map(it=>{const s=song(it.songId);const ra=repAvg(it.songId).toFixed(2),ca=conAvg(it.songId).toFixed(2);return`<div class="brief-row"><div class="brief-num">⚡</div><div><div class="brief-title">${esc(s.title)}</div><div class="brief-note">Rép. ${ra}/3 → Concert ${ca}/3 — surveiller !</div></div></div>`;}).join(''):'<p style="color:var(--mut);font-size:13px">Aucun morceau fragile identifié</p>';
+  document.getElementById('preconcertBody').innerHTML=`
+    <div style="text-align:center;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--line)">
+      <div style="font-size:18px;font-weight:900;text-transform:uppercase">${esc(as().name)}</div>
+      <div style="font-size:13px;color:var(--mut);margin-top:3px">${new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})} · ⏱ ${totalDur(items)} · ${items.length} morceaux</div>
+      ${lastC?`<div style="font-size:12px;color:var(--mut2);margin-top:3px">Dernier concert : ${lastC.venue} (${lastC.date})</div>`:''}
+    </div>
+    <div class="brief-section"><h3>⚠️ Alertes actives</h3>${alertHtml}</div>
+    <div class="brief-section"><h3>⚡ Fragilités à surveiller</h3>${fragHtml}</div>
+    <div class="brief-section"><h3>🎸 Ordre du set</h3>${orderRows}</div>`;
+  document.getElementById('preconcertOverlay').hidden=false;
+}
+function closePreconcert(){document.getElementById('preconcertOverlay').hidden=true;}
+function printPreconcert(){
+  const content=document.getElementById('preconcertBody').innerHTML;
+  const w=window.open('','_blank');
+  if(!w){alert('Autorise les popups pour imprimer');return;}
+  w.document.write('<html><head><title>Fiche pré-concert</title><style>body{font-family:Arial,sans-serif;font-size:11pt;color:#111;max-width:600px;margin:20px auto;line-height:1.4}.brief-row{display:flex;gap:8px;padding:5px 0;border-bottom:1px solid #ddd}.brief-num{width:30px;font-size:16pt;font-weight:900;color:#268024;text-align:center}.brief-title{font-weight:900;text-transform:uppercase;font-size:13pt}.brief-note{font-size:10pt;color:#555}.al-card{padding:6px 8px;margin-bottom:4px;border-left:3px solid #aaa}.crit{border-color:#c00;background:#fff5f5}.warn{border-color:#c80;background:#fffbf0}.al-title{font-weight:900;font-size:11pt}.al-detail{font-size:9.5pt;color:#555}h3{font-size:10pt;text-transform:uppercase;letter-spacing:.1em;color:#666;margin:14px 0 6px;padding-bottom:4px;border-bottom:1px solid #ccc}.dot{display:inline-block;width:8px;height:8px;border-radius:50%}</style></head><body>'+content+'<script>window.print();window.close();<\/script></body></html>');
+  w.document.close();
+}
+
+/* ════ ARC NARRATIF ════ */
+function renderAArc(){
+  const items=as().items;
+  if(!items.length){document.getElementById('asc-arc').innerHTML='<div class="empty">Set vide</div>';return;}
+  const energies=items.map(it=>song(it.songId).energyLevel||0);
+  const hasE=energies.some(e=>e>0);
+  if(!hasE){document.getElementById('asc-arc').innerHTML='<div class="card"><div class="card-body"><div class="empty">Définis les niveaux d’énergie dans la bibliothèque pour utiliser l’arc narratif.</div></div></div>';return;}
+  const n=items.length;
+  // find climax index (first max)
+  const maxE=Math.max(...energies.filter(e=>e>0));
+  const climaxIdx=energies.findIndex(e=>e===maxE);
+  // assign segments
+  const segs=items.map((it,i)=>{const e=energies[i];const rel=i/(n-1);let seg;
+    if(i===0||i===1)seg='intro';
+    else if(i<climaxIdx)seg=rel<0.35?'intro':'montee';
+    else if(i===climaxIdx)seg='climax';
+    else if(rel>0.82)seg='final';
+    else seg=e&&e<=2?'respiration':'descente';
+    return{it,e,seg,i};
+  });
+  const SEG_COLORS={intro:'#5aaeff',montee:'#ffb030',climax:'#ff5050',respiration:'#b27eef',descente:'#ffb030',final:'#32b52f'};
+  const SEG_NAMES={intro:'Mise en route',montee:'Montée',climax:'CLIMAX',respiration:'Respiration',descente:'Descente',final:'Final'};
+  // SVG arc
+  const W=380,H=110,ML=10,MB=22,MT=10; const aW=W-ML*2,aH=H-MT-MB;
+  const px=i=>ML+i/(n-1)*aW;const py=e=>MT+aH-((e||0)/5)*aH;
+  const filled=segs.filter(s=>s.e>0);
+  let areaPath='',linePath='';
+  if(filled.length>1){areaPath=`M${px(filled[0].i)},${py(0)} `+filled.map(s=>`L${px(s.i)},${py(s.e)}`).join(' ')+` L${px(filled[filled.length-1].i)},${py(0)} Z`;linePath=`M`+filled.map(s=>`${px(s.i)},${py(s.e)}`).join(' L');}
+  const dots=segs.map(s=>s.e?`<circle cx="${px(s.i)}" cy="${py(s.e)}" r="5" fill="${SEG_COLORS[s.seg]}" stroke="var(--bg2)" stroke-width="1.5"/><text x="${px(s.i)}" y="${py(0)+MT+MB-2}" text-anchor="middle" style="font-size:7px;fill:var(--mut)">${pad(s.i+1)}</text>`:'').join('');
+  const yLabels=[1,2,3,4,5].map(v=>`<text x="${ML-3}" y="${py(v)+3}" text-anchor="end" style="font-size:7px;fill:var(--mut2)">${v}</text><line x1="${ML}" y1="${py(v)}" x2="${ML+aW}" y2="${py(v)}" stroke="var(--line)" stroke-width=".5" opacity=".4"/>`).join('');
+  const svgHtml=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">${yLabels}${areaPath?`<path d="${areaPath}" fill="rgba(50,181,47,.08)"/>`:''}${linePath?`<polyline points="${filled.map(s=>px(s.i)+','+py(s.e)).join(' ')}" fill="none" stroke="var(--G)" stroke-width="2.5" stroke-linejoin="round"/>`:''}${dots}</svg>`;
+  // Segment list
+  const segList=segs.map(s=>`<div class="arc-seg"><div class="arc-dot" style="background:${SEG_COLORS[s.seg]}"></div><div style="width:80px;font-size:11px;font-weight:800;color:${SEG_COLORS[s.seg]};text-transform:uppercase">${SEG_NAMES[s.seg]}</div><div style="font-size:14px;font-weight:900;text-transform:uppercase;flex:1">${pad(s.i+1)} ${esc(song(s.it.songId).title)}</div><div style="font-size:12px;color:var(--mut)">${s.e?'⚡'.repeat(Math.min(s.e,5)):''} ${s.e||'—'}/5</div></div>`).join('');
+  // Flags
+  const flags=[];
+  const introEnergies=segs.filter(s=>s.seg==='intro'&&s.e>0).map(s=>s.e);
+  if(introEnergies.length&&Math.max(...introEnergies)<=2)flags.push({ic:'❄️',msg:'Mise en route trop calme — risque de démarrage froid'});
+  if(climaxIdx<n*0.3)flags.push({ic:'🏃',msg:`Climax très tôt (n°${pad(climaxIdx+1)}/${pad(n)}) — vous brûlez vos cartouches dès le début`});
+  if(climaxIdx>n*0.75)flags.push({ic:'⏰',msg:`Climax tardif (n°${pad(climaxIdx+1)}/${pad(n)}) — montée très longue, public peut décrocher`});
+  let cLow=0;energies.forEach(e=>{if(e&&e<=2)cLow++;else if(cLow>=3){flags.push({ic:'😴',msg:cLow+' morceaux énergie basse consécutifs — creux potentiellement trop long'});cLow=0;}else cLow=0;});
+  if(!energies.some(e=>e&&e<=2))flags.push({ic:'💨',msg:'Aucun moment de respiration — set épuisant, difficile à tenir 45+ min'});
+  const finalSegs=segs.filter(s=>s.seg==='final');if(finalSegs.length&&finalSegs.every(s=>s.e<=2))flags.push({ic:'📉',msg:'Final en énergie basse — le concert se termine sans montée finale'});
+  const consecHigh=[];let ch=0;energies.forEach(e=>{if(e>=4)ch++;else{if(ch>=4)consecHigh.push(ch);ch=0;}});if(ch>=4)consecHigh.push(ch);if(consecHigh.length)flags.push({ic:'🔥',msg:consecHigh[0]+' morceaux énergie forte consécutifs — vérifier résistance physique'});
+  const flagHtml=flags.length?flags.map(f=>`<div class="arc-flag"><div style="font-size:18px;flex:0 0 auto">${f.ic}</div><div style="font-size:13px">${f.msg}</div></div>`).join(''):'<p style="color:var(--G);font-weight:800;font-size:13px">✅ Arc narratif équilibré</p>';
+  document.getElementById('asc-arc').innerHTML=`
+    <div class="card"><div class="card-hd"><h2>🎭 Arc narratif du set</h2></div><div class="card-body" style="padding:10px">${svgHtml}</div></div>
+    <div class="card" style="margin-top:12px"><div class="card-hd"><h2>🎬 Séquençage</h2></div><div class="card-body" style="padding:0 14px">${segList}</div></div>
+    <div class="card" style="margin-top:12px"><div class="card-hd"><h2>🔍 Analyse dramaturgique</h2></div><div class="card-body" style="padding:10px 14px">${flagHtml}</div></div>`;
+}
+
+/* ════ POSITIONS ════ */
+function buildPosData(){
+  const data={};
+  state.journal.filter(e=>e.type==='concert'&&e.setId).forEach(entry=>{
+    const set=state.sets.find(s=>s.id===entry.setId);if(!set)return;
+    entry.entries.forEach(se=>{
+      const pos=set.items.findIndex(it=>it.songId===se.songId);if(pos<0)return;
+      if(!data[se.songId])data[se.songId]=[];
+      data[se.songId].push({pos:pos+1,rating:getRV(se.rating),date:entry.date});
+    });
+  });return data;
+}
+function renderAPositions(){
+  const posData=buildPosData();const concerts=state.journal.filter(e=>e.type==='concert'&&e.setId);
+  if(!concerts.length){document.getElementById('asc-positions').innerHTML='<div class="card"><div class="card-body"><div class="empty">Il faut des concerts enregistrés avec un set associé.</div></div></div>';return;}
+  // Global position avg
+  const globalPos={};
+  Object.entries(posData).forEach(([sid,pts])=>{pts.forEach(p=>{if(!globalPos[p.pos])globalPos[p.pos]={sum:0,n:0};globalPos[p.pos].sum+=p.rating;globalPos[p.pos].n++;});});
+  const posRows=Object.entries(globalPos).sort((a,b)=>+a[0]-+b[0]).map(([pos,g])=>{const avg=g.sum/g.n;const pct=Math.round((avg-1)/2*100);const col=avg>=2.5?'var(--G)':avg>=2?'var(--amb)':'var(--red)';return`<div class="pos-row"><div class="pos-num" style="background:color-mix(in srgb,${col} 15%,var(--panel));color:${col}">${pos}</div><div class="pos-bar"><div class="pos-bar-fill" style="width:${pct}%;background:${col}"></div></div><div style="font-size:13px;font-weight:900;color:${col};width:36px;text-align:right">${avg.toFixed(2)}</div><div style="font-size:11px;color:var(--mut);width:40px;text-align:right">${g.n} concert${g.n>1?'s':''}</div></div>`;}).join('');
+  // Per song table
+  const songRows=Object.entries(posData).sort((a,b)=>a[0].localeCompare(b[0])).map(([sid,pts])=>{
+    const s=song(sid);const avg=pts.reduce((a,p)=>a+p.rating,0)/pts.length;const positions=[...new Set(pts.map(p=>p.pos))].sort((a,b)=>a-b);
+    const best=positions.reduce((best,p)=>{const a=pts.filter(x=>x.pos===p).reduce((s,x)=>s+x.rating,0)/pts.filter(x=>x.pos===p).length;return a>best.avg?{pos:p,avg:a}:best;},{pos:0,avg:0});
+    const worst=positions.reduce((worst,p)=>{const a=pts.filter(x=>x.pos===p).reduce((s,x)=>s+x.rating,0)/pts.filter(x=>x.pos===p).length;return a<worst.avg?{pos:p,avg:a}:worst;},{pos:0,avg:4});
+    const ac=avg>=2.5?'var(--G)':avg>=2?'var(--amb)':'var(--red)';
+    return`<tr><td style="font-weight:900;text-transform:uppercase;font-size:12.5px">${esc(s.title)}</td><td style="text-align:center;color:var(--mut)">${positions.join(', ')}</td><td style="text-align:center;color:var(--G);font-weight:800">${best.pos?'#'+best.pos+' ('+best.avg.toFixed(1)+')'  :'—'}</td><td style="text-align:center;color:var(--red);font-weight:800">${worst.pos&&worst.pos!==best.pos?'#'+worst.pos+' ('+worst.avg.toFixed(1)+')'  :'—'}</td><td style="text-align:center;color:${ac};font-weight:900">${avg.toFixed(2)}</td></tr>`;}).join('');
+  document.getElementById('asc-positions').innerHTML=`
+    <div class="card"><div class="card-hd"><h2>📍 Performance par position dans le set</h2></div><div class="card-body" style="padding:10px 14px"><p class="hint" style="margin-bottom:10px">Moyenne de rating par position occupée · Nécessite plusieurs concerts avec setId.</p>${posRows||'<p class="hint">Pas assez de données.</p>'}</div></div>
+    <div class="card" style="margin-top:12px"><div class="card-hd"><h2>🎵 Analyse par morceau</h2></div><div style="overflow-x:auto"><table class="health-tbl"><thead><tr><th>Morceau</th><th>Positions</th><th>Meilleure</th><th>Pire</th><th>Moy.</th></tr></thead><tbody>${songRows||'<tr><td colspan="5" style="text-align:center;color:var(--mut2);padding:14px">Pas assez de données concert</td></tr>'}</tbody></table></div></div>`;
+}
+
+/* ════ MEMBRES ════ */
+function renderAMembres(){
+  const MEM=['voix','batterie','guitare','basse'];const MLAB={'all':'Groupe','voix':'🎤 Voix','batterie':'🥁 Batt.','guitare':'🎸 Guit.','basse':'🎺 Basse'};
+  const hasMemberData=state.journal.some(e=>e.member&&e.member!=='all');
+  if(!hasMemberData){document.getElementById('asc-membres').innerHTML=`<div class="card"><div class="card-body">
+    <div style="text-align:center;padding:20px 12px">
+      <div style="font-size:32px;margin-bottom:10px">👥</div>
+      <div style="font-weight:900;font-size:15px;margin-bottom:8px">Vote par musicien</div>
+      <div style="font-size:13px;color:var(--mut);line-height:1.6;max-width:320px;margin:0 auto">Chaque membre du groupe peut logger ses propres ressentis sur les morceaux.<br><br>Lors d'un log (rapide ⚡ ou complet), sélectionne ton nom dans le champ <b>Qui enregistre ?</b><br><br>Une fois plusieurs membres actifs, cet onglet affichera les divergences de perception — très utile pour identifier les points de désaccord.</div>
+    </div>
+  </div></div>`;return;}
+  // Per member avg per song
+  const songs=Object.values(state.songs).sort((a,b)=>a.title.localeCompare(b.title));
+  const headers='<th>Morceau</th>'+[...MEM,'all'].map(m=>`<th>${MLAB[m]}</th>`).join('');
+  const rows=songs.map(s=>{
+    const cells=[...MEM,'all'].map(m=>{const entries=state.journal.filter(e=>e.member===m&&e.entries.some(x=>x.songId===s.id));if(!entries.length)return'<td style="text-align:center;color:var(--mut2)">—</td>';const vals=entries.flatMap(e=>e.entries.filter(x=>x.songId===s.id).map(x=>getRV(x.rating)));const avg=vals.reduce((a,b)=>a+b,0)/vals.length;const col=avg>=2.5?'var(--G)':avg>=2?'var(--amb)':'var(--red)';return`<td style="text-align:center;font-weight:900;color:${col}">${avg.toFixed(2)}</td>`;}).join('');
+    return`<tr><td style="font-weight:900;text-transform:uppercase;font-size:12.5px">${esc(s.title)}</td>${cells}</tr>`;}).join('');
+  // Divergence analysis
+  const divergences=[];
+  songs.forEach(s=>{
+    const membersWithData=MEM.filter(m=>{const e=state.journal.filter(x=>x.member===m&&x.entries.some(y=>y.songId===s.id));return e.length>0;});
+    if(membersWithData.length<2)return;
+    const avgs=membersWithData.map(m=>{const e=state.journal.filter(x=>x.member===m&&x.entries.some(y=>y.songId===s.id));const v=e.flatMap(x=>x.entries.filter(y=>y.songId===s.id).map(y=>getRV(y.rating)));return{m,avg:v.reduce((a,b)=>a+b,0)/v.length};});
+    const mn=Math.min(...avgs.map(a=>a.avg)),mx=Math.max(...avgs.map(a=>a.avg));
+    if(mx-mn>=1){const low=avgs.find(a=>a.avg===mn),high=avgs.find(a=>a.avg===mx);divergences.push({song:s.title,low,high,diff:mx-mn});}
+  });
+  const divHtml=divergences.length?divergences.map(d=>`<div class="brief-row"><div class="brief-title">${esc(d.song)}</div><div class="brief-note">${MLAB[d.high.m]} voit ${d.high.avg.toFixed(1)} vs ${MLAB[d.low.m]} voit ${d.low.avg.toFixed(1)} — écart ${d.diff.toFixed(1)}</div></div>`).join(''):'<p style="color:var(--mut);font-size:13px">Pas encore de divergences notables</p>';
+  document.getElementById('asc-membres').innerHTML=`
+    <div class="card"><div class="card-hd"><h2>👥 Moyenne par musicien</h2></div><div style="overflow-x:auto"><table class="health-tbl"><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table></div></div>
+    <div class="card" style="margin-top:12px"><div class="card-hd"><h2>🔍 Divergences de perception</h2></div><div class="card-body" style="padding:0 14px">${divHtml}<p class="hint" style="margin-top:10px">Les divergences ≥1 point indiquent une perception différente entre musiciens — souvent révélatrices de problèmes localisés (technique, mix…)</p></div></div>`;
+}
+
 /* ── BOOT ── */
 function boot(){document.querySelectorAll('.logo,#logoImg').forEach(el=>el.src=LOGO);const lk=document.createElement('link');lk.rel='apple-touch-icon';lk.href=LOGO;document.head.appendChild(lk);load();renderSet();renderBiblio();renderJournal();}
 boot();
 </script>
+
+<!-- OBJECTIVES MODAL -->
+<div class="overlay" id="objOverlay" hidden onclick="if(event.target===this)closeObjForm()">
+  <div class="modal">
+    <div class="modal-drag"></div>
+    <div class="modal-hd"><h3 id="objFTitle">Nouvel objectif</h3><button class="ico-btn" onclick="closeObjForm()">✕</button></div>
+    <div class="modal-body">
+      <label class="fl">Morceau</label>
+      <select id="of-song"><option value="">🎵 Groupe entier</option></select>
+      <label class="fl" style="margin-top:12px">Type</label>
+      <select id="of-metric" onchange="updateObjLabel()">
+        <option value="con_avg">Moyenne en concerts ≥ cible (max 3)</option>
+        <option value="rep_avg">Moyenne en répètes ≥ cible (max 3)</option>
+        <option value="con_count">Nb concerts joués ≥ cible</option>
+        <option value="rep_count">Nb répètes réalisées ≥ cible</option>
+        <option value="band_avg">Moyenne globale concerts ≥ cible</option>
+      </select>
+      <label class="fl" style="margin-top:12px">Valeur cible</label>
+      <input id="of-target" type="number" step="0.1" min="0" max="20" placeholder="2.5" oninput="updateObjLabel()">
+      <label class="fl" style="margin-top:12px">Libellé</label>
+      <input id="of-label" type="text" placeholder="Décrire l'objectif…">
+      <label class="fl" style="margin-top:12px">Échéance (optionnel)</label>
+      <input id="of-deadline" type="date">
+    </div>
+    <div class="modal-foot">
+      <button class="btn red sm" id="ofDelBtn" onclick="deleteObj()">🗑</button>
+      <button class="btn ghost" onclick="closeObjForm()">Annuler</button>
+      <button class="btn g" style="flex:1" onclick="saveObj()">✅ Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Quick Log FAB -->
+<button class="fab" onclick="openQuickLog()" title="Log rapide">⚡</button>
+
+<!-- QUICK LOG MODAL -->
+<div class="overlay" id="qlOverlay" hidden onclick="if(event.target===this)closeQL()">
+  <div class="modal">
+    <div class="modal-drag"></div>
+    <div class="modal-hd"><h3>⚡ Log rapide</h3><button class="ico-btn" onclick="closeQL()">✕</button></div>
+    <div class="modal-body">
+      <label class="fl">Type</label>
+      <div class="jtype-bar" style="margin-bottom:10px">
+        <button class="jtype-btn" id="ql-rep" onclick="setQLType('repete',this)">🥁 Répète</button>
+        <button class="jtype-btn" id="ql-con" onclick="setQLType('concert',this)">🎤 Concert</button>
+      </div>
+      <div class="row2">
+        <div><label class="fl">Date</label><input id="ql-date" type="date"></div>
+        <div><label class="fl">Lieu</label><input id="ql-venue" type="text" placeholder="Optionnel…"></div>
+      </div>
+      <label class="fl" style="margin-top:12px">Note globale</label>
+      <div class="rating-btns">
+        <button class="rb g" data-v="good" onclick="setQLRating('good',this)">🟢 Super</button>
+        <button class="rb y on" data-v="ok" onclick="setQLRating('ok',this)">🟡 Correct</button>
+        <button class="rb r" data-v="bad" onclick="setQLRating('bad',this)">🔴 Difficile</button>
+      </div>
+      <label class="fl" style="margin-top:12px">Note rapide (optionnel)</label>
+      <input id="ql-note" type="text" placeholder="Ce qu'il faut retenir…">
+      <p class="hint" style="margin-top:8px">Complète les détails (morceaux, type de salle…) depuis l'onglet 📓 Journal en modifiant cette entrée.</p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn ghost" onclick="closeQL()">Annuler</button>
+      <button class="btn g" style="flex:1" onclick="saveQL()">⚡ Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- PRE-CONCERT MODAL -->
+<div class="overlay" id="preconcertOverlay" hidden onclick="if(event.target===this)closePreconcert()">
+  <div class="modal" style="max-height:95vh">
+    <div class="modal-drag"></div>
+    <div class="modal-hd"><h3>🎯 Fiche pré-concert</h3><button class="ico-btn" onclick="closePreconcert()">✕</button></div>
+    <div class="modal-body" id="preconcertBody"></div>
+    <div class="modal-foot">
+      <button class="btn ghost" onclick="closePreconcert()">Fermer</button>
+      <button class="btn g" style="flex:1" onclick="printPreconcert()">🖨 Imprimer</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
