@@ -282,27 +282,27 @@ textarea{min-height:52px;resize:vertical;line-height:1.4}
 .sh-info b{font-size:9pt;font-weight:900;color:#172027}
 .sh-rows{border:1pt solid #8c969c;border-radius:2mm;overflow:hidden;display:flex;flex-direction:column;flex:1;min-height:0}
 /* Each song row */
-.sh-row{display:grid;grid-template-columns:16mm 1fr 42mm;border-bottom:1pt solid #c0c8cc;flex:1;min-height:0;overflow:hidden}
+.sh-row{display:grid;grid-template-columns:20mm 1fr 36mm;border-bottom:1pt solid #c0c8cc;flex:1;min-height:0;overflow:hidden}
 .sh-row:last-child{border-bottom:0}
 .sh-row.rsp{grid-template-columns:1fr;flex:0 0 5.5mm;background:#fffaf0}
 .sh-row.rsp .rc{display:flex;align-items:center;justify-content:center;gap:2mm;font-size:6.5pt;font-weight:900;letter-spacing:.15em;color:#a07000}
 .sh-row.rsp .rc hr{flex:1;border:0;border-top:.5pt dashed #c8a040}
 /* col 1: number */
-.sh-nb{border-right:1pt solid #c0c8cc;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1mm;padding:1mm}
-.sh-nn{font-size:16pt;font-weight:900;color:#268024;line-height:1}
+.sh-nb{border-right:1pt solid #c0c8cc;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1mm;padding:1.5mm}
+.sh-nn{font-size:24pt;font-weight:900;color:#268024;line-height:1}
 .sh-td{width:5mm;height:2mm;border-radius:.8mm}
 .sh-tc-chg{font-size:5.5pt;font-weight:900;color:#a06010;text-align:center;line-height:1.1}
 /* col 2: title + cues */
 .sh-main{display:flex;flex-direction:column;justify-content:center;padding:.8mm 2mm;overflow:hidden;min-width:0;gap:.3mm}
 .sh-title-row{display:flex;align-items:baseline;gap:2mm;min-width:0;overflow:hidden}
-.sh-title{font-size:13pt;font-weight:900;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
-.sh-bpm{font-size:7.5pt;font-weight:900;color:#268024;white-space:nowrap;flex:0 0 auto}
-.sh-pub{font-size:6.5pt;font-weight:800;text-transform:uppercase;color:#1050c0;line-height:1.1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.sh-vig{font-size:6.5pt;font-weight:800;text-transform:uppercase;color:#c01010;line-height:1.1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical}
+.sh-title{font-size:22pt;font-weight:900;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
+.sh-bpm{font-size:10pt;font-weight:900;color:#268024;white-space:nowrap;flex:0 0 auto}
+.sh-pub{font-size:7.5pt;font-weight:800;text-transform:uppercase;color:#1050c0;line-height:1.1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.sh-vig{font-size:7.5pt;font-weight:800;text-transform:uppercase;color:#c01010;line-height:1.1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical}
 /* col 3: enchaîn + après */
 .sh-side{border-left:1pt solid #c0c8cc;display:flex;flex-direction:column;justify-content:center;padding:.8mm 1.5mm;overflow:hidden;gap:.5mm}
-.sh-enc{font-size:6.5pt;font-weight:800;text-transform:uppercase;color:#172027;line-height:1.1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.sh-par{font-size:6.5pt;font-weight:800;text-transform:uppercase;color:#107040;line-height:1.1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.sh-enc{font-size:7.5pt;font-weight:800;text-transform:uppercase;color:#172027;line-height:1.1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.sh-par{font-size:7.5pt;font-weight:800;text-transform:uppercase;color:#107040;line-height:1.1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 .sh-enc::before{content:"➡️ ";font-size:6pt}
 .sh-par::before{content:"💬 ";font-size:6pt}
 /* footer */
@@ -982,7 +982,7 @@ function buildSheets(){
   for(let p=0;p<pages;p++){
     const chunk=items.slice(p*PAGE,(p+1)*PAGE);const off=p*PAGE;
     const lbl=pages>1?`p.${p+1}/${pages}`:'';const rIdx=chunk.findIndex(it=>it.rappel);
-    function shRow(it,ci){
+    const shRow=(it,ci)=>{
       const s=song(it.songId);const t=(s.tuning||'').trim();const tC=t&&tc[t]?tc[t]:'';
       const prevTune=ci>0?(song(chunk[ci-1].songId).tuning||'').trim():'';const isChg=t&&prevTune&&t!==prevTune;
       const pub=firstLine(it.public);const enc=firstLine(it.enchainement);const par=firstLine(it.parole);const vig=firstLine(it.vigilance);
@@ -998,7 +998,7 @@ function buildSheets(){
           ${par?`<div class="sh-par">${esc(par)}</div>`:''}
         </div>
       </div>`;
-    }
+    };
     const rows=chunk.map((it,ci)=>(ci===rIdx&&rIdx>0?`<div class="sh-row rsp"><div class="rc"><hr>RAPPEL<hr></div></div>`:'')+shRow(it,ci)).join('');
     const d=new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
     const motto=as().motto||'';
@@ -1011,16 +1011,18 @@ function buildSheets(){
   return html;
 }
 function openPrint(){
-  const html=buildSheets();
+  let html;
+  try{ html=buildSheets(); }catch(err){ alert('Erreur feuille : '+err.message); return; }
   document.getElementById('sheets-area').innerHTML=html;
-  // Build preview by parsing the sheets
-  const tmp=document.createElement('div');tmp.innerHTML=html;
+  const tmp=document.createElement('div'); tmp.innerHTML=html;
   const sheets=tmp.querySelectorAll('.sheet');
-  let prvHtml='';sheets.forEach(sh=>{prvHtml+=`<div class="prv-box"><div class="sheet">${sh.innerHTML}</div></div>`;});
+  let prvHtml=''; sheets.forEach(function(sh){ prvHtml+='<div class="prv-box"><div class="sheet">'+sh.innerHTML+'</div></div>'; });
+  const n=sheets.length;
   const body=document.getElementById('printBody');
-  body.innerHTML=`<p style="font-size:13px;color:var(--mut);margin:0 0 8px">${as().items.length} morceaux · ${totalDur(as().items)} · ${sheets.length} feuille${sheets.length>1?'s':''} A4</p><p class="hint">Sur iPhone : <b>Imprimer</b> → écarte deux doigts → <b>Enregistrer en PDF</b></p><div class="prv-wrap" id="prvWrap">${prvHtml}</div>`;
+  body.innerHTML='<p style="font-size:13px;color:var(--mut);margin:0 0 8px">'+as().items.length+' morceaux · '+totalDur(as().items)+' · '+n+' feuille'+(n>1?'s':'')+' A4</p><p class="hint">Sur iPhone : <b>Imprimer</b> → écarte deux doigts → <b>Enregistrer en PDF</b></p><div class="prv-wrap" id="prvWrap">'+prvHtml+'</div>';
   document.getElementById('printOverlay').hidden=false;
-  setTimeout(()=>{const avail=body.clientWidth-20;const shW=210*96/25.4,shH=297*96/25.4;const scale=Math.min(1,avail/shW);document.querySelectorAll('.prv-box').forEach(box=>{const sh=box.querySelector('.sheet');if(sh){sh.style.transform=`scale(${scale})`;sh.style.transformOrigin='top left';box.style.height=(shH*scale)+'px';box.style.overflow='hidden';}});},100);
+  function fitPrv(){ var avail=document.getElementById('printBody').clientWidth-20; if(avail<10)return; var shW=210*96/25.4,shH=297*96/25.4,scale=Math.min(1,avail/shW); document.querySelectorAll('#prvWrap .prv-box').forEach(function(box){ var sh=box.querySelector('.sheet'); if(sh){ sh.style.transform='scale('+scale+')'; sh.style.transformOrigin='top left'; box.style.height=(shH*scale)+'px'; box.style.overflow='hidden'; } }); }
+  setTimeout(fitPrv,150); setTimeout(fitPrv,500);
 }
 function closePrint(){document.getElementById('printOverlay').hidden=true;}
 
