@@ -102,6 +102,7 @@ textarea{min-height:52px;resize:vertical;line-height:1.4}
 .obj-nums{display:flex;justify-content:space-between;font-size:11px;font-weight:800}
 .obj-nums .cur{color:var(--G)}.obj-nums .tgt{color:var(--mut2)}
 /* quick log FAB */
+.ai-export-area{background:var(--bg2);border:1px solid var(--l2);border-radius:10px;padding:12px;font-size:12px;color:var(--mut);line-height:1.6;max-height:55vh;overflow-y:auto;-webkit-overflow-scrolling:touch;white-space:pre-wrap;font-family:ui-monospace,monospace}
 .fab{position:fixed;bottom:calc(22px + env(safe-area-inset-bottom));right:18px;z-index:35;width:54px;height:54px;border-radius:50%;background:linear-gradient(170deg,var(--G),var(--Gd));color:#071408;font-size:24px;box-shadow:0 8px 24px rgba(50,181,47,.4);display:grid;place-items:center}
 /* arc viz */
 .arc-svg{width:100%;display:block;overflow:visible}
@@ -382,7 +383,8 @@ textarea{min-height:52px;resize:vertical;line-height:1.4}
     <img class="logo" id="logoImg" alt="">
     <div class="brand"><b>Green Mouse</b><small>Studio</small></div>
     <div class="hd-acts">
-      <button class="ico-btn" onclick="exportJSON()" title="Exporter">⬆</button>
+      <button class="ico-btn" onclick="openAIExport()" title="Export IA — ChatGPT / Claude">🤖</button>
+      <button class="ico-btn" onclick="exportJSON()" title="Exporter JSON">⬆</button>
       <button class="ico-btn" onclick="document.getElementById('importFile').click()" title="Importer">⬇</button>
       <input id="importFile" type="file" accept=".json" hidden onchange="importJSON(event)">
     </div>
@@ -1564,6 +1566,117 @@ function renderAMembres(){
     <div class="card" style="margin-top:12px"><div class="card-hd"><h2>🔍 Divergences de perception</h2></div><div class="card-body" style="padding:0 14px">${divHtml}<p class="hint" style="margin-top:10px">Les divergences ≥1 point indiquent une perception différente entre musiciens — souvent révélatrices de problèmes localisés (technique, mix…)</p></div></div>`;
 }
 
+
+/* ════ AI EXPORT ════ */
+function generateAIExport(){
+  const lines=[];const fmtR=r=>r==='good'?'Bien':r==='bad'?'Difficile':'Correct';
+  const d=new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+  lines.push('# GREEN MOUSE — Export IA');lines.push('Exporte le '+d+'\n');
+  lines.push('---\n## Contexte pour l\'IA\n');
+  lines.push('Tu es un expert en arrangements musicaux, coaching de groupe rock et analyse de set live.');
+  lines.push('Les donnees ci-dessous proviennent de l\'outil de gestion du groupe Green Mouse.');
+  lines.push('Reponds a mes questions de facon precise et actionnables.\n');
+  // Biblio
+  const songs=Object.values(state.songs).sort((a,b)=>a.title.localeCompare(b.title));
+  lines.push('---\n## Bibliotheque ('+songs.length+' morceaux)\n');
+  songs.forEach(s=>{
+    const ra=repAvg(s.id),ca=conAvg(s.id),rc=repCount(s.id),cc=conCount(s.id);
+    const m=[];if(s.bpm)m.push('BPM '+s.bpm);if(s.tuning)m.push(s.tuning);if(s.duree)m.push(s.duree);if(s.energyLevel)m.push('Energie '+s.energyLevel+'/5 debut:'+s.startEnergy+' fin:'+s.endEnergy);
+    lines.push('### '+s.title);if(m.length)lines.push(m.join(' | '));
+    if(s.notes)lines.push('Notes: '+s.notes);
+    if(ra!==null)lines.push('Repetes: '+ra.toFixed(2)+'/3 ('+rc+' sessions)');
+    if(ca!==null)lines.push('Concerts: '+ca.toFixed(2)+'/3 ('+cc+' concerts)');
+    lines.push('');
+  });
+  // Sets
+  state.sets.forEach(set=>{
+    const isA=set.id===state.activeSetId;
+    lines.push('---\n## Set: '+set.name+(isA?' [ACTIF]':'')+'\n');
+    lines.push('Duree: '+totalDur(set.items)+' | '+set.items.length+' morceaux\n');
+    set.items.forEach((it,i)=>{
+      const s=song(it.songId);const t=(s.tuning||'').trim();const prevT=i>0?(state.songs[set.items[i-1].songId]?.tuning||'').trim():'';const chg=t&&prevT&&t!==prevT;
+      lines.push((i+1)+'. '+s.title+(it.rappel?' [rappel]':'')+(chg?' -> changement accord '+t:'')+' | BPM '+(s.bpm||'?')+' | Energie '+(s.energyLevel||'?'));
+      if(it.depart)lines.push('   Depart batterie: '+it.depart);
+      if(it.public)lines.push('   Public: '+it.public);
+      if(it.technique)lines.push('   Son/Accord: '+it.technique);
+      if(it.vigilance)lines.push('   Vigilance: '+it.vigilance);
+      if(it.enchainement)lines.push('   Enchainement: '+it.enchainement);
+      if(it.parole)lines.push('   Apres: '+it.parole);
+    });lines.push('');
+  });
+  // Journal
+  const journal=[...state.journal].sort((a,b)=>b.date.localeCompare(a.date));
+  if(journal.length){
+    const cons=journal.filter(e=>e.type==='concert');const reps=journal.filter(e=>e.type==='repete');
+    lines.push('---\n## Journal ('+cons.length+' concerts, '+reps.length+' repetes)\n');
+    journal.forEach(e=>{
+      const isC=e.type==='concert';const setN=e.setId?state.sets.find(s=>s.id===e.setId)?.name:'';
+      lines.push((isC?'### Concert':'### Repete')+' | '+e.date+' | '+(e.venue||'(sans lieu)'));
+      if(e.venueType||e.audience)lines.push('Type: '+(e.venueType||'?')+(e.audience?' | '+e.audience+' pers':''));
+      if(setN)lines.push('Set: '+setN);if(e.member&&e.member!=='all')lines.push('Par: '+e.member);
+      lines.push('Note globale: '+fmtR(e.globalRating));
+      if(e.globalNote)lines.push('Observation: '+e.globalNote);
+      e.entries.forEach(x=>{const s=state.songs[x.songId];if(!s)return;lines.push('- '+(x.rating==='good'?'[BIEN]':x.rating==='bad'?'[DIFFICILE]':'[CORRECT]')+' '+s.title+(x.note?' — '+x.note:''));});
+      lines.push('');
+    });
+  }
+  // Matrice R×C
+  lines.push('---\n## Matrice Repete x Concert\n');
+  const QQ={solide:[],fragile:[],surprise:[],revoir:[],nodata:[]};
+  songs.forEach(s=>{const ra=repAvg(s.id),ca=conAvg(s.id);
+    if(ra===null&&ca===null){QQ.nodata.push(s.title);return;}
+    if(ra!==null&&ca!==null){const q=ra>=2&&ca>=2?'solide':ra>=2&&ca<2?'fragile':ra<2&&ca>=2?'surprise':'revoir';QQ[q].push(s.title+' (rep:'+ra.toFixed(1)+'/con:'+ca.toFixed(1)+')');}
+  });
+  if(QQ.solide.length)lines.push('SOLIDES: '+QQ.solide.join(', '));
+  if(QQ.fragile.length)lines.push('FRAGILES (bons en repete, mauvais en concert): '+QQ.fragile.join(', '));
+  if(QQ.surprise.length)lines.push('SURPRISES (meilleurs en concert): '+QQ.surprise.join(', '));
+  if(QQ.revoir.length)lines.push('A REVOIR: '+QQ.revoir.join(', '));
+  if(QQ.nodata.length)lines.push('Sans donnees: '+QQ.nodata.join(', '));
+  lines.push('');
+  // Alertes
+  const alerts=computeAlerts();
+  if(alerts.length){lines.push('---\n## Alertes actives ('+alerts.length+')\n');alerts.forEach(a=>lines.push('['+a.level.toUpperCase()+'] '+a.title+' — '+a.detail));lines.push('');}
+  // Objectifs
+  if(state.objectives.length){lines.push('---\n## Objectifs\n');
+    state.objectives.forEach(o=>{const p=getObjProgress(o);const sn=o.songId?song(o.songId).title:'Groupe';
+      lines.push((o.achieved?'[ATTEINT]':'[EN COURS]')+' '+o.label+' ('+sn+') | '+p.label+' / cible '+o.target+' | '+Math.round(p.pct)+'%'+( o.deadline?' | echeance '+o.deadline:''));});lines.push('');}
+  // Arc narratif
+  const items=as().items;
+  if(items.length){
+    lines.push('---\n## Arc narratif\n');
+    const energies=items.map(it=>song(it.songId).energyLevel||0);
+    const maxE=Math.max(...energies.filter(e=>e>0));const ci=energies.findIndex(e=>e===maxE);
+    lines.push('Climax: position '+(ci+1)+'/'+items.length+' — '+song(items[ci].songId).title+' (energie '+maxE+'/5)');
+    lines.push('Flux: '+energies.map((e,i)=>(i+1)+'='+( e||'?')).join(' > '));
+    lines.push('');
+    items.forEach((it,i)=>{const s=song(it.songId);const e=s.energyLevel||0;const prev=i>0?(song(items[i-1].songId).energyLevel||0):0;const t=i===0?'>':e>prev?'+':e<prev?'-':'=';
+      lines.push(t+' '+(i+1)+'. '+s.title+' | energie '+e+' | BPM '+(s.bpm||'?')+' | '+(s.tuning||'?'));});
+    lines.push('');
+  }
+  // Position
+  const posData=buildPosData();const posKeys=Object.keys(posData);
+  if(posKeys.length){lines.push('---\n## Analyse par position\n');
+    posKeys.forEach(sid=>{const s=state.songs[sid];if(!s)return;const pts=posData[sid];const avg=pts.reduce((a,p)=>a+p.rating,0)/pts.length;const pos=[...new Set(pts.map(p=>p.pos))].sort((a,b)=>a-b);
+      lines.push(s.title+': positions '+pos.join(',')+' | moyenne '+avg.toFixed(2)+'/3');});lines.push('');}
+  // Questions suggérées
+  lines.push('---\n## Questions suggérées\n');
+  ['Analyse le flow du set actif : les enchainements BPM et energie sont-ils pertinents ? Ou sont les ruptures risquees ?',
+   'Quels morceaux sont prioritaires pour la prochaine repete, et pourquoi ?',
+   'Commente l\'arc narratif du set — est-il dramaturgiquement efficace ?',
+   'Compare nos concerts — quelle est la trajectoire du groupe ?',
+   'Quels sont les 3 problemes les plus urgents a regler ?',
+   'Propose un ordre de set optimise pour les transitions et l\'arc narratif.',
+   'Analyse les morceaux FRAGILES — d\'ou peut venir l\'ecart repete/concert ?',
+   'Si je te donne les paroles et les notes de musiciens, que peux-tu analyser de plus ?'
+  ].forEach((q,i)=>lines.push((i+1)+'. '+q));
+  lines.push('\n---\nGenere par Green Mouse Studio | '+d);
+  return lines.join('\n');
+}
+function openAIExport(){document.getElementById('aiExportContent').textContent=generateAIExport();document.getElementById('aiOverlay').hidden=false;}
+function closeAIExport(){document.getElementById('aiOverlay').hidden=true;}
+async function copyAIExport(){const txt=document.getElementById('aiExportContent').textContent;try{await navigator.clipboard.writeText(txt);alert('Copie ! Colle maintenant dans Claude ou ChatGPT.');}catch(e){document.getElementById('aiExportContent').select?.();alert('Selectionne le texte et copie manuellement.');}}
+function downloadAIExport(){const txt=document.getElementById('aiExportContent').textContent;const blob=new Blob([txt],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='green_mouse_analyse_ia.md';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+
 /* ── BOOT ── */
 function boot(){document.querySelectorAll('.logo,#logoImg').forEach(el=>el.src=LOGO);const lk=document.createElement('link');lk.rel='apple-touch-icon';lk.href=LOGO;document.head.appendChild(lk);load();renderSet();renderBiblio();renderJournal();}
 boot();
@@ -1645,6 +1758,27 @@ boot();
     <div class="modal-foot">
       <button class="btn ghost" onclick="closePreconcert()">Fermer</button>
       <button class="btn g" style="flex:1" onclick="printPreconcert()">🖨 Imprimer</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- AI EXPORT MODAL -->
+<div class="overlay" id="aiOverlay" hidden onclick="if(event.target===this)closeAIExport()">
+  <div class="modal" style="max-height:95vh">
+    <div class="modal-drag"></div>
+    <div class="modal-hd">
+      <h3>🤖 Export IA</h3>
+      <button class="ico-btn" onclick="closeAIExport()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--mut);margin:0 0 10px;line-height:1.5">Copie ce rapport et colle-le dans <b>Claude ou ChatGPT</b>. Toutes tes données sont dedans — bibliothèque, concerts, répètes, analyses, arc narratif, alertes.</p>
+      <div class="ai-export-area" id="aiExportContent"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn ghost sm" onclick="closeAIExport()">Fermer</button>
+      <button class="btn sm" onclick="downloadAIExport()">⬇ .md</button>
+      <button class="btn g" style="flex:1" onclick="copyAIExport()">📋 Copier</button>
     </div>
   </div>
 </div>
