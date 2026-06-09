@@ -219,6 +219,35 @@ textarea{min-height:52px;resize:vertical;line-height:1.4}
 .ef-ic{font-size:18px;flex:0 0 auto;margin-top:1px}
 .ef-title{font-weight:800;font-size:13px;margin-bottom:2px}
 .ef-detail{color:var(--mut);font-size:12px}
+/* ─── critique locale ─── */
+.crit-modes{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none}
+.crit-modes::-webkit-scrollbar{display:none}
+.crit-mode{border:1px solid var(--l2);background:var(--panel);border-radius:10px;padding:8px 12px;font-size:13px;font-weight:800;color:var(--mut);white-space:nowrap;flex:0 0 auto}
+.crit-mode.on{background:var(--Gs);color:var(--G);border-color:var(--Gd)}
+.crit-item{display:grid;grid-template-columns:40px 1fr;gap:12px;border:1px solid var(--line);border-radius:12px;padding:11px;margin:8px 0;background:var(--bg2)}
+.crit-badge{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--p2);font-size:18px;flex:0 0 auto}
+.crit-item h4{margin:0 0 4px;font-size:14.5px;line-height:1.3}
+.crit-item p{margin:0;color:var(--mut);font-size:13px;line-height:1.45}
+.crit-arrow{display:block;margin-top:5px;color:var(--ink);font-weight:600}
+.crit-list{margin:0;padding:0;list-style:none}
+.crit-list li{position:relative;padding-left:24px;margin:8px 0;line-height:1.45;font-size:13.5px}
+.crit-list li:before{position:absolute;left:0;font-weight:900}
+.crit-list.g li:before{content:'✓';color:var(--G)}
+.crit-list.w li:before{content:'⚠';color:var(--amb)}
+.crit-list.y li:before{content:'→';color:var(--mint)}
+.crit-score{margin-left:auto;font-size:28px;font-weight:900;color:var(--blue);line-height:1}
+.crit-score small{font-size:14px;color:var(--mut2);font-weight:800}
+.crit-quote{margin:0;line-height:1.55;color:#e7d6ff;font-size:13.5px}
+.crit-why{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.crit-why span{font-size:11.5px;font-weight:800;padding:3px 8px;border-radius:7px}
+.crit-why .pos{background:var(--Gs);color:var(--G);border:1px solid var(--Gd)}
+.crit-why .neg{background:#200808;color:var(--red);border:1px solid #601010}
+.crit-chips{display:flex;flex-wrap:wrap;gap:6px}
+.crit-chip{background:#0a2630;border:1px solid #1f5966;color:#9df1ff;border-radius:7px;padding:5px 9px;font-size:12px;font-weight:700}
+.crit-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.crit-tbl th{font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--red);padding:8px;text-align:left;border-bottom:2px solid var(--line);background:rgba(255,80,80,.05)}
+.crit-tbl td{padding:8px;border:1px solid var(--line);vertical-align:top;color:var(--mut)}
+.crit-tbl td:first-child{color:var(--ink);font-weight:700}
 
 /* ─── SCÈNE ─── */
 .scene-ov{position:fixed;inset:0;z-index:70;
@@ -443,6 +472,7 @@ textarea{min-height:52px;resize:vertical;line-height:1.4}
     <button class="atab" onclick="showATab('arc')">🎭 Arc narratif</button>
     <button class="atab" onclick="showATab('positions')">📍 Positions</button>
     <button class="atab" onclick="showATab('membres')">👥 Membres</button>
+    <button class="atab" onclick="showATab('critique')">🧠 Paroles</button>
   </div>
   <div id="asc-dash" class="asec on"></div>
   <div id="asc-matrice" class="asec"></div>
@@ -457,6 +487,7 @@ textarea{min-height:52px;resize:vertical;line-height:1.4}
   <div id="asc-arc" class="asec"></div>
   <div id="asc-positions" class="asec"></div>
   <div id="asc-membres" class="asec"></div>
+  <div id="asc-critique" class="asec"></div>
 </div>
 </main>
 
@@ -905,8 +936,8 @@ function sdot(s){if(s==='good')return`<span class="sdot sd-g">🟢 OK</span>`;if
 
 /* ── ANALYSE ── */
 let _aTab='dash';
-function showATab(t){_aTab=t;const tabs=['dash','matrice','alertes','objectifs','progression','chrono','energie','cues','sante','hist','arc','positions','membres'];document.querySelectorAll('.atab').forEach((b,i)=>b.classList.toggle('on',tabs[i]===t));document.querySelectorAll('.asec').forEach(s=>s.classList.remove('on'));document.getElementById('asc-'+t).classList.add('on');}
-function renderAnalyse(){renderADash();renderAMatrice();renderAAlertes();renderAObjectifs();renderAProgression();renderAchrono();renderAenergie();renderAcues();renderAsante();renderAhist();renderAArc();renderAPositions();renderAMembres();}
+function showATab(t){_aTab=t;const tabs=['dash','matrice','alertes','objectifs','progression','chrono','energie','cues','sante','hist','arc','positions','membres','critique'];document.querySelectorAll('.atab').forEach((b,i)=>b.classList.toggle('on',tabs[i]===t));document.querySelectorAll('.asec').forEach(s=>s.classList.remove('on'));document.getElementById('asc-'+t).classList.add('on');}
+function renderAnalyse(){renderADash();renderAMatrice();renderAAlertes();renderAObjectifs();renderAProgression();renderAchrono();renderAenergie();renderAcues();renderAsante();renderAhist();renderAArc();renderAPositions();renderAMembres();renderACritique();}
 
 function renderAchrono(){
   const items=as().items;if(!items.length){document.getElementById('asc-chrono').innerHTML=`<div class="empty">Set vide</div>`;return;}
@@ -1229,7 +1260,7 @@ function renderADash(){
   </div>`;
   const topAlerts=alerts.slice(0,5).map(a=>`<div class="al-card ${a.level}"><div class="al-ic">${a.ic}</div><div><div class="al-title">${esc(a.title)}</div><div class="al-detail">${esc(a.detail)}</div></div></div>`).join('');
   const alertBox=alerts.length?`<div class="card" style="margin-top:14px"><div class="card-hd"><h2>⚠️ Alertes prioritaires (${alerts.length})</h2></div><div class="card-body" style="padding:12px">${topAlerts}${alerts.length>5?`<div style="font-size:12px;color:var(--mut);text-align:center;padding-top:4px">+ ${alerts.length-5} autres → onglet Alertes</div>`:''}</div></div>`:'<div class="card" style="margin-top:14px"><div class="card-body"><div style="text-align:center;padding:16px;color:var(--G);font-weight:800;font-size:14px">✅ Aucune alerte — tout roule !</div></div></div>';
-  document.getElementById('asc-dash').innerHTML=kpis+alertBox;
+  document.getElementById('asc-dash').innerHTML=kpis+alertBox+critIdentityCard();
 }
 
 /* ── MATRICE R×C ── */
@@ -1500,7 +1531,7 @@ function renderAArc(){
   document.getElementById('asc-arc').innerHTML=`
     <div class="card"><div class="card-hd"><h2>🎭 Arc narratif du set</h2></div><div class="card-body" style="padding:10px">${svgHtml}</div></div>
     <div class="card" style="margin-top:12px"><div class="card-hd"><h2>🎬 Séquençage</h2></div><div class="card-body" style="padding:0 14px">${segList}</div></div>
-    <div class="card" style="margin-top:12px"><div class="card-hd"><h2>🔍 Analyse dramaturgique</h2></div><div class="card-body" style="padding:10px 14px">${flagHtml}</div></div>`;
+    <div class="card" style="margin-top:12px"><div class="card-hd"><h2>🔍 Analyse dramaturgique</h2></div><div class="card-body" style="padding:10px 14px">${flagHtml}</div></div>`+critSetCard();
 }
 
 /* ════ POSITIONS ════ */
@@ -1677,8 +1708,274 @@ function closeAIExport(){document.getElementById('aiOverlay').hidden=true;}
 async function copyAIExport(){const txt=document.getElementById('aiExportContent').textContent;try{await navigator.clipboard.writeText(txt);alert('Copie ! Colle maintenant dans Claude ou ChatGPT.');}catch(e){document.getElementById('aiExportContent').select?.();alert('Selectionne le texte et copie manuellement.');}}
 function downloadAIExport(){const txt=document.getElementById('aiExportContent').textContent;const blob=new Blob([txt],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='green_mouse_analyse_ia.md';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 
+/* ════════════════ CRITIQUE LOCALE — moteur d'analyse ════════════════ */
+/* 100% local, aucune IA externe : moteur heuristique qui LIT le texte,
+   mesure ce qu'il contient, et rend un avis volontairement critique.
+   - Onglet "Paroles" : analyse d'un texte collé (paroles / scène).
+   - Carte intégrée dans "Arc narratif" : verdict dramaturgie du set.
+   - Carte intégrée dans "Dashboard" : identité du répertoire. */
+
+const CRIT_BANKS={
+  concrete:['main','mains','yeux','oeil','peau','bouche','lèvre','lèvres','doigt','doigts','gorge','ventre','corps','pied','pieds','jambe','jambes','dos','nuque','épaule','épaules','cheveux','sang','sueur','larme','larmes','poing','poings','front','genou','genoux',
+    'route','routes','porte','portes','maison','mur','murs','fenêtre','fenêtres','lit','table','verre','verres','bouteille','rue','rues','trottoir','bitume','néon','néons','gare','train','trains','voiture','voitures','téléphone','écran','écrans','cigarette','clope','cendrier','miroir','escalier','escaliers','chambre','plafond','asphalte','quai','pont','ponts','bar','comptoir','clé','clés','clou','béton','tôle','goudron',
+    'odeur','parfum','fumée','lumière','lumières','ombre','ombres','bruit','silence','froid','chaud','pluie','neige','vent','orage','éclair','poussière','goût','écho','souffle','briquet','allumette','flaque','boue','cendres',
+    'nuit','aube','matin','soir','minuit','midi','crépuscule','dimanche','lundi','hiver','été'],
+  abstract:['amour','haine','liberté','vérité','destin','éternité','espoir','espérance','douleur','souffrance','solitude','tristesse','bonheur','joie','âme','esprit','vie','mort','temps','infini','rêve','rêves','illusion','illusions','mensonge','mensonges','courage','force','faiblesse','peur','angoisse','mélancolie','nostalgie','existence','passion','émotion','éternel','éternelle','absolu','néant'],
+  loss:['mort','morte','morts','deuil','absence','absent','souvenir','souvenirs','oubli','oublie','oublié','oubliée','manque','manques','perdu','perdue','perte','pertes','adieu','adieux','disparu','disparue','tombe','tombes','cendre','cendres','fantôme','fantômes','vide','sans','reste','restes'],
+  anger:['haine','colère','crache','rage','hurle','hurler','hurlent','brûle','brûler','combat','combats','révolte','révolté','système','pouvoir','oppression','oppresseur','guerre','poing','poings','fusil','flammes','feu','détruire','casser','briser','crever','crient','crie','frappe','frapper','rébellion','tyran'],
+  love:['amour','amours','désir','désirs','baiser','baisers','embrasse','embrasser','étreinte','caresse','caresses','aimer','aime','peau','frisson','frissons'],
+  hope:['demain','renaître','renaitre','debout','ensemble','espoir','libre','liberté','voler','envoler','briller','vivre','recommencer','avancer','relever','relève','phare','horizon']
+};
+const CRIT_CLICHES=['pour toujours','à jamais','à tout jamais','jusqu\'à la fin des temps','jusqu\'à la fin','mon cœur','ton cœur','mon coeur','ton coeur','dans tes bras','dans mes bras','la vie est belle','comme avant','le temps qui passe','les larmes coulent','tu me manques','je t\'aime','toucher le ciel','au bout du chemin','main dans la main','envers et contre tout','plus jamais','encore et encore','noir c\'est noir','tout ou rien','vivre ou mourir','ange déchu','âme sœur','âme soeur','étoile filante','cri du cœur','feu sacré','larmes de sang','jusqu\'au bout de la nuit','prendre mon envol','briser mes chaînes','briser les chaînes','un monde meilleur','ouvre les yeux','plus rien à perdre','la dernière danse','contre vents et marées','jusqu\'à en mourir','je donnerais tout','rien ne sera plus comme avant','perdu dans le noir','seul au monde'];
+
+function critTokens(t){return (t.toLowerCase().match(/[a-zàâäçéèêëîïôöùûüÿñæœ']+/gi)||[]).map(w=>w.replace(/^'+|'+$/g,'')).filter(w=>w.length>1);}
+function critLines(t){return t.split(/\n+/).map(x=>x.trim()).filter(Boolean);}
+function critBank(tokens,bank){const found=new Set();let n=0;tokens.forEach(t=>{if(bank.indexOf(t)>=0){n++;found.add(t);}});return{n,found:[...found]};}
+function critCliches(t){const low=' '+t.toLowerCase().replace(/[\n\r]+/g,' ').replace(/\s+/g,' ')+' ';const out=[];CRIT_CLICHES.forEach(c=>{if(low.indexOf(c)>=0)out.push(c);});return out;}
+function critRefrains(lines){const map={};lines.forEach(l=>{const k=l.toLowerCase().replace(/[^a-zàâäçéèêëîïôöùûüÿñæœ ]/gi,'').replace(/\s+/g,' ').trim();if(k.length>=6)map[k]=(map[k]||0)+1;});return Object.entries(map).filter(e=>e[1]>=2).sort((a,b)=>b[1]-a[1]);}
+function critPron(t){const c=p=>(t.toLowerCase().match(p)||[]).length;
+  return{je:c(/\bje\b/g)+c(/\bj'/g)+c(/\bmoi\b/g)+c(/\bmon\b/g)+c(/\bma\b/g)+c(/\bmes\b/g)+c(/\bm'/g)+c(/\bme\b/g),
+    tu:c(/\btu\b/g)+c(/\bton\b/g)+c(/\bta\b/g)+c(/\btes\b/g)+c(/\bt'/g)+c(/\btoi\b/g)+c(/\bte\b/g),
+    nous:c(/\bnous\b/g)+c(/\bon\b/g)+c(/\bnos\b/g)+c(/\bnotre\b/g)};}
+
+/* analyse paroles / texte libre → objet métriques + verdict */
+function critAnalyseText(text,intentTxt){
+  const lines=critLines(text);
+  const tokens=critTokens(text);
+  const words=tokens.length;
+  const uniq=new Set(tokens).size;
+  const rich=words?uniq/words:0;
+  const avgLine=lines.length?words/lines.length:0;
+  const conc=critBank(tokens,CRIT_BANKS.concrete);
+  const abst=critBank(tokens,CRIT_BANKS.abstract);
+  const loss=critBank(tokens,CRIT_BANKS.loss);
+  const anger=critBank(tokens,CRIT_BANKS.anger);
+  const love=critBank(tokens,CRIT_BANKS.love);
+  const hope=critBank(tokens,CRIT_BANKS.hope);
+  const cliches=critCliches(text);
+  const refrains=critRefrains(lines);
+  const pron=critPron(text);
+  const dominantPron=pron.je>=pron.nous&&pron.je>=pron.tu?'je':pron.nous>=pron.tu?'nous':'tu';
+  const registers=[['perte/manque',loss.n],['colère/révolte',anger.n],['amour/désir',love.n],['élan/espoir',hope.n]].filter(r=>r[1]>0).sort((a,b)=>b[1]-a[1]);
+  const concRatio=conc.n+abst.n?conc.n/(conc.n+abst.n):0;
+  const short=lines.length<6;
+
+  let score=6;const why=[];
+  if(conc.n>=4&&concRatio>=0.5){score++;why.push('+1 images concrètes présentes');}
+  if(rich>=0.58&&words>=30){score++;why.push('+1 vocabulaire varié');}
+  if(refrains.length){score++;why.push('+1 structure (refrain repéré)');}
+  if(pron.nous>0&&pron.tu>0||(pron.nous>0&&pron.je>0)){score++;why.push('+1 adresse qui ne reste pas que sur le « je »');}
+  if(cliches.length>=2){score--;why.push('−1 formules toutes faites ('+cliches.length+')');}
+  if(cliches.length>=4){score--;why.push('−1 accumulation de clichés');}
+  if(abst.n>conc.n+1&&conc.n<2){score--;why.push('−1 reste dans l\'abstrait, peu d\'images');}
+  if(rich<0.4&&words>=40){score--;why.push('−1 vocabulaire répétitif');}
+  if(short){score--;why.push('−1 matière courte, difficile à juger / sous-développée');}
+  if(avgLine>14){score--;why.push('−1 vers très longs, peu chantables');}
+  score=Math.max(2,Math.min(10,score));
+
+  const items=[];
+  if(registers.length){
+    items.push(['🎯','Le centre du texte, c\'est : '+registers.map(r=>r[0]).join(', ')+'.',
+      'Mots les plus marqués : '+[loss,anger,love,hope].flatMap(b=>b.found).slice(0,8).join(', ')+'.',
+      registers[0][0]==='perte/manque'?'Le texte parle surtout des EFFETS de ce manque — il faudra une trace concrète pour qu\'on devine de quoi/qui il s\'agit.':'Choisis un moteur dominant et assume-le, sinon l\'auditeur sent l\'intention mais pas la nécessité du morceau.']);
+  }else{
+    items.push(['🌫️','Aucun registre émotionnel fort ne ressort.','Le texte n\'envoie pas de signal clair (ni colère, ni perte, ni élan).','Risque réel : un morceau « tiède » dont on ne retient pas l\'angle. Tranche.']);
+  }
+  if(concRatio>=0.5&&conc.n>=4){
+    items.push(['📷','Tu montres plus que tu ne racontes.','Images repérées : '+conc.found.slice(0,8).join(', ')+'.','C\'est ta force : garde ces ancrages, c\'est ce à quoi l\'auditeur s\'accroche.']);
+  }else if(conc.n>=1){
+    items.push(['🔭','Le texte fonctionne par climat plus que par scènes.','Peu d\'images physiques ('+conc.n+') face à l\'abstrait ('+abst.n+'). Concret repéré : '+(conc.found.join(', ')||'—')+'.','L\'émotion existe mais l\'auditeur doit la deviner. 2-3 détails sensoriels suffiraient à la rendre visible.']);
+  }else{
+    items.push(['⚠️','Tout est abstrait — zéro image concrète détectée.','Mots comme '+(abst.found.slice(0,6).join(', ')||'amour, temps, vie')+' disent l\'émotion sans la faire voir.','C\'est le défaut n°1 ici : on ne peut pas s\'accrocher à rien de palpable.']);
+  }
+  if(cliches.length){
+    items.push(['♻️','Des formules déjà entendues affaiblissent le propos.','Repérées : '+cliches.map(c=>'« '+c+' »').join(', ')+'.','Chacune est une occasion ratée de dire les choses à TA manière. Réécris-les.']);
+  }
+  if(refrains.length){
+    items.push(['🔁','Un refrain / une ligne-pivot revient '+refrains[0][1]+' fois.','« '+refrains[0][0].slice(0,48)+(refrains[0][0].length>48?'…':'')+' »','Bon point pour la mémorisation — vérifie juste qu\'il porte vraiment la colonne vertébrale émotionnelle.']);
+  }else if(lines.length>=8){
+    items.push(['🧩','Aucun refrain ou motif récurrent net.','Le texte avance en ligne droite, sans ancre qui revient.','En rock, un crochet répété aide énormément le public à embarquer. À questionner.']);
+  }
+  items.push(['🧍',dominantPron==='je'?'Tout passe par le « je ».':dominantPron==='nous'?'Le « nous » domine — adresse collective.':'Le texte s\'adresse à un « tu ».',
+    'je:'+pron.je+' · tu:'+pron.tu+' · nous/on:'+pron.nous,
+    dominantPron==='je'&&pron.nous===0?'Touche par identification, mais ne fédère pas explicitement. Si l\'intention est de rassembler, ouvre vers un « nous ».':'L\'adresse est variée, c\'est plutôt sain pour le live.']);
+
+  const forces=[];
+  if(conc.n>=4)forces.push('Ancrage sensoriel réel : '+conc.found.slice(0,5).join(', ')+' — l\'auditeur a où poser les yeux.');
+  if(rich>=0.58&&words>=30)forces.push('Vocabulaire varié ('+Math.round(rich*100)+'% de mots uniques) — pas de remplissage.');
+  if(!cliches.length)forces.push('Aucune formule toute faite détectée : le propos sonne personnel.');
+  if(refrains.length)forces.push('Présence d\'un refrain : le morceau a une colonne vertébrale mémorisable.');
+  if(registers.length===1)forces.push('Un seul moteur émotionnel clair ('+registers[0][0]+') — le morceau sait ce qu\'il veut dire.');
+  if(pron.nous>0&&pron.je>0)forces.push('Va-et-vient « je » / « nous » : l\'intime devient partageable.');
+  if(!forces.length)forces.push('Difficile de pointer une force franche en l\'état — c\'est précisément le signal qu\'il faut retravailler avant de l\'enregistrer.');
+
+  const risks=[];
+  if(conc.n<2)risks.push('Trop abstrait : sans image concrète, le texte reste une intention plus qu\'une chanson.');
+  if(cliches.length>=2)risks.push('Clichés ('+cliches.length+') : ils aplatissent ce qui pourrait être singulier.');
+  if(rich<0.4&&words>=40)risks.push('Vocabulaire répétitif ('+Math.round(rich*100)+'% de mots uniques) — sensation de tourner en rond.');
+  if(registers.length>=3)risks.push('Le texte tire dans plusieurs directions ('+registers.map(r=>r[0]).join(' / ')+') — il faut choisir le moteur dominant.');
+  if(short)risks.push('Matière courte ('+lines.length+' lignes) : soit c\'est une esquisse à développer, soit l\'idée mérite d\'être creusée.');
+  if(dominantPron==='je'&&pron.nous===0&&pron.tu===0)risks.push('Repli sur le « je » : risque que le morceau reste trop personnel pour embarquer une salle.');
+  if(avgLine>14)risks.push('Vers très longs (~'+Math.round(avgLine)+' mots/ligne) : difficiles à phraser et à chanter.');
+  if(!refrains.length&&lines.length>=8)risks.push('Pas de crochet répété : la mémorisation va être plus dure en live.');
+  if(!risks.length)risks.push('Pas de faiblesse structurelle évidente — le vrai test sera l\'interprétation et la musique.');
+
+  const improve=[];
+  if(conc.n<3)improve.push('Ajouter 1-2 images vécues (un objet, un lieu, un geste) plutôt que de nommer l\'émotion.');
+  if(cliches.length)improve.push('Réécrire chaque formule toute faite : '+cliches.slice(0,3).map(c=>'« '+c+' »').join(', ')+'.');
+  if(!refrains.length&&lines.length>=8)improve.push('Tester un crochet de 1-2 lignes à répéter — vérifier qu\'il résume l\'émotion centrale.');
+  if(registers.length>=3)improve.push('Décider du moteur dominant et couper ce qui dilue ('+registers.slice(1).map(r=>r[0]).join(', ')+').');
+  if(dominantPron==='je'&&pron.nous===0)improve.push('Si tu veux fédérer : ouvrir une ligne vers le « nous » ou le « tu ».');
+  improve.push('Lire le texte à voix haute sans la musique : ce qui tombe à plat sans mélodie est à retravailler.');
+
+  const reg=registers[0]?registers[0][0]:'une émotion diffuse';
+  const neutral='Sans rien savoir de ton histoire, je retiens surtout : '+reg+'. '+
+    (conc.n>=3?'Ce qui m\'attrape, ce sont les images ('+conc.found.slice(0,3).join(', ')+').':'Ce qui me manque, c\'est une image précise à laquelle m\'accrocher — j\'entends l\'émotion mais je ne la vois pas.')+' '+
+    (cliches.length?'Ce qui me sort du morceau : les formules déjà entendues.':'Ce que j\'apprécie : ça ne sonne pas fabriqué.');
+
+  const tensions=[];
+  if(intentTxt){
+    const intentLow=intentTxt.toLowerCase();
+    const wantsFed=/fédérer|fédér|public|relancer|ensemble|toucher/.test(intentLow);
+    const wantsRupture=/rupture|colère|affirmer|identité/.test(intentLow);
+    const wantsPerte=/perte|raconter|hommage|deuil/.test(intentLow);
+    tensions.push([intentTxt,
+      conc.n>=3?'La matière est incarnée (images concrètes).':'La matière est surtout intime/abstraite.',
+      wantsFed&&pron.nous===0?'Veut fédérer mais reste sur le « je » — écart à combler.':wantsRupture&&anger.n===0?'Veut trancher/affirmer mais le texte est doux — la rupture n\'est pas dans les mots.':wantsPerte&&conc.n<2?'Veut raconter mais sans détail incarné, le sujet risque de passer au second plan.':'Cohérent avec ce que montre le texte.']);
+  }
+  tensions.push(['Émotion forte attendue',
+    cliches.length?'Le texte s\'appuie par moments sur du déjà-vu.':'Le texte évite le déjà-vu.',
+    cliches.length?'Force potentielle bridée par les formules convenues.':'L\'émotion devra surtout venir de l\'interprétation.']);
+
+  const verdict='Score '+score+'/10. '+
+    (forces.length&&forces[0].indexOf('Difficile')<0?'Force principale : '+forces[0].toLowerCase()+' ':'')+
+    'Le levier d\'amélioration n\'est pas « mieux écrire » dans l\'absolu, mais : '+
+    (improve[0]||'soigner l\'interprétation')+' '+
+    'En l\'état, le texte touche '+(conc.n>=3?'par ses images':'surtout par climat')+
+    (cliches.length?', mais les formules toutes faites le tirent vers le générique.':'.');
+
+  const chips=[...new Set(tokens.filter(w=>w.length>=4))].filter(w=>!['dans','pour','avec','sans','plus','tout','tous','mais','comme','quand','être','avoir','cette','leur','vous','elle','nous'].includes(w)).slice(0,18);
+
+  return{lines,words,uniq,rich,avgLine,conc,abst,loss,anger,love,hope,cliches,refrains,pron,dominantPron,registers,score,why,items,forces,risks,improve,neutral,tensions,verdict,chips};
+}
+
+function critRenderText(a){
+  const itemsHtml=a.items.map(i=>`<div class="crit-item"><div class="crit-badge">${i[0]}</div><div><h4>${esc(i[1])}</h4><p>${esc(i[2])}<span class="crit-arrow">→ ${esc(i[3])}</span></p></div></div>`).join('');
+  const whyHtml=a.why.length?`<div class="crit-why">${a.why.map(w=>`<span class="${w[0]==='+'?'pos':'neg'}">${esc(w)}</span>`).join('')}</div>`:'';
+  const tens=a.tensions.map(t=>`<tr><td>${esc(t[0])}</td><td>${esc(t[1])}</td><td>${esc(t[2])}</td></tr>`).join('');
+  return `
+  <div class="card"><div class="card-hd"><h2>👁️ Ce que le texte montre</h2></div><div class="card-body" style="padding:8px 12px">${itemsHtml}</div></div>
+  <div class="row2" style="margin-top:12px">
+    <div class="card"><div class="card-hd" style="color:var(--G)"><h2>⭐ Forces</h2></div><div class="card-body" style="padding:8px 12px"><ul class="crit-list g">${a.forces.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div>
+    <div class="card"><div class="card-hd" style="color:var(--amb)"><h2>⚠️ Risques</h2></div><div class="card-body" style="padding:8px 12px"><ul class="crit-list w">${a.risks.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div>
+  </div>
+  <div class="card" style="margin-top:12px"><div class="card-hd" style="color:var(--blue)"><h2>🏆 Verdict argumenté</h2><span class="crit-score">${a.score}<small>/10</small></span></div><div class="card-body"><p style="margin:0 0 8px;line-height:1.5">${esc(a.verdict)}</p>${whyHtml}</div></div>
+  <div class="card" style="margin-top:12px"><div class="card-hd" style="color:var(--pur)"><h2>👤 Lecture d'un auditeur neutre</h2></div><div class="card-body"><p class="crit-quote">${esc(a.neutral)}</p></div></div>
+  <div class="card" style="margin-top:12px"><div class="card-hd" style="color:var(--red)"><h2>🧭 Tensions intention ↔ matière</h2></div><div style="overflow-x:auto"><table class="crit-tbl"><thead><tr><th>L'intention affirme</th><th>La matière montre</th><th>Écart / tension</th></tr></thead><tbody>${tens}</tbody></table></div></div>
+  <div class="card" style="margin-top:12px"><div class="card-hd" style="color:var(--mint)"><h2>💡 Pistes concrètes</h2></div><div class="card-body" style="padding:8px 12px"><ul class="crit-list y">${a.improve.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div>
+  <div class="card" style="margin-top:12px"><div class="card-hd"><h2>🏷️ Mots & images clés</h2></div><div class="card-body"><div class="crit-chips">${a.chips.map(w=>`<span class="crit-chip">${esc(w)}</span>`).join('')||'<span class="hint">Texte trop court.</span>'}</div><p class="hint" style="margin-top:8px">${a.words} mots · ${a.uniq} uniques · ${a.lines.length} lignes · ~${Math.round(a.avgLine)} mots/ligne</p></div></div>`;
+}
+
+/* ── carte intégrée dans ARC NARRATIF : verdict dramaturgie du set ── */
+function critSetCard(){
+  const items=as().items;if(!items.length)return'';
+  const en=items.map(it=>song(it.songId).energyLevel||0);
+  const hasE=en.some(x=>x>0);
+  let score=6;const why=[];const extra=[];
+  if(hasE){
+    const n=items.length,maxE=Math.max(...en),ci=en.indexOf(maxE);
+    if(ci<n*0.3){score--;why.push('−1 climax trop tôt');}
+    if(ci>n*0.75){score--;why.push('−1 climax tardif');}
+    const op=en[0],cl=en[n-1];
+    if(op&&op<=2){score--;why.push('−1 ouverture molle');}else if(op>=4){score++;why.push('+1 ouverture franche');}
+    if(cl&&cl<=2){score--;why.push('−1 final en creux');}else if(cl>=4){score++;why.push('+1 final qui marque');}
+    if(!en.some(x=>x&&x<=2)){score--;why.push('−1 zéro respiration');}
+    let ch=0,maxCh=0;en.forEach(x=>{if(x>=4){ch++;maxCh=Math.max(maxCh,ch);}else ch=0;});
+    if(maxCh>=4)extra.push(maxCh+' morceaux forts d\'affilée — tunnel d\'énergie : attention à la résistance et à l\'oreille du public.');
+  }else{extra.push('Niveaux d\'énergie non renseignés — renseigne-les dans la Biblio pour noter l\'arc.');why.push('énergie manquante');}
+  const frag=items.filter(it=>{const ra=repAvg(it.songId),ca=conAvg(it.songId);return ra!==null&&ca!==null&&ra>=2.3&&ca<2.0;});
+  if(frag.length){score--;why.push('−1 morceaux fragiles exposés');extra.push('Fragiles dans le set (bons en répète, fragiles en concert) : '+frag.map(it=>song(it.songId).title).join(', ')+' — sécuriser ou déplacer hors des moments-clés.');}
+  const tunes=items.map(it=>(song(it.songId).tuning||'').trim());
+  const chg=tunes.filter((t,i)=>i>0&&t&&tunes[i-1]&&t!==tunes[i-1]).length;
+  if(chg>=3)extra.push(chg+' changements d\'accordage — autant de temps morts potentiels ; les regrouper aiderait.');
+  score=Math.max(2,Math.min(10,score));
+  const whyHtml=why.length?`<div class="crit-why">${why.map(w=>`<span class="${w[0]==='+'?'pos':'neg'}">${esc(w)}</span>`).join('')}</div>`:'';
+  const extraHtml=extra.length?`<ul class="crit-list w" style="margin-top:8px">${extra.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'<p style="color:var(--G);font-weight:800;font-size:13px;margin:8px 0 0">✅ Rien de bloquant au-delà de l\'arc ci-dessus.</p>';
+  return `<div class="card" style="margin-top:12px"><div class="card-hd" style="color:var(--blue)"><h2>🧠 Critique IA — verdict dramaturgie</h2><span class="crit-score">${score}<small>/10</small></span></div><div class="card-body">${whyHtml}${extraHtml}<p class="hint" style="margin-top:8px">Note de synthèse + points que l'arc ne montre pas (fragilité concert, accordages). 100% local.</p></div></div>`;
+}
+
+/* ── carte intégrée dans DASHBOARD : identité du répertoire ── */
+function critIdentityCard(){
+  const lyr=Object.values(state.songs).map(s=>s.lyrics||'').filter(Boolean);
+  if(!lyr.length)return'';
+  const text=lyr.join('\n');
+  const tokens=critTokens(text);
+  const loss=critBank(tokens,CRIT_BANKS.loss),anger=critBank(tokens,CRIT_BANKS.anger),love=critBank(tokens,CRIT_BANKS.love),hope=critBank(tokens,CRIT_BANKS.hope),conc=critBank(tokens,CRIT_BANKS.concrete);
+  const pron=critPron(text);
+  const regs=[['perte/manque',loss.n],['colère/révolte',anger.n],['amour/désir',love.n],['élan/espoir',hope.n]].filter(r=>r[1]>0).sort((a,b)=>b[1]-a[1]);
+  const risks=[];
+  if(regs.length>=3)risks.push('Répertoire dispersé ('+regs.map(r=>r[0]).join(' / ')+') — risque de partir dans tous les sens. Choisir un moteur dominant.');
+  if(pron.je>pron.nous*2)risks.push('Très « je » sur l\'ensemble — l\'identité gagnerait à ouvrir vers le collectif sur certains titres.');
+  if(conc.n<lyr.length*2)risks.push('Globalement peu d\'images concrètes — l\'univers repose plus sur des émotions nommées que sur un imaginaire reconnaissable.');
+  const head=regs.length?('ADN dominant : '+regs.slice(0,2).map(r=>r[0]).join(', ')):'Pas de registre dominant clair';
+  const body=risks.length?`<ul class="crit-list w" style="margin-top:4px">${risks.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'<p style="color:var(--G);font-weight:800;font-size:13px;margin:4px 0 0">✅ Identité cohérente sur les paroles disponibles.</p>';
+  return `<div class="card" style="margin-top:14px"><div class="card-hd"><h2>🐭 Identité du répertoire</h2></div><div class="card-body"><p style="margin:0;font-weight:700">${esc(head)} · je:${pron.je} / nous:${pron.nous} / tu:${pron.tu}</p>${body}<p class="hint" style="margin-top:8px">Lecture critique des paroles de ${lyr.length} morceau(x) de la Biblio. Détail texte par texte dans l'onglet 🧠 Paroles.</p></div></div>`;
+}
+
+/* ── ONGLET PAROLES : analyse d'un texte collé ── */
+let _critBuilt=false;
+function loadCritSong(){const id=document.getElementById('critSong').value;if(!id)return;const s=state.songs[id];if(!s)return;
+  document.getElementById('critTitle').value=s.title||'';
+  document.getElementById('critText').value=s.lyrics||'';
+  if(!s.lyrics)alert('Ce morceau n\'a pas de paroles renseignées dans la Biblio.');
+  critPersist();
+}
+function runCritique(){
+  const title=document.getElementById('critTitle').value||'Sans titre';
+  const intent=document.getElementById('critIntent').value;
+  const text=document.getElementById('critText').value.trim();
+  if(!text){alert('Colle un texte à analyser (ou choisis un morceau).');return;}
+  const a=critAnalyseText(text,intent);
+  document.getElementById('critResults').innerHTML=`<div style="margin-bottom:6px;font-size:13px;color:var(--mut)">Analyse de <b style="color:var(--ink)">${esc(title)}</b></div>`+critRenderText(a);
+  critPersist();
+  document.getElementById('critResults').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function clearCrit(){document.getElementById('critTitle').value='';document.getElementById('critText').value='';document.getElementById('critSong').value='';document.getElementById('critResults').innerHTML='';critPersist();}
+function critPersist(){if(!state.prefs)state.prefs={};state.prefs.crit={title:document.getElementById('critTitle')?.value||'',intent:document.getElementById('critIntent')?.value||'',text:document.getElementById('critText')?.value||''};persist();}
+function critSongOpts(){return '<option value="">📚 Charger les paroles d\'un morceau…</option>'+Object.values(state.songs).sort((a,b)=>a.title.localeCompare(b.title)).map(s=>`<option value="${s.id}">${esc(s.title)}${s.lyrics?'':' (sans paroles)'}</option>`).join('');}
+
+function renderACritique(){
+  const host=document.getElementById('asc-critique');
+  if(!_critBuilt){
+    host.innerHTML=`
+    <div class="card"><div class="card-body">
+      <div class="row2">
+        <div><label class="fl">Titre</label><input type="text" id="critTitle" placeholder="Titre du morceau / texte"></div>
+        <div><label class="fl">Intention visée</label>
+          <select id="critIntent">
+            <option>Toucher / fédérer</option><option>Raconter une perte</option><option>Relancer le public</option><option>Créer une rupture</option><option>Affirmer l'identité du groupe</option>
+          </select></div>
+      </div>
+      <label class="fl">Depuis la bibliothèque</label><select id="critSong" onchange="loadCritSong()">${critSongOpts()}</select>
+      <label class="fl">Texte à analyser</label>
+      <textarea id="critText" style="min-height:180px" placeholder="Colle des paroles (ou un texte d'intervention scène), ou choisis un morceau de la Biblio ci-dessus…"></textarea>
+      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+        <button class="btn g" style="flex:1;min-width:160px" onclick="runCritique()">🔍 Lancer l'analyse critique</button>
+        <button class="btn ghost" onclick="clearCrit()">Effacer</button>
+      </div>
+      <p class="hint" style="margin-top:8px">100% local — aucune donnée ne quitte l'appareil. Le moteur lit ce que le texte <b>montre vraiment</b> et reste volontairement critique : il ne flatte pas. La critique du set est dans 🎭 Arc narratif, l'identité du répertoire dans 📊 Dashboard.</p>
+    </div></div>
+    <div id="critResults" style="margin-top:14px"></div>`;
+    _critBuilt=true;
+    try{const c=state.prefs&&state.prefs.crit;if(c){document.getElementById('critTitle').value=c.title||'';document.getElementById('critIntent').value=c.intent||document.getElementById('critIntent').value;document.getElementById('critText').value=c.text||'';}}catch(e){}
+  }else{
+    const sel=document.getElementById('critSong');if(sel){const cur=sel.value;sel.innerHTML=critSongOpts();sel.value=cur;}
+  }
+}
+
+
 /* ── BOOT ── */
-function boot(){document.querySelectorAll('.logo,#logoImg').forEach(el=>el.src=LOGO);const lk=document.createElement('link');lk.rel='apple-touch-icon';lk.href=LOGO;document.head.appendChild(lk);load();renderSet();renderBiblio();renderJournal();}
+function boot(){_critBuilt=false;document.querySelectorAll('.logo,#logoImg').forEach(el=>el.src=LOGO);const lk=document.createElement('link');lk.rel='apple-touch-icon';lk.href=LOGO;document.head.appendChild(lk);load();renderSet();renderBiblio();renderJournal();}
 boot();
 </script>
 
