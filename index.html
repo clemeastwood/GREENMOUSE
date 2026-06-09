@@ -248,6 +248,30 @@ textarea{min-height:52px;resize:vertical;line-height:1.4}
 .crit-tbl th{font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--red);padding:8px;text-align:left;border-bottom:2px solid var(--line);background:rgba(255,80,80,.05)}
 .crit-tbl td{padding:8px;border:1px solid var(--line);vertical-align:top;color:var(--mut)}
 .crit-tbl td:first-child{color:var(--ink);font-weight:700}
+/* ─── modules IA (générateur, plan) ─── */
+.gen-lockrow,.gen-mini{display:flex;align-items:center;gap:8px;padding:7px 4px;border-bottom:1px solid var(--line)}
+.gen-lockrow:last-child,.gen-mini:last-child{border-bottom:0}
+.gen-pos{font-size:12px;font-weight:900;color:var(--mut2);width:22px;text-align:center;flex:0 0 auto}
+.gen-title{flex:1;min-width:0;font-weight:800;font-size:13.5px;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gen-en{font-size:11px;font-weight:900;border-radius:5px;padding:2px 7px;flex:0 0 auto}
+.gen-lock{font-size:16px;width:34px;height:30px;border-radius:8px;border:1px solid var(--l2);background:var(--bg2);flex:0 0 auto}
+.gen-lock.on{background:var(--Gs);border-color:var(--Gd)}
+.gen-opts{display:flex;flex-direction:column;gap:6px;margin:12px 0}
+.gen-chk{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700}
+.gen-chk input{width:18px;height:18px;flex:0 0 auto}
+.gen-locklist{border:1px solid var(--line);border-radius:12px;padding:2px 10px;background:var(--bg2)}
+.gen-prop{margin-top:10px}
+.gen-goodrow{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.gen-chip{font-size:11px;font-weight:800;padding:3px 8px;border-radius:7px;background:var(--p2);border:1px solid var(--line);color:var(--mut)}
+.gen-chip.pos{background:var(--Gs);border-color:var(--Gd);color:var(--G)}
+.gen-list{border:1px solid var(--line);border-radius:12px;padding:2px 10px;background:var(--bg2)}
+.plan-times{display:flex;gap:6px;margin-bottom:12px}
+.plan-time{flex:1;border:1px solid var(--l2);background:var(--panel);border-radius:10px;padding:9px 4px;font-size:13px;font-weight:800;color:var(--mut)}
+.plan-time.on{background:var(--Gs);color:var(--G);border-color:var(--Gd)}
+.plan-row{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.plan-row:last-child{border-bottom:0}
+.plan-dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;margin-top:5px}
+.plan-min{font-size:13px;font-weight:900;color:var(--mut);flex:0 0 auto}
 
 /* ─── SCÈNE ─── */
 .scene-ov{position:fixed;inset:0;z-index:70;
@@ -433,6 +457,7 @@ textarea{min-height:52px;resize:vertical;line-height:1.4}
     <button class="btn sm" onclick="createSet()">＋</button>
     <button class="btn sm ghost" onclick="manageSet()">⚙</button>
     <button class="btn sm g" onclick="openScene()" title="Mode Scène">🎚️</button>
+    <button class="btn sm" onclick="openSetGen()" title="Générateur d'ordre IA">🎲</button>
     <button class="btn sm" onclick="openPreConcert()" title="Fiche pré-concert">🎯</button>
     <button class="btn sm" onclick="openPrint()" title="Imprimer">🖨</button>
   </div>
@@ -473,6 +498,8 @@ textarea{min-height:52px;resize:vertical;line-height:1.4}
     <button class="atab" onclick="showATab('positions')">📍 Positions</button>
     <button class="atab" onclick="showATab('membres')">👥 Membres</button>
     <button class="atab" onclick="showATab('critique')">🧠 Paroles</button>
+    <button class="atab" onclick="showATab('plan')">🗓 Plan répète</button>
+    <button class="atab" onclick="showATab('correl')">🔮 Corrélations</button>
   </div>
   <div id="asc-dash" class="asec on"></div>
   <div id="asc-matrice" class="asec"></div>
@@ -488,6 +515,8 @@ textarea{min-height:52px;resize:vertical;line-height:1.4}
   <div id="asc-positions" class="asec"></div>
   <div id="asc-membres" class="asec"></div>
   <div id="asc-critique" class="asec"></div>
+  <div id="asc-plan" class="asec"></div>
+  <div id="asc-correl" class="asec"></div>
 </div>
 </main>
 
@@ -936,8 +965,8 @@ function sdot(s){if(s==='good')return`<span class="sdot sd-g">🟢 OK</span>`;if
 
 /* ── ANALYSE ── */
 let _aTab='dash';
-function showATab(t){_aTab=t;const tabs=['dash','matrice','alertes','objectifs','progression','chrono','energie','cues','sante','hist','arc','positions','membres','critique'];document.querySelectorAll('.atab').forEach((b,i)=>b.classList.toggle('on',tabs[i]===t));document.querySelectorAll('.asec').forEach(s=>s.classList.remove('on'));document.getElementById('asc-'+t).classList.add('on');}
-function renderAnalyse(){renderADash();renderAMatrice();renderAAlertes();renderAObjectifs();renderAProgression();renderAchrono();renderAenergie();renderAcues();renderAsante();renderAhist();renderAArc();renderAPositions();renderAMembres();renderACritique();}
+function showATab(t){_aTab=t;const tabs=['dash','matrice','alertes','objectifs','progression','chrono','energie','cues','sante','hist','arc','positions','membres','critique','plan','correl'];document.querySelectorAll('.atab').forEach((b,i)=>b.classList.toggle('on',tabs[i]===t));document.querySelectorAll('.asec').forEach(s=>s.classList.remove('on'));document.getElementById('asc-'+t).classList.add('on');}
+function renderAnalyse(){renderADash();renderAMatrice();renderAAlertes();renderAObjectifs();renderAProgression();renderAchrono();renderAenergie();renderAcues();renderAsante();renderAhist();renderAArc();renderAPositions();renderAMembres();renderACritique();renderAPlan();renderACorrel();}
 
 function renderAchrono(){
   const items=as().items;if(!items.length){document.getElementById('asc-chrono').innerHTML=`<div class="empty">Set vide</div>`;return;}
@@ -1260,7 +1289,7 @@ function renderADash(){
   </div>`;
   const topAlerts=alerts.slice(0,5).map(a=>`<div class="al-card ${a.level}"><div class="al-ic">${a.ic}</div><div><div class="al-title">${esc(a.title)}</div><div class="al-detail">${esc(a.detail)}</div></div></div>`).join('');
   const alertBox=alerts.length?`<div class="card" style="margin-top:14px"><div class="card-hd"><h2>⚠️ Alertes prioritaires (${alerts.length})</h2></div><div class="card-body" style="padding:12px">${topAlerts}${alerts.length>5?`<div style="font-size:12px;color:var(--mut);text-align:center;padding-top:4px">+ ${alerts.length-5} autres → onglet Alertes</div>`:''}</div></div>`:'<div class="card" style="margin-top:14px"><div class="card-body"><div style="text-align:center;padding:16px;color:var(--G);font-weight:800;font-size:14px">✅ Aucune alerte — tout roule !</div></div></div>';
-  document.getElementById('asc-dash').innerHTML=kpis+alertBox+critIdentityCard();
+  document.getElementById('asc-dash').innerHTML=kpis+alertBox+critForecastCard()+critIdentityCard();
 }
 
 /* ── MATRICE R×C ── */
@@ -1470,6 +1499,7 @@ function openPreConcert(){
       <div style="font-size:13px;color:var(--mut);margin-top:3px">${new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})} · ⏱ ${totalDur(items)} · ${items.length} morceaux</div>
       ${lastC?`<div style="font-size:12px;color:var(--mut2);margin-top:3px">Dernier concert : ${lastC.venue} (${lastC.date})</div>`:''}
     </div>
+    ${critForecastBrief()}
     <div class="brief-section"><h3>⚠️ Alertes actives</h3>${alertHtml}</div>
     <div class="brief-section"><h3>⚡ Fragilités à surveiller</h3>${fragHtml}</div>
     <div class="brief-section"><h3>🎸 Ordre du set</h3>${orderRows}</div>`;
@@ -1531,7 +1561,7 @@ function renderAArc(){
   document.getElementById('asc-arc').innerHTML=`
     <div class="card"><div class="card-hd"><h2>🎭 Arc narratif du set</h2></div><div class="card-body" style="padding:10px">${svgHtml}</div></div>
     <div class="card" style="margin-top:12px"><div class="card-hd"><h2>🎬 Séquençage</h2></div><div class="card-body" style="padding:0 14px">${segList}</div></div>
-    <div class="card" style="margin-top:12px"><div class="card-hd"><h2>🔍 Analyse dramaturgique</h2></div><div class="card-body" style="padding:10px 14px">${flagHtml}</div></div>`+critSetCard();
+    <div class="card" style="margin-top:12px"><div class="card-hd"><h2>🔍 Analyse dramaturgique</h2></div><div class="card-body" style="padding:10px 14px">${flagHtml}</div></div>`+critSetCard()+critPontCard();
 }
 
 /* ════ POSITIONS ════ */
@@ -1974,6 +2004,244 @@ function renderACritique(){
 }
 
 
+/* ════════════════ FONCTIONS IA — 5 modules ════════════════
+   1) Générateur d'ordre de set (optimiseur local)
+   2) Plan de répète priorisé
+   3) Météo du concert (prévision)
+   4) Corrélations cachées (data-mining du journal)
+   5) Pont texte ↔ placement
+   100% local, déterministe, hors-ligne. */
+
+/* ───────── 1) GÉNÉRATEUR D'ORDRE ───────── */
+let _setGenLocks={};let _setGenResults=[];
+function openSetGen(){const items=as().items;if(items.length<4){alert('Il faut au moins 4 morceaux dans le set pour générer un ordre.');return;}_setGenLocks={};renderSetGenForm();document.getElementById('setGenOverlay').hidden=false;}
+function closeSetGen(){document.getElementById('setGenOverlay').hidden=true;}
+function toggleGenLock(id,btn){_setGenLocks[id]=!_setGenLocks[id];btn.classList.toggle('on',!!_setGenLocks[id]);btn.textContent=_setGenLocks[id]?'🔒':'🔓';}
+function renderSetGenForm(){
+  const items=as().items;
+  const rows=items.map((it,i)=>{const s=song(it.songId);const e=s.energyLevel||0;const lk=_setGenLocks[it.songId];
+    return `<div class="gen-lockrow"><span class="gen-pos">${pad(i+1)}</span><span class="gen-title">${esc(s.title)}${it.rappel?' 🔁':''}</span>${e?`<span class="gen-en" style="background:${EN_COLORS[e]};color:${EN_TEXT[e]}">${e}</span>`:'<span class="gen-en" style="opacity:.35">—</span>'}<button class="gen-lock${lk?' on':''}" onclick="toggleGenLock('${it.songId}',this)">${lk?'🔒':'🔓'}</button></div>`;}).join('');
+  document.getElementById('setGenForm').innerHTML=`
+    <p class="hint" style="margin:0 0 10px">Réordonne « ${esc(as().name)} ». Verrouille 🔒 les morceaux à garder à leur place (ouverture imposée, rappel…).</p>
+    <div class="row2">
+      <div><label class="fl">Ouverture</label><select id="genOpen"><option value="any">Indifférent</option><option value="fort">Forte (≥4)</option><option value="doux">Douce (≤2)</option></select></div>
+      <div><label class="fl">Final</label><select id="genFinal"><option value="fort">Fort (≥4)</option><option value="any">Indifférent</option><option value="doux">Doux (≤2)</option></select></div>
+    </div>
+    <div class="gen-opts">
+      <label class="gen-chk"><input type="checkbox" id="genTune" checked> Minimiser les changements d'accordage</label>
+      <label class="gen-chk"><input type="checkbox" id="genFrag" checked> Protéger les morceaux fragiles</label>
+      <label class="gen-chk"><input type="checkbox" id="genResp" checked> Garder une respiration</label>
+    </div>
+    <label class="fl">Morceaux — 🔒 = position figée</label>
+    <div class="gen-locklist">${rows}</div>`;
+  document.getElementById('setGenResults').innerHTML='';
+}
+function setGenCost(order,opt){
+  const n=order.length;
+  const en=order.map(id=>state.songs[id]?.energyLevel||0);
+  const tu=order.map(id=>(state.songs[id]?.tuning||'').trim());
+  let c=0,lowRun=0,highRun=0;
+  for(let i=0;i<n;i++){
+    if(i>0){const a=en[i-1],b=en[i];if(a&&b){const d=Math.abs(a-b);if(d>=3)c+=6;if(a<=2&&b<=2)c+=2;}if(opt.tune&&tu[i]&&tu[i-1]&&tu[i]!==tu[i-1])c+=3;}
+    if(en[i]&&en[i]<=2){lowRun++;if(lowRun>=3)c+=3;}else lowRun=0;
+    if(en[i]>=4){highRun++;if(highRun>=4)c+=2;}else highRun=0;
+  }
+  if(en[0]){if(opt.open==='fort'&&en[0]<4)c+=5;if(opt.open==='doux'&&en[0]>=4)c+=4;}
+  if(en[n-1]){if(opt.final==='fort'&&en[n-1]<4)c+=6;if(opt.final==='doux'&&en[n-1]>=4)c+=4;}
+  const maxE=Math.max(...en);if(maxE>0){const ci=en.indexOf(maxE);const rel=ci/(n-1);if(rel<0.3)c+=5;if(rel>0.9)c+=3;}
+  if(opt.resp&&!en.some(e=>e&&e<=2))c+=4;
+  if(opt.frag){const ci=en.indexOf(maxE);order.forEach((id,i)=>{if(opt.fragSet[id]&&(i===0||i===n-1||i===ci||i===ci+1))c+=4;});}
+  order.forEach((id,i)=>{if(opt.rappelSet[id]&&i<n-2)c+=2;});
+  return c;
+}
+function genGoodness(order,opt){
+  const n=order.length;const en=order.map(id=>state.songs[id]?.energyLevel||0);const tu=order.map(id=>(state.songs[id]?.tuning||'').trim());
+  const good=[];let rupt=0,tchg=0;for(let i=1;i<n;i++){if(en[i]&&en[i-1]&&Math.abs(en[i]-en[i-1])>=3)rupt++;if(tu[i]&&tu[i-1]&&tu[i]!==tu[i-1])tchg++;}
+  if(rupt===0)good.push('0 rupture brutale');else good.push(rupt+' rupture'+(rupt>1?'s':''));
+  good.push(tchg+' chgt accordage');
+  if(en[0]>=4)good.push('ouverture forte');else if(en[0]&&en[0]<=2)good.push('ouverture douce');
+  if(en[n-1]>=4)good.push('final fort');
+  if(en.some(e=>e&&e<=2))good.push('respiration ok');
+  const maxE=Math.max(...en);if(maxE){const rel=en.indexOf(maxE)/(n-1);if(rel>=0.3&&rel<=0.9)good.push('climax bien placé');}
+  const ci=en.indexOf(maxE);const fragOk=!order.some((id,i)=>opt.fragSet[id]&&(i===0||i===n-1||i===ci||i===ci+1));if(opt.frag&&Object.keys(opt.fragSet).length&&fragOk)good.push('fragiles protégés');
+  return good;
+}
+function genGenerate(){
+  const items=as().items;const ids=items.map(it=>it.songId);const n=ids.length;
+  const lockedIdx={};ids.forEach((id,i)=>{if(_setGenLocks[id])lockedIdx[i]=id;});
+  const freeIdx=ids.map((_,i)=>i).filter(i=>!(i in lockedIdx));
+  const freeSongs=freeIdx.map(i=>ids[i]);
+  if(freeSongs.length<2){alert('Trop de morceaux verrouillés — laisse au moins 2 morceaux libres.');return;}
+  const opt={open:document.getElementById('genOpen').value,final:document.getElementById('genFinal').value,tune:document.getElementById('genTune').checked,frag:document.getElementById('genFrag').checked,resp:document.getElementById('genResp').checked,fragSet:{},rappelSet:{}};
+  items.forEach(it=>{const ra=repAvg(it.songId),ca=conAvg(it.songId);if(ra!==null&&ca!==null&&ra>=2.3&&ca<2.0)opt.fragSet[it.songId]=true;if(it.rappel)opt.rappelSet[it.songId]=true;});
+  const build=perm=>{const arr=new Array(n);Object.keys(lockedIdx).forEach(k=>arr[+k]=lockedIdx[k]);let p=0;freeIdx.forEach(i=>{arr[i]=perm[p++];});return arr;};
+  const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=a[i];a[i]=a[j];a[j]=t;}return a;};
+  const seen={};const restarts=70,iters=Math.max(900,n*130);
+  for(let r=0;r<restarts;r++){
+    let cur=r===0?freeSongs.slice():shuffle(freeSongs);
+    let order=build(cur),cost=setGenCost(order,opt);
+    let best=order,bestC=cost,T=8;
+    for(let it=0;it<iters;it++){
+      const i=Math.floor(Math.random()*cur.length),j=Math.floor(Math.random()*cur.length);if(i===j){T*=0.9985;continue;}
+      const cand=cur.slice();const tmp=cand[i];cand[i]=cand[j];cand[j]=tmp;
+      const co=build(cand),cc=setGenCost(co,opt);
+      if(cc<=cost||Math.random()<Math.exp((cost-cc)/T)){cur=cand;cost=cc;order=co;if(cc<bestC){bestC=cc;best=co;}}
+      T*=0.9985;
+    }
+    const sig=best.join('>');if(seen[sig]===undefined||seen[sig]>bestC)seen[sig]=bestC;
+  }
+  const arr=Object.entries(seen).map(e=>({order:e[0].split('>'),cost:e[1]})).sort((a,b)=>a.cost-b.cost).slice(0,3);
+  _setGenResults=arr.map(x=>x.order);
+  renderGenResults(arr,opt);
+}
+function renderGenResults(arr,opt){
+  const tc=tuneMap(state.songs,as().items);
+  const html=arr.map((res,idx)=>{
+    const score=Math.max(2,Math.min(10,Math.round(10-res.cost/4)));
+    const mini=res.order.map((id,i)=>{const s=state.songs[id];const e=s.energyLevel||0;const t=(s.tuning||'').trim();const tCol=t&&tc[t]?tc[t]:'transparent';return `<div class="gen-mini"><span class="gen-pos">${pad(i+1)}</span><span class="dot" style="background:${tCol};${tCol==='transparent'?'border:1px solid var(--l2)':''}"></span><span class="gen-title">${esc(s.title)}</span>${e?`<span class="gen-en" style="background:${EN_COLORS[e]};color:${EN_TEXT[e]}">${e}</span>`:''}</div>`;}).join('');
+    const good=genGoodness(res.order,opt).map(g=>`<span class="gen-chip ${/0 rupture|ouverture forte|final fort|respiration ok|climax bien|fragiles protégés|ouverture douce/.test(g)?'pos':''}">${esc(g)}</span>`).join('');
+    return `<div class="card gen-prop"><div class="card-hd"><h2>Proposition ${idx+1}${idx===0?' ⭐':''}</h2><span class="crit-score">${score}<small>/10</small></span></div>
+      <div class="card-body"><div class="gen-goodrow">${good}</div><div class="gen-list">${mini}</div>
+      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+        <button class="btn g" style="flex:1;min-width:150px" onclick="applyGenOrder(${idx},'new',this)">＋ Créer un nouveau set</button>
+        <button class="btn ghost" onclick="applyGenOrder(${idx},'replace',this)">↔ Remplacer l'ordre actuel</button>
+      </div></div></div>`;
+  }).join('');
+  document.getElementById('setGenResults').innerHTML='<div class="fl" style="margin-top:14px">Propositions (notées sur la dramaturgie)</div>'+html;
+}
+function applyGenOrder(idx,mode,btn){
+  const order=_setGenResults[idx];if(!order)return;const set=as();
+  const byId={};set.items.forEach(it=>{(byId[it.songId]=byId[it.songId]||[]).push(it);});
+  const newItems=order.map(id=>(byId[id]&&byId[id].shift())||{id:uid(),songId:id,depart:'',public:'',technique:'',vigilance:'',enchainement:'',parole:'',rappel:false});
+  if(mode==='replace'){
+    if(btn.dataset.armed!=='1'){btn.dataset.armed='1';btn.textContent='Confirmer ?';btn.classList.add('red');setTimeout(()=>{if(btn){btn.dataset.armed='0';btn.textContent='↔ Remplacer l\'ordre actuel';btn.classList.remove('red');}},2600);return;}
+    set.items=newItems;persist();renderSet();closeSetGen();alert('Ordre du set remplacé ✅');
+  }else{
+    const id=uid();const cloned=newItems.map(it=>Object.assign({},it,{id:uid()}));state.sets.push({id,name:set.name+' (proposé)',motto:set.motto||'',items:cloned});state.activeSetId=id;persist();renderSet();closeSetGen();alert('Nouveau set « '+set.name+' (proposé) » créé ✅');
+  }
+}
+
+/* ───────── 2) PLAN DE RÉPÈTE ───────── */
+let _planMin=60;
+function setPlanMin(v,btn){_planMin=v;document.querySelectorAll('.plan-time').forEach(b=>b.classList.toggle('on',b===btn));renderAPlan();}
+function buildPlanTasks(){
+  const tasks=[];
+  Object.values(state.songs).forEach(s=>{
+    const ra=repAvg(s.id),ca=conAvg(s.id),rc=repCount(s.id),cc=conCount(s.id);
+    const inSet=as().items.some(it=>it.songId===s.id);
+    const recent=recentRatings(s.id,3);
+    const dates=state.journal.filter(e=>e.entries.some(x=>x.songId===s.id)).sort((a,b)=>b.date.localeCompare(a.date));
+    const last=dates[0]?dates[0].date:null;
+    let pr=0,reason='',min=10;
+    if(ra!==null&&ca!==null&&ra>=2.3&&ca<2.0){pr=5;reason='Fragile : '+ra.toFixed(1)+'/3 en répète mais '+ca.toFixed(1)+'/3 en concert';min=15;}
+    else if(recent.length>=2&&recent.slice(-2).every(r=>r===1)){pr=5;reason='Problème persistant (🔴🔴 lors des dernières sessions)';min=15;}
+    else if(recent.length===3&&recent[2]<recent[1]&&recent[1]<recent[0]){pr=4;reason='En baisse : '+recent.slice().reverse().join(' → ');min=12;}
+    else if(ca!==null&&ca<2){pr=4;reason='Faible en concert ('+ca.toFixed(1)+'/3)';min=12;}
+    else if(inSet&&last&&daysSince(last)>21){pr=3;reason=daysSince(last)+' jours sans session, et dans le set actuel';min=10;}
+    else if(inSet&&rc>0&&cc===0){pr=2;reason='Dans le set mais jamais joué en concert';min=8;}
+    else if(inSet&&!dates.length){pr=2;reason='Dans le set, jamais enregistré au journal';min=8;}
+    if(pr>0)tasks.push({s,pr,reason,min});
+  });
+  return tasks.sort((a,b)=>b.pr-a.pr||a.s.title.localeCompare(b.s.title));
+}
+function renderAPlan(){
+  const host=document.getElementById('asc-plan');
+  const timeBtns=[30,45,60,90].map(v=>`<button class="plan-time${v===_planMin?' on':''}" onclick="setPlanMin(${v},this)">${v} min</button>`).join('');
+  const tasks=buildPlanTasks();
+  if(!tasks.length){host.innerHTML=`<div class="card"><div class="card-body"><div style="text-align:center;padding:22px;color:var(--G);font-weight:800">✅ Rien d'urgent à travailler<br><span style="font-size:13px;color:var(--mut);font-weight:400">Tout le répertoire est à jour. Profites-en pour créer.</span></div></div></div>`;return;}
+  const PR={5:{c:'var(--red)',l:'Urgent'},4:{c:'var(--amb)',l:'Important'},3:{c:'var(--blue)',l:'À rafraîchir'},2:{c:'var(--mut)',l:'À tester'}};
+  let total=0;const plan=[];const extra=[];
+  tasks.forEach(t=>{if(total+t.min<=_planMin){plan.push(t);total+=t.min;}else extra.push(t);});
+  if(!plan.length){plan.push(tasks[0]);total=tasks[0].min;extra.shift();}
+  const planHtml=plan.map((t,i)=>`<div class="plan-row"><span class="plan-dot" style="background:${PR[t.pr].c}"></span><div style="flex:1;min-width:0"><div style="font-weight:900;font-size:14px">${pad(i+1)}. ${esc(t.s.title)} <span style="font-size:11px;font-weight:800;color:${PR[t.pr].c}">${PR[t.pr].l}</span></div><div style="font-size:12.5px;color:var(--mut);margin-top:2px">${esc(t.reason)}</div></div><span class="plan-min">${t.min}′</span></div>`).join('');
+  const extraHtml=extra.length?`<div class="card" style="margin-top:12px"><div class="card-hd"><h2>Aussi à surveiller (hors budget)</h2></div><div class="card-body" style="padding:6px 12px">${extra.map(t=>`<div style="display:flex;justify-content:space-between;padding:5px 0;font-size:13px"><span>${esc(t.s.title)}</span><span style="color:${PR[t.pr].c};font-weight:800">${PR[t.pr].l}</span></div>`).join('')}</div></div>`:'';
+  host.innerHTML=`
+    <div class="plan-times">${timeBtns}</div>
+    <div class="card"><div class="card-hd"><h2>🗓 Plan de répète — ~${total} min</h2></div><div class="card-body" style="padding:6px 12px">${planHtml}</div></div>
+    ${extraHtml}
+    <p class="hint" style="margin-top:10px">Priorisé d'après le journal : fragiles et problèmes persistants d'abord, puis morceaux en baisse, anciens, ou jamais testés. Durées indicatives.</p>`;
+}
+
+/* ───────── 3) MÉTÉO DU CONCERT ───────── */
+function critForecast(){
+  const items=as().items;if(!items.length)return null;
+  const per=items.map(it=>{const ca=conAvg(it.songId),ra=repAvg(it.songId),cc=conCount(it.songId);
+    const exp=ca!==null?ca:(ra!==null?ra*0.85:2);
+    const frag=ra!==null&&ca!==null&&ra>=2.3&&ca<2.0;
+    return{it,exp,cc,ca,ra,frag,title:song(it.songId).title};});
+  const expected=per.reduce((a,p)=>a+p.exp,0)/per.length;
+  const dataPts=per.reduce((a,p)=>a+(p.cc||0),0);
+  const conf=dataPts>=12?'élevée':dataPts>=5?'moyenne':'faible';
+  const risky=per.filter(p=>p.exp<2.15||p.frag).sort((a,b)=>a.exp-b.exp).slice(0,3);
+  let trans=null,worst=0;
+  for(let i=1;i<items.length;i++){const a=song(items[i-1].songId),b=song(items[i].songId);const ea=a.energyLevel||0,eb=b.energyLevel||0;let risk=0;if(ea&&eb&&Math.abs(ea-eb)>=3)risk+=2;if(per[i].frag)risk+=2;if(per[i].exp<2)risk+=1;if(risk>worst){worst=risk;trans={a:a.title,b:b.title,i:i+1};}}
+  const label=expected>=2.6?'Concert solide en vue':expected>=2.2?'Correct — quelques points à tenir':expected>=1.9?'Fragile — plusieurs zones à risque':'Risqué en l\'état';
+  return{expected,conf,risky,trans,label,dataPts};
+}
+function forecastInner(f){
+  const riskHtml=f.risky.length?f.risky.map(p=>`<div class="plan-row"><span class="plan-dot" style="background:${p.exp<1.8?'var(--red)':'var(--amb)'}"></span><div style="flex:1"><b>${esc(p.title)}</b> <span style="color:var(--mut);font-size:12px">${p.frag?'fragile · ':''}prévu ${p.exp.toFixed(1)}/3</span></div></div>`).join(''):'<p style="color:var(--G);font-weight:800;font-size:13px;margin:0">✅ Aucun morceau clairement à risque.</p>';
+  const transHtml=f.trans?`<p style="margin:8px 0 0;font-size:13px"><b>Transition à surveiller</b> — n°${pad(f.trans.i)} : « ${esc(f.trans.a)} » → « ${esc(f.trans.b)} ».</p>`:'';
+  return `<div style="font-size:15px;font-weight:900;margin-bottom:2px">${esc(f.label)}</div>
+    <div style="font-size:13px;color:var(--mut);margin-bottom:8px">Note globale prévue : <b style="color:var(--ink)">${f.expected.toFixed(2)}/3</b> · fiabilité ${f.conf} (${f.dataPts} notes concert)</div>${riskHtml}${transHtml}`;
+}
+function critForecastCard(){
+  const f=critForecast();if(!f)return'';
+  if(f.dataPts===0)return `<div class="card" style="margin-top:14px"><div class="card-hd"><h2>🌦 Météo du concert</h2></div><div class="card-body"><p class="hint" style="margin:0">Pas encore de données concert pour ce set — joue-le quelques fois et note-le dans le Journal pour obtenir une prévision.</p></div></div>`;
+  return `<div class="card" style="margin-top:14px"><div class="card-hd"><h2>🌦 Météo du concert</h2></div><div class="card-body">${forecastInner(f)}<p class="hint" style="margin-top:8px">Prévision sur l'historique concert du set actif. Détail morceau par morceau dans 🎯 Matrice & 💊 Santé.</p></div></div>`;
+}
+function critForecastBrief(){
+  const f=critForecast();if(!f||f.dataPts===0)return'';
+  return `<div class="brief-section"><h3>🌦 Météo du concert</h3>${forecastInner(f)}</div>`;
+}
+
+/* ───────── 4) CORRÉLATIONS CACHÉES ───────── */
+function renderACorrel(){
+  const host=document.getElementById('asc-correl');
+  const concerts=state.journal.filter(e=>e.type==='concert');
+  if(concerts.length<3){host.innerHTML=`<div class="card"><div class="card-body"><div class="empty">Pas assez de concerts pour détecter des corrélations.<br><span style="font-weight:400;color:var(--mut)">Il en faut ~4-5, avec si possible le type de salle, la jauge et le set renseignés.</span></div></div></div>`;return;}
+  const gAvg=e=>{const v=e.entries.map(x=>getRV(x.rating));return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;};
+  const findings=[];
+  // type de salle
+  const byType={};concerts.forEach(e=>{const t=(e.venueType||'').trim();if(!t)return;const a=gAvg(e);if(a===null)return;(byType[t]=byType[t]||[]).push(a);});
+  const ta=Object.entries(byType).map(e=>({t:e[0],avg:e[1].reduce((a,b)=>a+b,0)/e[1].length,n:e[1].length}));
+  if(ta.length>=2){ta.sort((a,b)=>b.avg-a.avg);const hi=ta[0],lo=ta[ta.length-1];if(hi.avg-lo.avg>=0.3)findings.push({ic:'🏟️',t:'Type de salle',d:`Tu réussis mieux en « ${hi.t} » (${hi.avg.toFixed(1)}/3, ${hi.n}×) qu'en « ${lo.t} » (${lo.avg.toFixed(1)}/3, ${lo.n}×).`});}
+  // jauge
+  const bk={'< 100':[],'100–200':[],'> 200':[]};concerts.forEach(e=>{if(!e.audience)return;const a=gAvg(e);if(a===null)return;(e.audience<100?bk['< 100']:e.audience<=200?bk['100–200']:bk['> 200']).push(a);});
+  const bka=Object.entries(bk).filter(e=>e[1].length).map(e=>({k:e[0],avg:e[1].reduce((a,b)=>a+b,0)/e[1].length,n:e[1].length}));
+  if(bka.length>=2){bka.sort((a,b)=>b.avg-a.avg);const hi=bka[0],lo=bka[bka.length-1];if(hi.avg-lo.avg>=0.3)findings.push({ic:'👥',t:'Taille du public',d:`Meilleures notes devant ${hi.k} pers. (${hi.avg.toFixed(1)}/3) que ${lo.k} pers. (${lo.avg.toFixed(1)}/3).`});}
+  // énergie d'ouverture
+  const om={};concerts.forEach(e=>{const set=state.sets.find(s=>s.id===e.setId);if(!set||!set.items.length)return;const oe=song(set.items[0].songId).energyLevel||0;if(!oe)return;const a=gAvg(e);if(a===null)return;(om[oe]=om[oe]||[]).push(a);});
+  const oa=Object.entries(om).map(e=>({e:+e[0],avg:e[1].reduce((a,b)=>a+b,0)/e[1].length,n:e[1].length}));
+  if(oa.length>=2){oa.sort((a,b)=>b.avg-a.avg);const hi=oa[0],lo=oa[oa.length-1];if(hi.avg-lo.avg>=0.3)findings.push({ic:'🚀',t:'Énergie d\'ouverture',d:`Tes meilleurs concerts ouvrent en énergie ${hi.e} (${hi.avg.toFixed(1)}/3). En énergie ${lo.e} : ${lo.avg.toFixed(1)}/3.`});}
+  // morceau précédent (accordage) qui plombe un titre
+  Object.values(state.songs).forEach(s=>{
+    let count=0;const badTune={};
+    concerts.forEach(e=>{const set=state.sets.find(x=>x.id===e.setId);if(!set)return;const idx=set.items.findIndex(it=>it.songId===s.id);if(idx<=0)return;const ent=e.entries.find(x=>x.songId===s.id);if(!ent)return;count++;const prevT=(song(set.items[idx-1].songId).tuning||'').trim();if(getRV(ent.rating)<=1&&prevT)badTune[prevT]=(badTune[prevT]||0)+1;});
+    if(count>=3){const top=Object.entries(badTune).sort((a,b)=>b[1]-a[1])[0];if(top&&top[1]>=2)findings.push({ic:'🔗',t:s.title,d:`« ${s.title} » se rate souvent quand il suit un morceau en ${top[0]} (${top[1]} fois sur ${count}).`});}
+  });
+  // meilleur / pire concert
+  const rated=concerts.map(e=>({e,a:gAvg(e)})).filter(x=>x.a!==null).sort((a,b)=>b.a-a.a);
+  if(rated.length>=2){const hi=rated[0],lo=rated[rated.length-1];if(hi.a-lo.a>=0.4)findings.push({ic:'📊',t:'Écart entre concerts',d:`Meilleur : ${esc(hi.e.venue||'?')} (${hi.a.toFixed(1)}/3). Plus dur : ${esc(lo.e.venue||'?')} (${lo.a.toFixed(1)}/3). Qu'est-ce qui changeait ?`});}
+  if(!findings.length){host.innerHTML=`<div class="card"><div class="card-body"><div style="text-align:center;padding:20px;color:var(--mut)">Aucune corrélation nette pour l'instant.<br><span style="font-size:13px">Continue à renseigner type de salle, jauge et set : les patterns émergent vers 5-6 concerts.</span></div></div></div>`;return;}
+  host.innerHTML=`<div class="card"><div class="card-hd"><h2>🔮 Corrélations détectées (${findings.length})</h2></div><div class="card-body" style="padding:8px 12px">${findings.map(f=>`<div class="crit-item"><div class="crit-badge">${f.ic}</div><div><h4>${esc(f.t)}</h4><p>${esc(f.d)}</p></div></div>`).join('')}</div></div>
+  <p class="hint" style="margin-top:10px">Patterns extraits automatiquement du journal (salle, jauge, énergie d'ouverture, morceau précédent). À confirmer à l'oreille — une corrélation n'est pas une certitude.</p>`;
+}
+
+/* ───────── 5) PONT TEXTE ↔ PLACEMENT ───────── */
+function songRegister(lyrics){const tk=critTokens(lyrics);const a=[['perte/manque',critBank(tk,CRIT_BANKS.loss).n],['colère/révolte',critBank(tk,CRIT_BANKS.anger).n],['amour/désir',critBank(tk,CRIT_BANKS.love).n],['élan/espoir',critBank(tk,CRIT_BANKS.hope).n]].sort((x,y)=>y[1]-x[1]);return a[0][1]>0?a[0][0]:null;}
+function critPontCard(){
+  const items=as().items;const flags=[];const n=items.length;
+  items.forEach((it,i)=>{const s=song(it.songId);if(!s.lyrics)return;const reg=songRegister(s.lyrics);const e=s.energyLevel||0;if(!reg)return;
+    if((reg==='perte/manque'||reg==='amour/désir')&&e>=5)flags.push(`« ${s.title} » : texte ${reg} sur énergie max (${e}) — possible dissonance entre ce que le texte porte et l'intensité jouée.`);
+    if(reg==='colère/révolte'&&e&&e<=2)flags.push(`« ${s.title} » : texte de colère/révolte sur énergie basse (${e}) — la rage du texte n'est pas dans le son.`);
+    if(reg==='perte/manque'&&i===0&&e>=4)flags.push(`« ${s.title} » ouvre le set en force alors que son texte parle de perte — vérifie que c'est voulu.`);
+    if(reg==='perte/manque'&&i===n-1&&e>=4)flags.push(`« ${s.title} » clôt le set en force avec un texte de perte — contraste fort, à assumer.`);
+  });
+  if(!flags.length)return'';
+  return `<div class="card" style="margin-top:12px"><div class="card-hd" style="color:var(--pur)"><h2>🪡 Texte ↔ placement</h2></div><div class="card-body" style="padding:8px 12px"><ul class="crit-list w">${flags.map(f=>`<li>${esc(f)}</li>`).join('')}</ul><p class="hint" style="margin-top:6px">Croise le registre des paroles (Biblio) avec l'énergie et la place dans le set. N'apparaît que pour les morceaux dont les paroles sont renseignées.</p></div></div>`;
+}
+
+
 /* ── BOOT ── */
 function boot(){_critBuilt=false;document.querySelectorAll('.logo,#logoImg').forEach(el=>el.src=LOGO);const lk=document.createElement('link');lk.rel='apple-touch-icon';lk.href=LOGO;document.head.appendChild(lk);load();renderSet();renderBiblio();renderJournal();}
 boot();
@@ -2080,5 +2348,17 @@ boot();
   </div>
 </div>
 
+<!-- SET GENERATOR MODAL -->
+<div class="overlay" id="setGenOverlay" hidden onclick="if(event.target===this)closeSetGen()">
+  <div class="modal">
+    <div class="modal-drag"></div>
+    <div class="modal-hd"><h3>🎲 Générateur d'ordre</h3><button class="ico-btn" onclick="closeSetGen()">✕</button></div>
+    <div class="modal-body">
+      <div id="setGenForm"></div>
+      <button class="btn g" style="width:100%;margin-top:14px" onclick="genGenerate()">🎲 Générer 3 propositions</button>
+      <div id="setGenResults"></div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
